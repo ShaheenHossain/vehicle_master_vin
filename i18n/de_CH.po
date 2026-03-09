@@ -1,0 +1,1007 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* vehicle_master
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e-20241206\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-03 19:24+0000\n"
+"PO-Revision-Date: 2026-03-03 20:26+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_CH\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.8\n"
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1980
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1980
+msgid "1980"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1981
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1981
+msgid "1981"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1982
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1982
+msgid "1982"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1983
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1983
+msgid "1983"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1984
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1984
+msgid "1984"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1985
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1985
+msgid "1985"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1986
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1986
+msgid "1986"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1987
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1987
+msgid "1987"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1988
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1988
+msgid "1988"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1989
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1989
+msgid "1989"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1990
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1990
+msgid "1990"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1991
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1991
+msgid "1991"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1992
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1992
+msgid "1992"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1993
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1993
+msgid "1993"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1994
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1994
+msgid "1994"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1995
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1995
+msgid "1995"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1996
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1996
+msgid "1996"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1997
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1997
+msgid "1997"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1998
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1998
+msgid "1998"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__1999
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__1999
+msgid "1999"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2000
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2000
+msgid "2000"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2001
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2001
+msgid "2001"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2002
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2002
+msgid "2002"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2003
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2003
+msgid "2003"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2004
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2004
+msgid "2004"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2005
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2005
+msgid "2005"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2006
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2006
+msgid "2006"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2007
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2007
+msgid "2007"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2008
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2008
+msgid "2008"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2009
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2009
+msgid "2009"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2010
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2010
+msgid "2010"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2011
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2011
+msgid "2011"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2012
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2012
+msgid "2012"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2013
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2013
+msgid "2013"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2014
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2014
+msgid "2014"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2015
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2015
+msgid "2015"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2016
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2016
+msgid "2016"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2017
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2017
+msgid "2017"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2018
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2018
+msgid "2018"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2019
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2019
+msgid "2019"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2020
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2020
+msgid "2020"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2021
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2021
+msgid "2021"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2022
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2022
+msgid "2022"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2023
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2023
+msgid "2023"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2024
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2024
+msgid "2024"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2025
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2025
+msgid "2025"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2026
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2026
+msgid "2026"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2027
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2027
+msgid "2027"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2028
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2028
+msgid "2028"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2029
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2029
+msgid "2029"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__sale_order__year__2030
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__year__2030
+msgid "2030"
+msgstr ""
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_brand__active
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_color__active
+msgid "Active"
+msgstr "Aktiv"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__image_back
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Back View"
+msgstr "Rückansicht"
+
+#. module: vehicle_master
+#: model:ir.model,name:vehicle_master.model_vehicle_body
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_body__name
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__body_style_id
+msgid "Body Style"
+msgstr "Body Style"
+
+#. module: vehicle_master
+#: model:ir.model.constraint,message:vehicle_master.constraint_vehicle_body_body_unique
+msgid "Body style already exists for this model!"
+msgstr "Karosserieform für dieses Modell bereits vorhanden!"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__brand_id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__brand_id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_model__brand_id
+msgid "Brand"
+msgstr "Marke"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_brand__name
+msgid "Brand Name"
+msgstr "Markenname"
+
+#. module: vehicle_master
+#: model:ir.model.constraint,message:vehicle_master.constraint_vehicle_brand_brand_name_unique
+msgid "Brand name must be unique!"
+msgstr "Der Markenname muss einzigartig sein!"
+
+#. module: vehicle_master
+#: model:ir.ui.menu,name:vehicle_master.menu_vehicle_brand
+msgid "Brands"
+msgstr "Schutzmarken"
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__fuel_type__cng
+msgid "CNG"
+msgstr "CNG"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__plate_scan_temp
+msgid "Capture Plate"
+msgstr "Aufnahmeplatte"
+
+#. module: vehicle_master
+#: model:ir.model,name:vehicle_master.model_vehicle_chassis
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_chassis__name
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__chassis_id
+msgid "Chassis Code"
+msgstr "Fahrgestellcode"
+
+#. module: vehicle_master
+#: model:ir.model.constraint,message:vehicle_master.constraint_vehicle_chassis_chassis_unique
+msgid "Chassis already exists for this model!"
+msgstr "Für dieses Modell gibt es bereits ein Fahrgestell!"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__color_id
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__color_id
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__color_id
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__color_id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__color_id
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_view_account_form
+msgid "Color"
+msgstr "Farbe"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_color__name
+msgid "Color Name"
+msgstr "Farbname"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.external_layout_din5008_inherit
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_custom_content
+msgid "Color:"
+msgstr "Farbe:"
+
+#. module: vehicle_master
+#: model:ir.model,name:vehicle_master.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_body__create_uid
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_brand__create_uid
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_chassis__create_uid
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_color__create_uid
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__create_uid
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_model__create_uid
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_variant__create_uid
+msgid "Created by"
+msgstr "Erstellt von"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_body__create_date
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_brand__create_date
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_chassis__create_date
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_color__create_date
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__create_date
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_model__create_date
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_variant__create_date
+msgid "Created on"
+msgstr "Erstellt am"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_res_partner__date_of_birth
+#: model:ir.model.fields,field_description:vehicle_master.field_res_users__date_of_birth
+msgid "Date of Birth"
+msgstr "Geburtsdatum"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__deadline_date
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__deadline_date
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__deadline_date
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__deadline_date
+#: model:ir.model.fields,field_description:vehicle_master.field_stock_picking__deadline_date
+msgid "Deadline"
+msgstr "Eingabeschluss"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.external_layout_din5008_inherit
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_custom_content
+msgid "Deadline:"
+msgstr "Frist:"
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__fuel_type__diesel
+msgid "Diesel"
+msgstr "Diesel"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_body__display_name
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_brand__display_name
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_chassis__display_name
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_color__display_name
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__display_name
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_model__display_name
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_variant__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__fuel_type__electric
+msgid "Electric"
+msgstr "Elektrisch"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__first_registration
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__first_registration
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__first_registration
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__first_registration
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__first_registration
+msgid "First Registration"
+msgstr "Erstregistrierung"
+
+#. module: vehicle_master
+#: model:ir.model.fields,help:vehicle_master.field_sale_order__master_number
+#: model:ir.model.fields,help:vehicle_master.field_vehicle_master__master_number
+msgid "Format: 000.000.000 (Official Swiss vehicle number)"
+msgstr "Format: 000.000.000 (Offizielle Schweizer Fahrzeugnummer)"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__image_front
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Front View"
+msgstr "Vorderansicht"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__fuel_type
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__fuel_type
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__fuel_type
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__fuel_type
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__fuel_type
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_view_account_form
+msgid "Fuel Type"
+msgstr "Kraftstoffart"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.external_layout_din5008_inherit
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_custom_content
+msgid "Fuel Type:"
+msgstr "Kraftstoffart:"
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__fuel_type__hybrid
+msgid "Hybrid"
+msgstr "Hybrid"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_body__id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_brand__id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_chassis__id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_color__id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_model__id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_variant__id
+msgid "ID"
+msgstr "ID"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__inquiry_date
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__inquiry_date
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__inquiry_date
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__inquiry_date
+#: model:ir.model.fields,field_description:vehicle_master.field_stock_picking__inquiry_date
+msgid "Inquiry Date"
+msgstr "Anfragedatum"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.external_layout_din5008_inherit
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_custom_content
+msgid "Inquiry Date:"
+msgstr "Anfragedatum:"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_res_partner__insurance_company
+#: model:ir.model.fields,field_description:vehicle_master.field_res_users__insurance_company
+msgid "Insurance Company"
+msgstr "Versicherungsgesellschaft"
+
+#. module: vehicle_master
+#. odoo-python
+#: code:addons/vehicle_master/models/vehicle_master.py:0
+#, python-format
+msgid ""
+"Invalid file format for %s! Only JPG and PNG are allowed. PDFs are strictly "
+"prohibited."
+msgstr ""
+"Ungültiges Dateiformat für %s! Nur JPG und PNG sind zulässig. PDFs sind "
+"strengstens verboten."
+
+#. module: vehicle_master
+#: model:ir.model,name:vehicle_master.model_account_move
+msgid "Journal Entry"
+msgstr "Journalbuchung"
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__fuel_type__lpg
+msgid "LPG"
+msgstr "Flüssiggas"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_view_account_form
+msgid "Last Service"
+msgstr "Letzter Dienst"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__last_service_date
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__last_service_date
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__last_service_date
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__last_service_date
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__last_service_date
+msgid "Last Service Date"
+msgstr "Letztes Leistungsdatum"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_custom_content
+msgid "Last Service:"
+msgstr "Letzter Dienst:"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_body__write_uid
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_brand__write_uid
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_chassis__write_uid
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_color__write_uid
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__write_uid
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_model__write_uid
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_variant__write_uid
+msgid "Last Updated by"
+msgstr "Zuletzt geändert von"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_body__write_date
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_brand__write_date
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_chassis__write_date
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_color__write_date
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__write_date
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_model__write_date
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_variant__write_date
+msgid "Last Updated on"
+msgstr "Zuletzt geändert am"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__license_plate
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__license_plate
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__license_plate
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__license_plate
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__license_plate
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_view_account_form
+msgid "License Plate"
+msgstr "Kennzeichen"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.external_layout_din5008_inherit
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_custom_content
+msgid "License Plate:"
+msgstr "Kennzeichen:"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_brand__logo
+msgid "Logo"
+msgstr "Logo"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Manual Scan"
+msgstr "Manueller Scan"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_view_account_form
+msgid "Master No."
+msgstr "Meister Nr."
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__master_number
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__master_number
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__master_number
+msgid "Master Number"
+msgstr "Meisternummer"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.external_layout_din5008_inherit
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_custom_content
+msgid "Master Number:"
+msgstr "Meisterzahl:"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__mileage
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__mileage
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__mileage
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__mileage
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__mileage
+msgid "Mileage"
+msgstr "Kilometerstand"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__model_id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_body__model_id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_chassis__model_id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_variant__model_id
+msgid "Model"
+msgstr "Model"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_brand__model_count
+msgid "Model Count"
+msgstr "Modellanzahl"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_model__name
+msgid "Model Name"
+msgstr "Modellname"
+
+#. module: vehicle_master
+#: model:ir.model.constraint,message:vehicle_master.constraint_vehicle_model_model_brand_unique
+msgid "Model already exists for this brand!"
+msgstr "Für diese Marke gibt es bereits ein Modell!"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__model_id
+msgid "Model/Series"
+msgstr "Modell/Serie"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_brand__model_ids
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_brand_view_kanban
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_brand_form
+msgid "Models"
+msgstr "Modelle"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_variant__name
+msgid "Name"
+msgstr "Name"
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__fuel_type__octane
+msgid "Octane"
+msgstr "Oktan"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__our_ref
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__our_ref
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__our_ref
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__our_ref
+#: model:ir.model.fields,field_description:vehicle_master.field_stock_picking__our_ref
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__our_ref
+msgid "Our Ref"
+msgstr "Unser Zeichen"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.external_layout_din5008_inherit
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_custom_content
+msgid "Our Ref:"
+msgstr "Unser Zeichen:"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__partner_id
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Owner"
+msgstr "Eigentümer"
+
+#. module: vehicle_master
+#: model:ir.model.fields.selection,name:vehicle_master.selection__vehicle_master__fuel_type__petrol
+msgid "Petrol"
+msgstr "Benzin"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Process OCR"
+msgstr "Prozess-OCR"
+
+#. module: vehicle_master
+#: model:ir.model,name:vehicle_master.model_sale_order
+msgid "Sales Order"
+msgstr "Verkaufsauftrag"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Scan Plate"
+msgstr "Scan-Platte"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Scan or type VIN"
+msgstr "VIN scannen oder eingeben"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__image_side
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Side View"
+msgstr "Seitenansicht"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__master_number
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__master_number
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_tree
+msgid "Stammnummer"
+msgstr "Stammnummer"
+
+#. module: vehicle_master
+#: model:ir.model.fields,help:vehicle_master.field_vehicle_master__type_code
+msgid ""
+"Swiss Type Approval (Typengenehmigung) found in Box 24 of the grey card."
+msgstr ""
+"Schweizerische Typengenehmigung (Typengenehmigung) in Feld 24 der grauen "
+"Karte."
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Tap to open camera and snap the license plate"
+msgstr ""
+"Tippen Sie, um die Kamera zu öffnen und das Nummernschild zu fotografieren."
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Technical & Swiss Data"
+msgstr "Technische Daten & Schweizer Daten"
+
+#. module: vehicle_master
+#. odoo-python
+#: code:addons/vehicle_master/models/vehicle_master.py:0
+#, python-format
+msgid "The Stammnummer (Master Number) must be in the format 000.000.000"
+msgstr "Die Stammnummer muss das Format 000.000.000 haben."
+
+#. module: vehicle_master
+#: model:ir.model.fields,help:vehicle_master.field_sale_order__license_plate
+#: model:ir.model.fields,help:vehicle_master.field_vehicle_master__license_plate
+msgid "The Swiss cantonal registration plate (Kontrollschild)."
+msgstr "Das Schweizer Kantonskennzeichen (Kontrollschild)."
+
+#. module: vehicle_master
+#: model:ir.model.constraint,message:vehicle_master.constraint_vehicle_master_master_number_unique
+msgid "This Stammnummer already exists in the system!"
+msgstr "Diese Stammnummer ist bereits im System vorhanden!"
+
+#. module: vehicle_master
+#: model:ir.model,name:vehicle_master.model_stock_picking
+msgid "Transfer"
+msgstr "Übertrag"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__type_code
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__type_code
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__type_code
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__type_code
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__type_code
+msgid "Type Code"
+msgstr "Typcode"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_view_account_form
+msgid "VIN"
+msgstr "Fahrzeugidentifikationsnummer"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.external_layout_din5008_inherit
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_custom_content
+msgid "VIN/Chassis No.:"
+msgstr "Fahrgestellnummer:"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__vin
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__vin
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__vin
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__vin
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__vin
+msgid "VIN/Chassis Number"
+msgstr "Fahrzeugidentifikationsnummer/Fahrgestellnummer"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__variant_id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__variant_id
+msgid "Variant"
+msgstr "Variante"
+
+#. module: vehicle_master
+#: model:ir.model.constraint,message:vehicle_master.constraint_vehicle_variant_variant_unique
+msgid "Variant already exists for this model!"
+msgstr "Für dieses Modell gibt es bereits eine Variante!"
+
+#. module: vehicle_master
+#: model:ir.model,name:vehicle_master.model_vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__vehicle_id
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__vehicle_id
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__vehicle_id
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__vehicle_id
+#: model:ir.model.fields,field_description:vehicle_master.field_stock_picking__vehicle_id
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__vehicle_id
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_view_account_form
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Vehicle"
+msgstr "Fahrzeug"
+
+#. module: vehicle_master
+#: model:ir.model,name:vehicle_master.model_vehicle_brand
+msgid "Vehicle Brand"
+msgstr "Fahrzeugmarke"
+
+#. module: vehicle_master
+#: model:ir.actions.act_window,name:vehicle_master.action_vehicle_brand
+msgid "Vehicle Brands"
+msgstr "Fahrzeugmarken"
+
+#. module: vehicle_master
+#: model:ir.model,name:vehicle_master.model_vehicle_color
+msgid "Vehicle Color"
+msgstr "Fahrzeugfarbe"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Vehicle Condition Photos"
+msgstr "Fotos zum Zustand des Fahrzeugs"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_custom_content
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Vehicle Details"
+msgstr "Fahrzeugdetails"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "Vehicle Display Name"
+msgstr "Anzeigename des Fahrzeugs"
+
+#. module: vehicle_master
+#: model:ir.model.fields,help:vehicle_master.field_sale_order__vin
+#: model:ir.model.fields,help:vehicle_master.field_vehicle_master__vin
+msgid ""
+"Vehicle Identification Number (Fahrgestellnummer) found on the dash or door "
+"pillar."
+msgstr ""
+"Fahrgestellnummer (Vehicle Identification Number) auf dem Armaturenbrett "
+"oder der Türsäule."
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_partner_form_inherit_dob
+msgid "Vehicle Info"
+msgstr "Fahrzeuginformationen"
+
+#. module: vehicle_master
+#: model:ir.ui.menu,name:vehicle_master.menu_vehicle_root
+msgid "Vehicle Master"
+msgstr "Fahrzeugmeister"
+
+#. module: vehicle_master
+#: model:ir.model,name:vehicle_master.model_vehicle_model
+msgid "Vehicle Model"
+msgstr "Fahrzeugmodell"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__name
+msgid "Vehicle Name"
+msgstr "Fahrzeugname"
+
+#. module: vehicle_master
+#: model:ir.model,name:vehicle_master.model_vehicle_variant
+msgid "Vehicle Variant"
+msgstr "Fahrzeugvariante"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.external_layout_din5008_inherit
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_custom_content
+msgid "Vehicle:"
+msgstr "Fahrzeug:"
+
+#. module: vehicle_master
+#: model:ir.actions.act_window,name:vehicle_master.action_vehicle
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__vehicle_ids
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__vehicle_ids
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__vehicle_ids
+#: model:ir.model.fields,field_description:vehicle_master.field_res_partner__vehicle_ids
+#: model:ir.model.fields,field_description:vehicle_master.field_res_users__vehicle_ids
+#: model:ir.ui.menu,name:vehicle_master.menu_vehicle
+msgid "Vehicles"
+msgstr "Fahrzeuge"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_res_partner__whatsapp_no
+#: model:ir.model.fields,field_description:vehicle_master.field_res_users__whatsapp_no
+msgid "WhatsApp No."
+msgstr "WhatsApp-Nr."
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__year
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__year
+msgid "Year"
+msgstr "Jahr"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__year_from
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__year_from
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_variant__year_from
+msgid "Year From"
+msgstr "Jahr Ab"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__year_to
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__year_to
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_variant__year_to
+msgid "Year To"
+msgstr "Jahr bis"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_custom_content
+msgid "Year:"
+msgstr "Jahr:"
+
+#. module: vehicle_master
+#: model:ir.model.fields,field_description:vehicle_master.field_account_bank_statement_line__your_ref
+#: model:ir.model.fields,field_description:vehicle_master.field_account_move__your_ref
+#: model:ir.model.fields,field_description:vehicle_master.field_account_payment__your_ref
+#: model:ir.model.fields,field_description:vehicle_master.field_sale_order__your_ref
+#: model:ir.model.fields,field_description:vehicle_master.field_stock_picking__your_ref
+#: model:ir.model.fields,field_description:vehicle_master.field_vehicle_master__your_ref
+msgid "Your Ref"
+msgstr "Ihre Referenz"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.external_layout_din5008_inherit
+#: model_terms:ir.ui.view,arch_db:vehicle_master.vehicle_custom_content
+msgid "Your Ref:"
+msgstr "Ihre Referenznummer:"
+
+#. module: vehicle_master
+#: model_terms:ir.ui.view,arch_db:vehicle_master.view_vehicle_form
+msgid "e.g. ZH 123456"
+msgstr "z. B. ZH 123456"

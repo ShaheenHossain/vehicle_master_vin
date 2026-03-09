@@ -1,0 +1,29 @@
+<odoo>
+    <record id="color_white" model="vehicle.color">
+        <field name="name">White</field>
+    </record>
+
+    <record id="color_black" model="vehicle.color">
+        <field name="name">Black</field>
+    </record>
+
+    <record id="color_silver" model="vehicle.color">
+        <field name="name">Silver</field>
+    </record>
+
+    <record id="color_gray" model="vehicle.color">
+        <field name="name">Gray</field>
+    </record>
+
+    <record id="color_red" model="vehicle.color">
+        <field name="name">Red</field>
+    </record>
+
+    <record id="color_blue" model="vehicle.color">
+        <field name="name">Blue</field>
+    </record>
+
+    <record id="color_green" model="vehicle.color">
+        <field name="name">Green</field>
+    </record>
+</odoo>

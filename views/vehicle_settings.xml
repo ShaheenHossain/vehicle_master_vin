@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+
+    <record id="vehicle_settings_view_form" model="ir.ui.view">
+        <field name="name">vehicle.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Insert inside the form -->
+            <xpath expr="//form" position="inside">
+
+                <app name="vehicle_master_vin" string="Vehicle">
+
+                    <!-- Vehicle API Configuration block -->
+                    <block title="Vehicle API Configuration">
+                        <setting string="Vehicle API URL">
+                            <field name="vehicle_api_url"/>
+                        </setting>
+                        <setting string="Vehicle API User">
+                            <field name="vehicle_api_user"/>
+                        </setting>
+                        <setting string="Vehicle API Key">
+                            <field name="vehicle_api_key"/>
+                        </setting>
+
+                    </block>
+
+                    <block title="I-DAT API Configuration">
+                        <setting string="I-DAT User">
+                            <field name="autoidat_user"/>
+                        </setting>
+                        <setting string="I-DAT API Key">
+                            <field name="autoidat_key"/>
+                        </setting>
+                    </block>
+
+               </app>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
+

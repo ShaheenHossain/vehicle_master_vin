@@ -1,0 +1,80 @@
+<odoo>
+
+    <!-- Brand Views -->
+    <record id="view_vehicle_brand_tree" model="ir.ui.view">
+        <field name="name">vehicle.brand.tree</field>
+        <field name="model">vehicle.brand</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_vehicle_brand_form" model="ir.ui.view">
+        <field name="name">vehicle.brand.form</field>
+        <field name="model">vehicle.brand</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="name"/>
+                    <field name="model_ids"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Model Views -->
+    <record id="view_vehicle_model_tree" model="ir.ui.view">
+        <field name="name">vehicle.model.tree</field>
+        <field name="model">vehicle.model</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="brand_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_vehicle_model_form" model="ir.ui.view">
+        <field name="name">vehicle.model.form</field>
+        <field name="model">vehicle.model</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="name"/>
+                    <field name="brand_id"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_vehicle_brand" model="ir.actions.act_window">
+        <field name="name">Brands</field>
+        <field name="res_model">vehicle.brand</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_vehicle_model" model="ir.actions.act_window">
+        <field name="name">Models</field>
+        <field name="res_model">vehicle.model</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_vehicle_master_root"
+              name="Vehicle Master"
+              sequence="10"/>
+
+    <menuitem id="menu_vehicle_brand"
+              name="Brands"
+              parent="menu_vehicle_master_root"
+              action="action_vehicle_brand"/>
+
+    <menuitem id="menu_vehicle_model"
+              name="Models"
+              parent="menu_vehicle_master_root"
+              action="action_vehicle_model"/>
+
+</odoo>

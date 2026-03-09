@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_sale_order_form_inherit_vehicle" model="ir.ui.view">
+        <field name="name">sale.order.form.vehicle.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="vehicle_id"
+                       domain="[('partner_id', '=', partner_id)]"
+                       options="{'no_create': True}"/>
+                <field name="license_plate"/>
+                <field name="vin"/>
+                <field name="color_id"/>
+                <field name="fuel_type"/>
+                <field name="master_number"/>
+                <field name="last_service_date"/>
+            </xpath>
+
+            <xpath expr="//field[@name='validity_date']" position="after">
+                <field name="your_ref"/>
+                <field name="our_ref"/>
+                <field name="inquiry_date"/>
+                <field name="deadline_date"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <template id="vehicle_custom_content" inherit_id="sale.sale_order_portal_content">
+        <xpath expr="//div[@id='informations']" position="after">
+            <style>
+                .vehicle-full-width-container {
+                width: 100%;
+                margin-top: 15px; /* Reduced margin */
+                margin-bottom: 15px;
+                }
+                .vehicle-table {
+                width: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+                }
+                .vehicle-table th, .vehicle-table td {
+                border: none;       /* 0.5pt solid #D3D3D3; Thinner 0.5pt grey border */
+                padding: 4px 8px; /* Compact padding */
+                font-size: 12px; /* Slightly smaller font to save space */
+                vertical-align: middle;
+                line-height: 1.2; /* Forces rows to be thin */
+                }
+                .vehicle-table th {
+                background-color: #f8f9fa;
+                font-weight: bold;
+                width: 18%; /* Adjusted for better balance */
+                text-align: left;
+                color: #444;
+                }
+                .vehicle-table td {
+                width: 32%;
+                color: #000;
+                }
+                /* Removes the header margin if you want it even tighter */
+                .vehicle-info-header {
+                font-size: 15px;
+                font-weight: bold;
+                margin-bottom: 5px;
+                }
+            </style>
+
+            <div class="vehicle-full-width-container">
+                <div class="vehicle-info-header">Vehicle Details</div>
+                <table class="vehicle-table">
+                    <tbody>
+                        <tr>
+                            <th>Vehicle:</th>
+                            <td><span t-field="sale_order.vehicle_id"/></td>
+                            <th>Your Ref:</th>
+                            <td><span t-field="sale_order.your_ref"/></td>
+                        </tr>
+                        <tr>
+                            <th>Our Ref:</th>
+                            <td><span t-field="sale_order.our_ref"/></td>
+                            <th>Inquiry Date:</th>
+                            <td><span t-field="sale_order.inquiry_date" t-options='{"widget":"date"}'/></td>
+                        </tr>
+                        <tr>
+                            <th>Deadline:</th>
+                            <td><span t-field="sale_order.deadline_date" t-options='{"widget":"date"}'/></td>
+                            <th>License Plate:</th>
+                            <td><span t-field="sale_order.license_plate"/></td>
+                        </tr>
+                        <tr>
+                            <th>VIN/Chassis No.:</th>
+                            <td><span t-field="sale_order.vin"/></td>
+                            <th>Master Number:</th>
+                            <td><span t-field="sale_order.master_number"/></td>
+                        </tr>
+<!--                        <tr>
+                            <th>Color:</th>
+                            <td><span t-field="sale_order.color_id"/></td>
+                            <th>Fuel Type:</th>
+                            <td><span t-field="sale_order.fuel_type"/></td>
+                        </tr>-->
+                        <tr>
+                            <th>Last Service:</th>
+                            <td><span t-field="sale_order.last_service_date" t-options='{"widget":"date"}'/></td>
+                            <th>Year:</th>
+                            <td><span t-field="sale_order.year"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </xpath>
+    </template>
+
+
+    <record id="vehicle_view_account_form" model="ir.ui.view">
+        <field name="name">account.move.line.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//group[@id='header_left_group']/div[field[@name='partner_id']]" position="after">
+                <label for="vehicle_id"
+                       string="Vehicle"
+                       invisible="move_type not in ('out_invoice','out_refund','out_receipt','in_invoice','in_refund','in_receipt')"/>
+                <div class="o_col"
+                     invisible="move_type not in ('out_invoice','out_refund','out_receipt','in_invoice','in_refund','in_receipt')">
+                    <field name="vehicle_id"  nolabel="1"
+                           domain="[('partner_id', '=', partner_id)]"
+                           options="{'no_create': True}"
+                           readonly="state != 'draft'"/>
+                </div>
+            </xpath>
+
+            <xpath expr="//group[@id='header_left_group']/div[field[@name='vehicle_id']]" position="after">
+
+                <label for="license_plate" string="License Plate"/>
+                <div class="o_col">
+                    <field name="license_plate" nolabel="1" readonly="1"/>
+                </div>
+
+                <label for="vin" string="VIN"/>
+                <div class="o_col">
+                    <field name="vin" nolabel="1" readonly="1"/>
+                </div>
+
+                <label for="color_id" string="Color"/>
+                <div class="o_col">
+                    <field name="color_id" nolabel="1" readonly="1"/>
+                </div>
+
+<!--                <label for="fuel_type" string="Fuel Type"/>
+                <div class="o_col">
+                    <field name="fuel_type" nolabel="1" readonly="1"/>
+                </div>-->
+
+                <label for="master_number" string="Master No."/>
+                <div class="o_col">
+                    <field name="master_number" nolabel="1" readonly="1"/>
+                </div>
+
+                <label for="last_service_date" string="Last Service"/>
+                <div class="o_col">
+                    <field name="last_service_date" nolabel="1" readonly="1"/>
+                </div>
+
+            </xpath>
+
+            <!-- Extra fields after Invoice Date -->
+            <xpath expr="//field[@name='invoice_date']" position="after">
+                <field name="your_ref"/>
+                <field name="our_ref"/>
+                <field name="inquiry_date"/>
+                <field name="deadline_date"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <template id="external_layout_din5008_inherit" inherit_id="l10n_din5008.external_layout_din5008">
+        <xpath expr="//table[contains(@class, 'din_company_info')]" position="after">
+            <t t-if="o and o._name in ['sale.order', 'account.move']">
+                <style>
+                    .pdf-vehicle-container {
+                    width: 100%;
+                    display: block;
+                    clear: both;
+                    margin-top: <t t-if="report_type == 'pdf'">-50px</t><t t-else="">15px</t>;
+                    margin-bottom: 10px;
+                    }
+                    .pdf-vehicle-table {
+                    width: 100%;
+                    border-collapse: collapse !important;
+                    table-layout: fixed;
+                    border: none !important; /* 1px solid #AAAAAA !important; Outer border */
+                    }
+                    .pdf-vehicle-table th, .pdf-vehicle-table td {
+                    /* Using 1px and a slightly darker grey for PDF visibility */
+                    border: none !important;
+                    padding: 4px 8px !important;
+                    font-size: 9pt;
+                    vertical-align: middle;
+                    line-height: 1.1;
+                    }
+                    .pdf-vehicle-table th {
+                    background-color: #f8f9fa !important;
+                    font-weight: bold;
+                    width: 20%;
+                    text-align: left;
+                    color: #444;
+                    }
+                    .pdf-vehicle-table td {
+                    width: 30%;
+                    color: #000;
+                    }
+                </style>
+
+                <div class="pdf-vehicle-container">
+                    <table class="pdf-vehicle-table">
+                        <tbody>
+                            <tr>
+                                <th>Vehicle:</th>
+                                <td><span t-field="o.vehicle_id"/></td>
+                                <th>Your Ref:</th>
+                                <td><span t-field="o.your_ref"/></td>
+                            </tr>
+                            <tr>
+                                <th>Our Ref:</th>
+                                <td><span t-field="o.our_ref"/></td>
+                                <th>Inquiry Date:</th>
+                                <td><span t-field="o.inquiry_date" t-options='{"widget":"date"}'/></td>
+                            </tr>
+                            <tr>
+                                <th>Deadline:</th>
+                                <td><span t-field="o.deadline_date" t-options='{"widget":"date"}'/></td>
+                                <th>License Plate:</th>
+                                <td><span t-field="o.license_plate"/></td>
+                            </tr>
+                            <tr>
+                                <th>VIN/Chassis No.:</th>
+                                <td><span t-field="o.vin"/></td>
+                                <th>Master Number:</th>
+                                <td><span t-field="o.master_number"/></td>
+                            </tr>
+
+<!--                            <tr>
+                                <th>Color:</th>
+                                <td><span t-field="o.color_id"/></td>
+                                <th>Fuel Type:</th>
+                                <td><span t-field="o.fuel_type"/></td>
+                            </tr>-->
+
+<!--                            <tr>
+                                <th>Last Service:</th>
+                                <td><span t-field="o.last_service_date" t-options='{"widget":"date"}'/></td>
+                                <th>Year:</th>
+                                <td><span t-field="o.year"/></td>
+                            </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>
+
+

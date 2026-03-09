@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="brand_abarth" model="vehicle.brand">
+        <field name="name">Abarth</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_abarth-image.png"/>
+    </record>
+    <record id="model_abarth_1" model="vehicle.model">
+        <field name="name">595</field>
+        <field name="brand_id" ref="brand_abarth"/>
+    </record>
+    <record id="chassis_abarth_1" model="vehicle.chassis">
+        <field name="name">AB1</field>
+        <field name="model_id" ref="model_abarth_1"/>
+    </record>
+    <record id="body_abarth_1" model="vehicle.body">
+        <field name="name">Hatchback</field>
+        <field name="model_id" ref="model_abarth_1"/>
+    </record>
+    <record id="variant_abarth_1" model="vehicle.variant">
+        <field name="name">Sport</field>
+        <field name="model_id" ref="model_abarth_1"/>
+        <field name="year_from">2019</field>
+        <field name="year_to">2025</field>
+    </record>
+
+
+    <record id="brand_acura" model="vehicle.brand">
+        <field name="name">Acura</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_acura-image.png"/>
+    </record>
+    <record id="model_acura_1" model="vehicle.model">
+        <field name="name">TLX</field>
+        <field name="brand_id" ref="brand_acura"/>
+    </record>
+    <record id="chassis_acura_1" model="vehicle.chassis">
+        <field name="name">AC1</field>
+        <field name="model_id" ref="model_acura_1"/>
+    </record>
+    <record id="body_acura_1" model="vehicle.body">
+        <field name="name">Sedan</field>
+        <field name="model_id" ref="model_acura_1"/>
+    </record>
+    <record id="variant_acura_1" model="vehicle.variant">
+        <field name="name">A-Spec</field>
+        <field name="model_id" ref="model_acura_1"/>
+        <field name="year_from">2020</field>
+        <field name="year_to">2025</field>
+    </record>
+
+
+    <record id="brand_alfa" model="vehicle.brand">
+        <field name="name">Alfa</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_alfa-image.png"/>
+    </record>
+    <record id="model_alfa_1" model="vehicle.model">
+        <field name="name">Giulia</field>
+        <field name="brand_id" ref="brand_alfa"/>
+    </record>
+    <record id="chassis_alfa_1" model="vehicle.chassis">
+        <field name="name">AL1</field>
+        <field name="model_id" ref="model_alfa_1"/>
+    </record>
+    <record id="body_alfa_1" model="vehicle.body">
+        <field name="name">Sedan</field>
+        <field name="model_id" ref="model_alfa_1"/>
+    </record>
+    <record id="variant_alfa_1" model="vehicle.variant">
+        <field name="name">Veloce</field>
+        <field name="model_id" ref="model_alfa_1"/>
+        <field name="year_from">2018</field>
+        <field name="year_to">2025</field>
+    </record>
+
+
+    <record id="brand_audi" model="vehicle.brand">
+        <field name="name">Audi</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_audi-image.png"/>
+    </record>
+    <record id="model_audi_1" model="vehicle.model">
+        <field name="name">A4</field>
+        <field name="brand_id" ref="brand_audi"/>
+    </record>
+    <record id="chassis_audi_1" model="vehicle.chassis">
+        <field name="name">AU1</field>
+        <field name="model_id" ref="model_audi_1"/>
+    </record>
+    <record id="body_audi_1" model="vehicle.body">
+        <field name="name">Sedan</field>
+        <field name="model_id" ref="model_audi_1"/>
+    </record>
+    <record id="variant_audi_1" model="vehicle.variant">
+        <field name="name">Premium</field>
+        <field name="model_id" ref="model_audi_1"/>
+        <field name="year_from">2017</field>
+        <field name="year_to">2025</field>
+    </record>
+
+
+    <!-- Austin -->
+    <record id="brand_austin" model="vehicle.brand">
+        <field name="name">Austin</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_austin-image.png"/>
+    </record>
+    <record id="model_austin_1" model="vehicle.model">
+        <field name="name">Seven</field>
+        <field name="brand_id" ref="brand_austin"/>
+    </record>
+    <record id="chassis_austin_1" model="vehicle.chassis">
+        <field name="name">AU1</field>
+        <field name="model_id" ref="model_austin_1"/>
+    </record>
+    <record id="body_austin_1" model="vehicle.body">
+        <field name="name">Sedan</field>
+        <field name="model_id" ref="model_austin_1"/>
+    </record>
+    <record id="variant_austin_1" model="vehicle.variant">
+        <field name="name">Standard</field>
+        <field name="model_id" ref="model_austin_1"/>
+        <field name="year_from">1950</field>
+        <field name="year_to">1960</field>
+    </record>
+
+    <!-- Bentley -->
+    <record id="brand_bentley" model="vehicle.brand">
+        <field name="name">Bentley</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_bentley-image.png"/>
+    </record>
+    <record id="model_bentley_1" model="vehicle.model">
+        <field name="name">Continental</field>
+        <field name="brand_id" ref="brand_bentley"/>
+    </record>
+    <record id="chassis_bentley_1" model="vehicle.chassis">
+        <field name="name">BE1</field>
+        <field name="model_id" ref="model_bentley_1"/>
+    </record>
+    <record id="body_bentley_1" model="vehicle.body">
+        <field name="name">Coupe</field>
+        <field name="model_id" ref="model_bentley_1"/>
+    </record>
+    <record id="variant_bentley_1" model="vehicle.variant">
+        <field name="name">GT</field>
+        <field name="model_id" ref="model_bentley_1"/>
+        <field name="year_from">2010</field>
+        <field name="year_to">2025</field>
+    </record>
+
+    <!-- BMW -->
+    <record id="brand_bmw" model="vehicle.brand">
+        <field name="name">Bmw</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_bmw-image.png"/>
+    </record>
+    <record id="model_bmw_1" model="vehicle.model">
+        <field name="name">3 Series</field>
+        <field name="brand_id" ref="brand_bmw"/>
+    </record>
+    <record id="chassis_bmw_1" model="vehicle.chassis">
+        <field name="name">BM1</field>
+        <field name="model_id" ref="model_bmw_1"/>
+    </record>
+    <record id="body_bmw_1" model="vehicle.body">
+        <field name="name">Sedan</field>
+        <field name="model_id" ref="model_bmw_1"/>
+    </record>
+    <record id="variant_bmw_1" model="vehicle.variant">
+        <field name="name">320i</field>
+        <field name="model_id" ref="model_bmw_1"/>
+        <field name="year_from">2015</field>
+        <field name="year_to">2025</field>
+    </record>
+
+    <!-- Bugatti -->
+    <record id="brand_bugatti" model="vehicle.brand">
+        <field name="name">Bugatti</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_bugatti-image.png"/>
+    </record>
+    <record id="model_bugatti_1" model="vehicle.model">
+        <field name="name">Chiron</field>
+        <field name="brand_id" ref="brand_bugatti"/>
+    </record>
+    <record id="chassis_bugatti_1" model="vehicle.chassis">
+        <field name="name">BU1</field>
+        <field name="model_id" ref="model_bugatti_1"/>
+    </record>
+    <record id="body_bugatti_1" model="vehicle.body">
+        <field name="name">Coupe</field>
+        <field name="model_id" ref="model_bugatti_1"/>
+    </record>
+    <record id="variant_bugatti_1" model="vehicle.variant">
+        <field name="name">Standard</field>
+        <field name="model_id" ref="model_bugatti_1"/>
+        <field name="year_from">2018</field>
+        <field name="year_to">2025</field>
+    </record>
+
+    <!-- Buick -->
+    <record id="brand_buick" model="vehicle.brand">
+        <field name="name">Buick</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_buick-image.png"/>
+    </record>
+    <record id="model_buick_1" model="vehicle.model">
+        <field name="name">Enclave</field>
+        <field name="brand_id" ref="brand_buick"/>
+    </record>
+    <record id="chassis_buick_1" model="vehicle.chassis">
+        <field name="name">BU2</field>
+        <field name="model_id" ref="model_buick_1"/>
+    </record>
+    <record id="body_buick_1" model="vehicle.body">
+        <field name="name">SUV</field>
+        <field name="model_id" ref="model_buick_1"/>
+    </record>
+    <record id="variant_buick_1" model="vehicle.variant">
+        <field name="name">Premium</field>
+        <field name="model_id" ref="model_buick_1"/>
+        <field name="year_from">2017</field>
+        <field name="year_to">2025</field>
+    </record>
+
+    <!-- BYD -->
+    <record id="brand_byd" model="vehicle.brand">
+        <field name="name">Byd</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_byd-image.png"/>
+    </record>
+    <record id="model_byd_1" model="vehicle.model">
+        <field name="name">Tang</field>
+        <field name="brand_id" ref="brand_byd"/>
+    </record>
+    <record id="chassis_byd_1" model="vehicle.chassis">
+        <field name="name">BY1</field>
+        <field name="model_id" ref="model_byd_1"/>
+    </record>
+    <record id="body_byd_1" model="vehicle.body">
+        <field name="name">SUV</field>
+        <field name="model_id" ref="model_byd_1"/>
+    </record>
+    <record id="variant_byd_1" model="vehicle.variant">
+        <field name="name">EV</field>
+        <field name="model_id" ref="model_byd_1"/>
+        <field name="year_from">2020</field>
+        <field name="year_to">2025</field>
+    </record>
+
+    <!-- Cadillac -->
+    <record id="brand_cadillac" model="vehicle.brand">
+        <field name="name">Cadillac</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_cadillac-image.png"/>
+    </record>
+    <record id="model_cadillac_1" model="vehicle.model">
+        <field name="name">Escalade</field>
+        <field name="brand_id" ref="brand_cadillac"/>
+    </record>
+    <record id="chassis_cadillac_1" model="vehicle.chassis">
+        <field name="name">CA1</field>
+        <field name="model_id" ref="model_cadillac_1"/>
+    </record>
+    <record id="body_cadillac_1" model="vehicle.body">
+        <field name="name">SUV</field>
+        <field name="model_id" ref="model_cadillac_1"/>
+    </record>
+    <record id="variant_cadillac_1" model="vehicle.variant">
+        <field name="name">Luxury</field>
+        <field name="model_id" ref="model_cadillac_1"/>
+        <field name="year_from">2016</field>
+        <field name="year_to">2025</field>
+    </record>
+
+
+
+
+    <record id="brand_chevrolet" model="vehicle.brand">
+        <field name="name">Chevrolet</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_chevrolet-image.png"/>
+    </record>
+    <record id="brand_chrysler" model="vehicle.brand">
+        <field name="name">Chrysler</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_chrysler-image.png"/>
+    </record>
+    <record id="brand_citroen" model="vehicle.brand">
+        <field name="name">Citroen</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_citroen-image.png"/>
+    </record>
+    <record id="brand_corre_la_licorne" model="vehicle.brand">
+        <field name="name">Corre La Licorne</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_corre-la-licorne-image.png"/>
+    </record>
+    <record id="brand_daewoo" model="vehicle.brand">
+        <field name="name">Daewoo</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_daewoo-image.png"/>
+    </record>
+    <record id="brand_dodge" model="vehicle.brand">
+        <field name="name">Dodge</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_dodge-image.png"/>
+    </record>
+    <record id="brand_ferrari" model="vehicle.brand">
+        <field name="name">Ferrari</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_ferrari-image.png"/>
+    </record>
+    <record id="brand_fiat" model="vehicle.brand">
+        <field name="name">Fiat</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_fiat-image.png"/>
+    </record>
+    <record id="brand_ford" model="vehicle.brand">
+        <field name="name">Ford</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_ford-image.png"/>
+    </record>
+    <record id="brand_holden" model="vehicle.brand">
+        <field name="name">Holden</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_holden-image.png"/>
+    </record>
+
+
+    <record id="brand_honda" model="vehicle.brand">
+        <field name="name">Honda</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_honda-image.png"/>
+    </record>
+
+    <record id="model_honda_1" model="vehicle.model">
+        <field name="name">Civic</field>
+        <field name="brand_id" ref="brand_honda"/>
+    </record>
+    <record id="chassis_honda_1" model="vehicle.chassis">
+        <field name="name">HO1</field>
+        <field name="model_id" ref="model_honda_1"/>
+    </record>
+    <record id="body_honda_1" model="vehicle.body">
+        <field name="name">Sedan</field>
+        <field name="model_id" ref="model_honda_1"/>
+    </record>
+    <record id="variant_honda_1" model="vehicle.variant">
+        <field name="name">EX</field>
+        <field name="model_id" ref="model_honda_1"/>
+        <field name="year_from">2018</field>
+        <field name="year_to">2025</field>
+    </record>
+
+
+    <record id="brand_hyundai" model="vehicle.brand">
+        <field name="name">Hyundai</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_hyundai-image.png"/>
+    </record>
+    <record id="brand_infiniti" model="vehicle.brand">
+        <field name="name">Infiniti</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_infiniti-image.png"/>
+    </record>
+    <record id="brand_isuzu" model="vehicle.brand">
+        <field name="name">Isuzu</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_isuzu-image.png"/>
+    </record>
+    <record id="brand_jaguar" model="vehicle.brand">
+        <field name="name">Jaguar</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_jaguar-image.png"/>
+    </record>
+    <record id="brand_jeep" model="vehicle.brand">
+        <field name="name">Jeep</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_jeep-image.png"/>
+    </record>
+    <record id="brand_kia" model="vehicle.brand">
+        <field name="name">Kia</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_kia-image.png"/>
+    </record>
+    <record id="brand_koenigsegg" model="vehicle.brand">
+        <field name="name">Koenigsegg</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_koenigsegg-image.png"/>
+    </record>
+    <record id="brand_lagonda" model="vehicle.brand">
+        <field name="name">Lagonda</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_lagonda-image.png"/>
+    </record>
+    <record id="brand_lamborghini" model="vehicle.brand">
+        <field name="name">Lamborghini</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_lamborghini-image.png"/>
+    </record>
+    <record id="brand_lancia" model="vehicle.brand">
+        <field name="name">Lancia</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_lancia-image.png"/>
+    </record>
+    <record id="brand_land_rover" model="vehicle.brand">
+        <field name="name">Land Rover</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_land-rover-image.png"/>
+    </record>
+    <record id="brand_lexus" model="vehicle.brand">
+        <field name="name">Lexus</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_lexus-image.png"/>
+    </record>
+    <record id="brand_lincoln" model="vehicle.brand">
+        <field name="name">Lincoln</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_lincoln-image.png"/>
+    </record>
+    <record id="brand_lotus" model="vehicle.brand">
+        <field name="name">Lotus</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_lotus-image.png"/>
+    </record>
+    <record id="brand_maserati" model="vehicle.brand">
+        <field name="name">Maserati</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_maserati-image.png"/>
+    </record>
+    <record id="brand_maybach" model="vehicle.brand">
+        <field name="name">Maybach</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_maybach-image.png"/>
+    </record>
+    <record id="brand_mazda" model="vehicle.brand">
+        <field name="name">Mazda</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_mazda-image.png"/>
+    </record>
+
+
+
+    <record id="brand_mercedes" model="vehicle.brand">
+        <field name="name">Mercedes</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_mercedes-image.png"/>
+    </record>
+
+    <record id="model_mercedes_1" model="vehicle.model">
+        <field name="name">C-Class</field>
+        <field name="brand_id" ref="brand_mercedes"/>
+    </record>
+    <record id="chassis_mercedes_1" model="vehicle.chassis">
+        <field name="name">ME1</field>
+        <field name="model_id" ref="model_mercedes_1"/>
+    </record>
+    <record id="body_mercedes_1" model="vehicle.body">
+        <field name="name">Sedan</field>
+        <field name="model_id" ref="model_mercedes_1"/>
+    </record>
+    <record id="variant_mercedes_1" model="vehicle.variant">
+        <field name="name">C300</field>
+        <field name="model_id" ref="model_mercedes_1"/>
+        <field name="year_from">2020</field>
+        <field name="year_to">2025</field>
+    </record>
+
+
+    <record id="brand_mg" model="vehicle.brand">
+        <field name="name">Mg</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_mg-image.png"/>
+    </record>
+    <record id="brand_mini" model="vehicle.brand">
+        <field name="name">Mini</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_mini-image.png"/>
+    </record>
+    <record id="brand_mitsubishi" model="vehicle.brand">
+        <field name="name">Mitsubishi</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_mitsubishi-image.png"/>
+    </record>
+    <record id="brand_morgan" model="vehicle.brand">
+        <field name="name">Morgan</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_morgan-image.png"/>
+    </record>
+    <record id="brand_nissan" model="vehicle.brand">
+        <field name="name">Nissan</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_nissan-image.png"/>
+    </record>
+    <record id="brand_oldsmobile" model="vehicle.brand">
+        <field name="name">Oldsmobile</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_oldsmobile-image.png"/>
+    </record>
+    <record id="brand_opel" model="vehicle.brand">
+        <field name="name">Opel</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_opel-image.png"/>
+    </record>
+    <record id="brand_peugeot" model="vehicle.brand">
+        <field name="name">Peugeot</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_peugeot-image.png"/>
+    </record>
+    <record id="brand_pontiac" model="vehicle.brand">
+        <field name="name">Pontiac</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_pontiac-image.png"/>
+    </record>
+    <record id="brand_porsche" model="vehicle.brand">
+        <field name="name">Porsche</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_porsche-image.png"/>
+    </record>
+    <record id="brand_rambler" model="vehicle.brand">
+        <field name="name">Rambler</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_rambler-image.png"/>
+    </record>
+    <record id="brand_renault" model="vehicle.brand">
+        <field name="name">Renault</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_renault-image.png"/>
+    </record>
+    <record id="brand_rolls-royce" model="vehicle.brand">
+        <field name="name">Rolls-Royce</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_rolls-royce-image.png"/>
+    </record>
+    <record id="brand_saab" model="vehicle.brand">
+        <field name="name">Saab</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_saab-image.png"/>
+    </record>
+    <record id="brand_scion" model="vehicle.brand">
+        <field name="name">Scion</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_scion-image.png"/>
+    </record>
+    <record id="brand_skoda" model="vehicle.brand">
+        <field name="name">Skoda</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_skoda-image.png"/>
+    </record>
+    <record id="brand_smart" model="vehicle.brand">
+        <field name="name">Smart</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_smart-image.png"/>
+    </record>
+    <record id="brand_steyr" model="vehicle.brand">
+        <field name="name">Steyr</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_steyr-image.png"/>
+    </record>
+    <record id="brand_subaru" model="vehicle.brand">
+        <field name="name">Subaru</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_subaru-image.png"/>
+    </record>
+    <record id="brand_tesla_motors" model="vehicle.brand">
+        <field name="name">Tesla Motors</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_tesla-motors-image.png"/>
+    </record>
+
+
+    <record id="brand_toyota" model="vehicle.brand">
+        <field name="name">Toyota</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_toyota-image.png"/>
+    </record>
+
+    <record id="model_toyota_1" model="vehicle.model">
+        <field name="name">Corolla</field>
+        <field name="brand_id" ref="brand_toyota"/>
+    </record>
+    <record id="chassis_toyota_1" model="vehicle.chassis">
+        <field name="name">TO1</field>
+        <field name="model_id" ref="model_toyota_1"/>
+    </record>
+    <record id="body_toyota_1" model="vehicle.body">
+        <field name="name">Sedan</field>
+        <field name="model_id" ref="model_toyota_1"/>
+    </record>
+    <record id="variant_toyota_1" model="vehicle.variant">
+        <field name="name">LE</field>
+        <field name="model_id" ref="model_toyota_1"/>
+        <field name="year_from">2019</field>
+        <field name="year_to">2025</field>
+    </record>
+
+
+    <record id="brand_trabant" model="vehicle.brand">
+        <field name="name">Trabant</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_trabant-image.png"/>
+    </record>
+    <record id="brand_volkswagen" model="vehicle.brand">
+        <field name="name">Volkswagen</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_volkswagen-image.png"/>
+    </record>
+    <record id="brand_volvo" model="vehicle.brand">
+        <field name="name">Volvo</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_volvo-image.png"/>
+    </record>
+    <record id="brand_willys" model="vehicle.brand">
+        <field name="name">Willys</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_willys-image.png"/>
+    </record>
+    <record id="brand_suzuki" model="vehicle.brand">
+        <field name="name">Suzuki</field>
+        <field name="logo" type="base64" file="vehicle_master_vin/static/img/brand_suzuki-image.png"/>
+    </record>
+</odoo>

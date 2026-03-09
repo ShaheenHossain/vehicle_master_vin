@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+
+
+    <record id="view_garage_vehicle_form" model="ir.ui.view">
+        <field name="name">garage.vehicle.form</field>
+        <field name="model">garage.vehicle</field>
+        <field name="arch" type="xml">
+            <form string="Vehicle">
+
+
+                <sheet>
+
+
+                    <group>
+                        <group>
+                            <field name="vin"/>
+                            <field name="license_plate"/>
+                            <field name="partner_id"/>
+                            <field name="state"/>
+                        </group>
+
+
+                        <group>
+                            <field name="brand"/>
+                            <field name="model"/>
+                            <field name="variant"/>
+                            <field name="first_registration_date"/>
+                            <field name="current_mileage"/>
+                        </group>
+                    </group>
+
+
+                    <notebook>
+
+
+                        <page string="Workshop Orders">
+                            <field name="sale_order_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="amount_total"/>
+                                </tree>
+                            </field>
+                        </page>
+
+
+                        <page string="Invoices">
+                            <field name="invoice_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="amount_total"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+
+
+                    </notebook>
+
+
+                </sheet>
+
+
+                <chatter/>
+
+
+            </form>
+        </field>
+    </record>
+
+
+
+
+    <record id="view_garage_vehicle_tree" model="ir.ui.view">
+        <field name="name">garage.vehicle.tree</field>
+        <field name="model">garage.vehicle</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="license_plate"/>
+                <field name="vin"/>
+                <field name="partner_id"/>
+                <field name="brand"/>
+                <field name="model"/>
+                <field name="current_mileage"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_partner_form_vehicle_inherit" model="ir.ui.view">
+        <field name="name">res.partner.form.vehicle.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Vehicles">
+                    <field name="vehicle_ids">
+                        <tree>
+                            <field name="license_plate"/>
+                            <field name="brand"/>
+                            <field name="model"/>
+                            <field name="vin"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+    <menuitem id="menu_vehicle_root" name="Vehicle Master" sequence="10" web_icon="vehicle_master,static/description/icon.png"/>
+
+
+    <record id="action_garage_vehicle" model="ir.actions.act_window">
+        <field name="name">Vehicles</field>
+        <field name="res_model">garage.vehicle</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem id="menu_vehicle_master"
+              name="Vehicle Master"
+              parent="menu_vehicle_root"
+              action="action_garage_vehicle"/>
+
+
+</odoo>

@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vehicle_master,access.vehicle.master,model_vehicle_master,,1,1,1,1
+access_vehicle_brand,access.vehicle.brand,model_vehicle_brand,,1,1,1,1
+access_vehicle_model,access.vehicle.model,model_vehicle_model,,1,1,1,1
+access_vehicle_chassis,access.vehicle.chassis,model_vehicle_chassis,,1,1,1,1
+access_vehicle_body,access.vehicle.body,model_vehicle_body,,1,1,1,1
+access_vehicle_variant,access.vehicle.variant,model_vehicle_variant,,1,1,1,1
+access_vehicle_color,access.vehicle.color,model_vehicle_color,,1,1,1,1
