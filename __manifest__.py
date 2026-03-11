@@ -7,8 +7,10 @@
         'contacts',
         'mail',
         'sale',
+        'sale_management',
         'account',
         'stock',   # ✅ VERY IMPORTANT
+        'hr',   # ✅ VERY IMPORTANT
     ],
     'data': [
         'security/ir.model.access.csv',
