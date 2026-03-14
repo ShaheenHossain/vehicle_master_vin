@@ -114,7 +114,14 @@
                     </header>
 
 
+
                     <group>
+                        <group string="References">
+                            <field name="your_ref"/>
+                            <field name="our_ref"/>
+                            <field name="our_ref"/>
+                        </group>
+
                         <group>
                             <field name="vin"/>
                             <field name="brand"/>
@@ -192,15 +199,7 @@
                     </group>
 
 
-                    <!-- REFERENCES -->
-                    <group string="References">
-                        <group>
-                            <field name="your_ref"/>
-                        </group>
-                        <group>
-                            <field name="our_ref"/>
-                        </group>
-                    </group>
+
 
 
                     <!-- PHOTOS -->

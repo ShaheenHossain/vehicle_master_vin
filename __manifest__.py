@@ -24,6 +24,13 @@
         'data/vehicle_color_data.xml',
         # 'data/vehicle.brand.csv',
     ],
+
+    "assets": {
+        "web.report_assets_common": [
+            "vehicle_master_vin/static/src/report_din5008.scss",
+        ],
+    },
+
     'installable': True,
     'application': True,
     # 'post_init_hook': 'generate_vehicle_demo_data',

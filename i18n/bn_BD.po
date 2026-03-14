@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e-20241206\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-12 08:49+0000\n"
-"PO-Revision-Date: 2026-03-12 08:49+0000\n"
+"POT-Creation-Date: 2026-03-12 09:03+0000\n"
+"PO-Revision-Date: 2026-03-12 09:03+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -279,68 +279,68 @@ msgstr "AUTO-i-DAT"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_config_settings__autoidat_api_key
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_config_settings__autoidat_key
 msgid "AUTO-i-DAT API Key"
-msgstr "AUTO-i-DAT-API-Schlüssel"
+msgstr "AUTO-i-DAT API কী"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_config_settings__autoidat_api_url
 msgid "AUTO-i-DAT API URL"
-msgstr "URL der AUTO-i-DAT-API"
+msgstr "AUTO-i-DAT API URL"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_config_settings__autoidat_api_user
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_config_settings__autoidat_user
 msgid "AUTO-i-DAT API User"
-msgstr "AUTO-i-DAT API-Benutzer"
+msgstr "AUTO-i-DAT API ব্যবহারকারী"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_brand__active
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_color__active
 msgid "Active"
-msgstr "Aktiv"
+msgstr "সক্রিয়"
 
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_autoidat_service
 msgid "AutoIDAT Service"
-msgstr "AutoIDAT-Dienst"
+msgstr "AutoIDAT পরিষেবা"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_brand_form
 msgid "Available Variants"
-msgstr "Verfügbare Varianten"
+msgstr "উপলব্ধ বৈকল্পিক"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__image_back
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 msgid "Back View"
-msgstr "Rückansicht"
+msgstr "ব্যাক ভিউ"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__body_class
 msgid "Body Class"
-msgstr "Körperklasse"
+msgstr "বডি ক্লাস"
 
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_vehicle_body
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_body__name
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__body_style_id
 msgid "Body Style"
-msgstr "Körperstil"
+msgstr "বডি স্টাইল"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_model__body_style_ids
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_brand_form
 msgid "Body Styles"
-msgstr "Karosserieformen"
+msgstr "বডি স্টাইল"
 
 #. module: vehicle_master_vin
 #: model:ir.model.constraint,message:vehicle_master_vin.constraint_vehicle_body_body_unique
 msgid "Body style already exists for this model!"
-msgstr "Für dieses Modell existiert bereits ein Karosseriestil!"
+msgstr "এই মডেলের জন্য বডি স্টাইল ইতিমধ্যেই বিদ্যমান!"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__brake_system
 msgid "Brake System"
-msgstr "Bremssystem"
+msgstr "ব্রেক সিস্টেম"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__brand_id
@@ -349,45 +349,45 @@ msgstr "Bremssystem"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_model__brand_id
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
 msgid "Brand"
-msgstr "Marke"
+msgstr "ব্র্যান্ড"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_brand__name
 msgid "Brand Name"
-msgstr "Markenname"
+msgstr "ব্র্যান্ডের নাম"
 
 #. module: vehicle_master_vin
 #: model:ir.model.constraint,message:vehicle_master_vin.constraint_vehicle_brand_brand_name_unique
 msgid "Brand name must be unique!"
-msgstr "Markenname muss eindeutig sein!"
+msgstr "ব্র্যান্ড নাম অনন্য হতে হবে!"
 
 #. module: vehicle_master_vin
 #: model:ir.ui.menu,name:vehicle_master_vin.menu_vehicle_brand
 msgid "Brands"
-msgstr "Marken"
+msgstr "ব্র্যান্ড"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__plate_scan_temp
 msgid "Capture Plate"
-msgstr "Fangplatte"
+msgstr "ক্যাপচার প্লেট"
 
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_vehicle_chassis
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_chassis__name
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__chassis_id
 msgid "Chassis Code"
-msgstr "Fahrgestellcode"
+msgstr "চ্যাসিস কোড"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_model__chassis_ids
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_brand_form
 msgid "Chassis Codes"
-msgstr "Fahrgestellcodes"
+msgstr "চ্যাসিস কোড"
 
 #. module: vehicle_master_vin
 #: model:ir.model.constraint,message:vehicle_master_vin.constraint_vehicle_chassis_chassis_unique
 msgid "Chassis already exists for this model!"
-msgstr "Für dieses Modell existiert bereits ein Fahrgestell!"
+msgstr "এই মডেলের জন্য চ্যাসিস ইতিমধ্যেই বিদ্যমান!"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__color_id
@@ -397,22 +397,22 @@ msgstr "Für dieses Modell existiert bereits ein Fahrgestell!"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__color_id
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_view_account_form
 msgid "Color"
-msgstr "Farbe"
+msgstr "রঙ"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_color__name
 msgid "Color Name"
-msgstr "Farbname"
+msgstr "রঙের নাম"
 
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_res_config_settings
 msgid "Config Settings"
-msgstr "Konfigurationseinstellungen"
+msgstr "কনফিগ সেটিংস"
 
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_res_partner
 msgid "Contact"
-msgstr "Kontakt"
+msgstr "যোগাযোগ"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_body__create_uid
@@ -423,7 +423,7 @@ msgstr "Kontakt"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_model__create_uid
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_variant__create_uid
 msgid "Created by"
-msgstr "Erstellt von"
+msgstr "দ্বারা নির্মিত"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_body__create_date
@@ -434,13 +434,13 @@ msgstr "Erstellt von"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_model__create_date
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_variant__create_date
 msgid "Created on"
-msgstr "Erstellt am"
+msgstr "এ তৈরি হয়েছে"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_partner__date_of_birth
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_users__date_of_birth
 msgid "Date of Birth"
-msgstr "Geburtsdatum"
+msgstr "জন্ম তারিখ"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__deadline_date
@@ -449,13 +449,13 @@ msgstr "Geburtsdatum"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__deadline_date
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_stock_picking__deadline_date
 msgid "Deadline"
-msgstr "Frist"
+msgstr "সময়সীমা"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Deadline:"
-msgstr "Frist:"
+msgstr "সময়সীমা:"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_body__display_name
@@ -466,32 +466,32 @@ msgstr "Frist:"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_model__display_name
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_variant__display_name
 msgid "Display Name"
-msgstr "Anzeigename"
+msgstr "প্রদর্শনের নাম"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__doors
 msgid "Doors"
-msgstr "Türen"
+msgstr "দরজা"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__drive_type
 msgid "Drive Type"
-msgstr "Antriebstyp"
+msgstr "ড্রাইভের ধরন"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__engine
 msgid "Engine"
-msgstr "Motor"
+msgstr "ইঞ্জিন"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__engine_cylinders
 msgid "Engine Cylinders"
-msgstr "Motorzylinder"
+msgstr "ইঞ্জিন সিলিন্ডার"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__engine_displacement
 msgid "Engine Displacement"
-msgstr "Hubraum des Motors"
+msgstr "ইঞ্জিন স্থানচ্যুতি"
 
 #. module: vehicle_master_vin
 #. odoo-python
@@ -503,7 +503,7 @@ msgstr ""
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 msgid "Fetch from VIN"
-msgstr "Von VIN abrufen"
+msgstr "ভিআইএন থেকে আনুন"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__first_registration
@@ -512,7 +512,7 @@ msgstr "Von VIN abrufen"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__first_registration
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__first_registration
 msgid "First Registration"
-msgstr "Erstanmeldung"
+msgstr "প্রথম নিবন্ধন"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,help:vehicle_master_vin.field_account_bank_statement_line__master_number
@@ -521,13 +521,13 @@ msgstr "Erstanmeldung"
 #: model:ir.model.fields,help:vehicle_master_vin.field_sale_order__master_number
 #: model:ir.model.fields,help:vehicle_master_vin.field_vehicle_master__master_number
 msgid "Format: 000.000.000 (Official Swiss vehicle number)"
-msgstr "Format: 000.000.000 (Offizielle Schweizer Fahrzeugnummer)"
+msgstr "বিন্যাস: 000.000.000 (অফিসিয়াল সুইস গাড়ির নম্বর)"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__image_front
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 msgid "Front View"
-msgstr "Vorderansicht"
+msgstr "সামনের দৃশ্য"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__fuel_type
@@ -536,27 +536,27 @@ msgstr "Vorderansicht"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__fuel_type
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__fuel_type
 msgid "Fuel Type"
-msgstr "Kraftstofftyp"
+msgstr "জ্বালানীর ধরন"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
 msgid "Group By"
-msgstr "Gruppieren nach"
+msgstr "দ্বারা গ্রুপ"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_settings_view_form
 msgid "I-DAT API Configuration"
-msgstr "I-DAT-API-Konfiguration"
+msgstr "I-DAT API কনফিগারেশন"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_settings_view_form
 msgid "I-DAT API Key"
-msgstr "I-DAT-API-Schlüssel"
+msgstr "I-DAT API কী"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_settings_view_form
 msgid "I-DAT User"
-msgstr "I-DAT-Benutzer"
+msgstr "আই-ড্যাট ব্যবহারকারী"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_body__id
@@ -567,7 +567,7 @@ msgstr "I-DAT-Benutzer"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_model__id
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_variant__id
 msgid "ID"
-msgstr "AUSWEIS"
+msgstr "আইডি"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__inquiry_date
@@ -576,19 +576,19 @@ msgstr "AUSWEIS"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__inquiry_date
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_stock_picking__inquiry_date
 msgid "Inquiry Date"
-msgstr "Anfragedatum"
+msgstr "তদন্তের তারিখ"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Inquiry Date:"
-msgstr "Anfragedatum:"
+msgstr "তদন্তের তারিখ:"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_partner__insurance_company
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_users__insurance_company
 msgid "Insurance Company"
-msgstr "Versicherungsgesellschaft"
+msgstr "বীমা কোম্পানি"
 
 #. module: vehicle_master_vin
 #. odoo-python
@@ -602,12 +602,12 @@ msgstr ""
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_account_move
 msgid "Journal Entry"
-msgstr "Tagebucheintrag"
+msgstr "জার্নাল এন্ট্রি"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_view_account_form
 msgid "Last Service"
-msgstr "Letzter Dienst"
+msgstr "শেষ পরিষেবা"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__last_service_date
@@ -616,12 +616,12 @@ msgstr "Letzter Dienst"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__last_service_date
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__last_service_date
 msgid "Last Service Date"
-msgstr "Letztes Servicedatum"
+msgstr "শেষ পরিষেবা তারিখ"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Last Service:"
-msgstr "Letzter Service:"
+msgstr "শেষ পরিষেবা:"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_body__write_uid
@@ -632,7 +632,7 @@ msgstr "Letzter Service:"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_model__write_uid
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_variant__write_uid
 msgid "Last Updated by"
-msgstr "Zuletzt aktualisiert von"
+msgstr "দ্বারা সর্বশেষ আপডেট"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_body__write_date
@@ -643,7 +643,7 @@ msgstr "Zuletzt aktualisiert von"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_model__write_date
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_variant__write_date
 msgid "Last Updated on"
-msgstr "Zuletzt aktualisiert am"
+msgstr "সর্বশেষ আপডেট করা হয়েছে"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__license_plate
@@ -653,41 +653,41 @@ msgstr "Zuletzt aktualisiert am"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__license_plate
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_view_account_form
 msgid "License Plate"
-msgstr "Kennzeichen"
+msgstr "লাইসেন্স প্লেট"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "License Plate:"
-msgstr "Kennzeichen:"
+msgstr "লাইসেন্স প্লেট:"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_brand__logo
 msgid "Logo"
-msgstr "Logo"
+msgstr "লোগো"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__manufacturer
 msgid "Manufacturer"
-msgstr "Hersteller"
+msgstr "প্রস্তুতকারক"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_view_account_form
 msgid "Master No."
-msgstr "Meister Nr."
+msgstr "মাস্টার নং"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__master_number
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_move__master_number
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_payment__master_number
 msgid "Master Number"
-msgstr "Master-Nummer"
+msgstr "মাস্টার নম্বর"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Master Number:"
-msgstr "Master-Nummer:"
+msgstr "মাস্টার নম্বর:"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__mileage
@@ -696,7 +696,7 @@ msgstr "Master-Nummer:"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__mileage
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__mileage
 msgid "Mileage"
-msgstr "Kilometerstand"
+msgstr "মাইলেজ"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__model_id
@@ -706,48 +706,48 @@ msgstr "Kilometerstand"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_variant__model_id
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
 msgid "Model"
-msgstr "Modell"
+msgstr "মডেল"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_brand__model_count
 msgid "Model Count"
-msgstr "Anzahl der Modelle"
+msgstr "মডেল কাউন্ট"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_model__name
 msgid "Model Name"
-msgstr "Modellname"
+msgstr "মডেলের নাম"
 
 #. module: vehicle_master_vin
 #: model:ir.model.constraint,message:vehicle_master_vin.constraint_vehicle_model_model_brand_unique
 msgid "Model already exists for this brand!"
-msgstr "Für diese Marke existiert bereits ein Modell!"
+msgstr "এই ব্র্যান্ডের জন্য মডেল ইতিমধ্যেই বিদ্যমান!"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__model_id
 msgid "Model/Series"
-msgstr "Modell/Serie"
+msgstr "মডেল/সিরিজ"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_brand__model_ids
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_brand_view_kanban
 msgid "Models"
-msgstr "Modelle"
+msgstr "মডেল"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_brand_form
 msgid "Models & Configuration"
-msgstr "Modelle und Konfiguration"
+msgstr "মডেল এবং কনফিগারেশন"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields.selection,name:vehicle_master_vin.selection__res_config_settings__vin_api_provider__nhtsa
 msgid "NHTSA (Free VIN Decoder)"
-msgstr "NHTSA (Kostenloser VIN-Decoder)"
+msgstr "NHTSA (ফ্রি ভিআইএন ডিকোডার)"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_variant__name
 msgid "Name"
-msgstr "Name"
+msgstr "নাম"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__our_ref
@@ -757,68 +757,68 @@ msgstr "Name"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_stock_picking__our_ref
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__our_ref
 msgid "Our Ref"
-msgstr "Unser Ref"
+msgstr "আমাদের রেফ"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Our Ref:"
-msgstr "Unser Ref:"
+msgstr "আমাদের রেফারেন্স:"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__partner_id
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
 msgid "Owner"
-msgstr "Eigentümer"
+msgstr "মালিক"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__plant_city
 msgid "Plant City"
-msgstr "Pflanzenstadt"
+msgstr "উদ্ভিদ শহর"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__plant_country
 msgid "Plant Country"
-msgstr "Pflanzenland"
+msgstr "উদ্ভিদ দেশ"
 
 #. module: vehicle_master_vin
 #. odoo-python
 #: code:addons/vehicle_master_vin/models/vehicle_master.py:0
 #, python-format
 msgid "Please configure Vehicle API URL in Settings."
-msgstr "Bitte konfigurieren Sie die Fahrzeug-API-URL in den Einstellungen."
+msgstr "সেটিংসে যানবাহনের API URL কনফিগার করুন।"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__power_kw
 msgid "Power Kw"
-msgstr "Leistung kW"
+msgstr "শক্তি Kw"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 msgid "References"
-msgstr "Referenzen"
+msgstr "তথ্যসূত্র"
 
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_sale_order
 msgid "Sales Order"
-msgstr "Kundenauftrag"
+msgstr "বিক্রয় আদেশ"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
 msgid "Search Vehicles"
-msgstr "Fahrzeuge suchen"
+msgstr "যানবাহন অনুসন্ধান করুন"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__series
 msgid "Series"
-msgstr "Serie"
+msgstr "সিরিজ"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__image_side
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 msgid "Side View"
-msgstr "Seitenansicht"
+msgstr "সাইড ভিউ"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__master_number
@@ -827,31 +827,31 @@ msgstr "Seitenansicht"
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_tree
 msgid "Stammnummer"
-msgstr "Stammnummer"
+msgstr "স্ট্যামনুমার"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__steering_location
 msgid "Steering Location"
-msgstr "Lenkstandort"
+msgstr "স্টিয়ারিং অবস্থান"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 msgid "Swiss Registration Data"
-msgstr "Schweizer Registrierungsdaten"
+msgstr "সুইস নিবন্ধন তথ্য"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,help:vehicle_master_vin.field_vehicle_master__type_code
 msgid ""
 "Swiss Type Approval (Typengenehmigung) found in Box 24 of the grey card."
 msgstr ""
-"Die schweizerische Typengenehmigung finden Sie in Feld 24 der Graukarte."
+"ধূসর কার্ডের বক্স 24-এ সুইস টাইপ অনুমোদন (টাইপেনজেনহেমিগুং) পাওয়া গেছে।"
 
 #. module: vehicle_master_vin
 #. odoo-python
 #: code:addons/vehicle_master_vin/models/vehicle_master.py:0
 #, python-format
 msgid "The Stammnummer (Master Number) must be in the format 000.000.000"
-msgstr "Die Stammnummer muss im Format 000.000.000 vorliegen"
+msgstr "Stammnummer (মাস্টার নম্বর) 000.000.000 ফরম্যাটে হতে হবে"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,help:vehicle_master_vin.field_account_bank_statement_line__license_plate
@@ -860,27 +860,27 @@ msgstr "Die Stammnummer muss im Format 000.000.000 vorliegen"
 #: model:ir.model.fields,help:vehicle_master_vin.field_sale_order__license_plate
 #: model:ir.model.fields,help:vehicle_master_vin.field_vehicle_master__license_plate
 msgid "The Swiss cantonal registration plate (Kontrollschild)."
-msgstr "Das Schweizer Kantonskennzeichen (Kontrollschild)."
+msgstr "সুইস ক্যান্টোনাল রেজিস্ট্রেশন প্লেট (কন্ট্রোলশিল্ড)।"
 
 #. module: vehicle_master_vin
 #: model:ir.model.constraint,message:vehicle_master_vin.constraint_vehicle_master_master_number_unique
 msgid "This Stammnummer already exists in the system!"
-msgstr "Diese Stammnummer existiert bereits im System!"
+msgstr "এই Stammnummer ইতিমধ্যে সিস্টেমে বিদ্যমান!"
 
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_stock_picking
 msgid "Transfer"
-msgstr "Überweisen"
+msgstr "স্থানান্তর"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__transmission
 msgid "Transmission"
-msgstr "Übertragung"
+msgstr "সংক্রমণ"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__trim
 msgid "Trim"
-msgstr "Trimmen"
+msgstr "ছাঁটা"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__type_code
@@ -889,54 +889,54 @@ msgstr "Trimmen"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__type_code
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__type_code
 msgid "Type Code"
-msgstr "Geben Sie den Code ein"
+msgstr "কোড টাইপ করুন"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_view_account_form
 msgid "VIN"
-msgstr "Fahrgestellnummer"
+msgstr "ভিআইএন"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_config_settings__vin_api_provider
 msgid "VIN API Provider"
-msgstr "VIN-API-Anbieter"
+msgstr "VIN API প্রদানকারী"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
 msgid "VIN/Chassis"
-msgstr "Fahrgestellnummer/Fahrgestell"
+msgstr "ভিআইএন/চ্যাসিস"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "VIN/Chassis No.:"
-msgstr "VIN/Fahrgestellnr.:"
+msgstr "ভিআইএন/চ্যাসিস নম্বর:"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_move__vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_payment__vin
 msgid "VIN/Chassis Number"
-msgstr "Fahrgestellnummer/Fahrgestellnummer"
+msgstr "ভিআইএন/চ্যাসিস নম্বর"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__variant_id
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__variant_id
 msgid "Variant"
-msgstr "Variante"
+msgstr "বৈকল্পিক"
 
 #. module: vehicle_master_vin
 #: model:ir.model.constraint,message:vehicle_master_vin.constraint_vehicle_variant_variant_unique
 msgid "Variant already exists for this model!"
-msgstr "Für dieses Modell existiert bereits eine Variante!"
+msgstr "এই মডেলের জন্য ভেরিয়েন্ট ইতিমধ্যেই বিদ্যমান!"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_model__variant_ids
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_brand_form
 msgid "Variants"
-msgstr "Varianten"
+msgstr "বৈকল্পিক"
 
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_vehicle_master
@@ -950,107 +950,107 @@ msgstr "Varianten"
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_view_account_form
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 msgid "Vehicle"
-msgstr "Fahrzeug"
+msgstr "যানবাহন"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_settings_view_form
 msgid "Vehicle API Configuration"
-msgstr "Fahrzeug-API-Konfiguration"
+msgstr "যানবাহন API কনফিগারেশন"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_config_settings__vehicle_api_key
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_settings_view_form
 msgid "Vehicle API Key"
-msgstr "Fahrzeug-API-Schlüssel"
+msgstr "গাড়ির API কী"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_config_settings__vehicle_api_url
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_settings_view_form
 msgid "Vehicle API URL"
-msgstr "Fahrzeug-API-URL"
+msgstr "গাড়ির API URL"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_config_settings__vehicle_api_user
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_settings_view_form
 msgid "Vehicle API User"
-msgstr "Fahrzeug-API-Benutzer"
+msgstr "যানবাহন API ব্যবহারকারী"
 
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_vehicle_brand
 msgid "Vehicle Brand"
-msgstr "Fahrzeugmarke"
+msgstr "গাড়ির ব্র্যান্ড"
 
 #. module: vehicle_master_vin
 #: model:ir.actions.act_window,name:vehicle_master_vin.action_vehicle_brand
 msgid "Vehicle Brands"
-msgstr "Fahrzeugmarken"
+msgstr "যানবাহন ব্র্যান্ড"
 
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_vehicle_color
 msgid "Vehicle Color"
-msgstr "Fahrzeugfarbe"
+msgstr "গাড়ির রঙ"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 msgid "Vehicle Condition Photos"
-msgstr "Fotos zum Fahrzeugzustand"
+msgstr "গাড়ির অবস্থার ছবি"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Vehicle Details"
-msgstr "Fahrzeugdetails"
+msgstr "যানবাহনের বিবরণ"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 msgid "Vehicle Display Name"
-msgstr "Anzeigename des Fahrzeugs"
+msgstr "গাড়ির প্রদর্শনের নাম"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_partner_form_inherit_dob
 msgid "Vehicle Info"
-msgstr "Fahrzeuginformationen"
+msgstr "যানবাহনের তথ্য"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 msgid "Vehicle Information"
-msgstr "Fahrzeuginformationen"
+msgstr "যানবাহন তথ্য"
 
 #. module: vehicle_master_vin
 #: model:ir.ui.menu,name:vehicle_master_vin.menu_vehicle_root
 msgid "Vehicle Master"
-msgstr "Fahrzeugmeister"
+msgstr "যানবাহন মাস্টার"
 
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_vehicle_model
 msgid "Vehicle Model"
-msgstr "Fahrzeugmodell"
+msgstr "গাড়ির মডেল"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__name
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 msgid "Vehicle Name"
-msgstr "Fahrzeugname"
+msgstr "যানবাহনের নাম"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__vehicle_type
 msgid "Vehicle Type"
-msgstr "Fahrzeugtyp"
+msgstr "যানবাহনের ধরন"
 
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_vehicle_variant
 msgid "Vehicle Variant"
-msgstr "Fahrzeugvariante"
+msgstr "যানবাহন বৈকল্পিক"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
 msgid "Vehicle, Owner, Plate, VIN or Stammnummer"
-msgstr "Fahrzeug, Besitzer, Kennzeichen, Fahrgestellnummer oder Stammnummer"
+msgstr "যানবাহন, মালিক, প্লেট, ভিআইএন বা স্ট্যামনুমার"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Vehicle:"
-msgstr "Fahrzeug:"
+msgstr "যানবাহন:"
 
 #. module: vehicle_master_vin
 #: model:ir.actions.act_window,name:vehicle_master_vin.action_vehicle
@@ -1059,38 +1059,38 @@ msgstr "Fahrzeug:"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_users__vehicle_ids
 #: model:ir.ui.menu,name:vehicle_master_vin.menu_vehicle
 msgid "Vehicles"
-msgstr "Fahrzeuge"
+msgstr "যানবাহন"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_partner__whatsapp_no
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_users__whatsapp_no
 msgid "WhatsApp No."
-msgstr "WhatsApp Nr."
+msgstr "হোয়াটসঅ্যাপ নম্বর"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__year
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__year
 msgid "Year"
-msgstr "Jahr"
+msgstr "বছর"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__year_from
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__year_from
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_variant__year_from
 msgid "Year From"
-msgstr "Jahr ab"
+msgstr "সাল থেকে"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__year_to
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__year_to
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_variant__year_to
 msgid "Year To"
-msgstr "Jahr bis"
+msgstr "বছর থেকে"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Year:"
-msgstr "Jahr:"
+msgstr "বছর:"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__your_ref
@@ -1100,15 +1100,15 @@ msgstr "Jahr:"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_stock_picking__your_ref
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__your_ref
 msgid "Your Ref"
-msgstr "Ihre Ref"
+msgstr "আপনার রেফ"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Your Ref:"
-msgstr "Ihre Ansprechpartner:"
+msgstr "আপনার রেফারেন্স:"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_brand_form
 msgid "e.g. Toyota"
-msgstr "z.B. Toyota"
+msgstr "যেমন টয়োটা"

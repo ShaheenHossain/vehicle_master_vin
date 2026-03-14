@@ -23,10 +23,51 @@
                 <field name="our_ref"/>
                 <field name="inquiry_date"/>
                 <field name="deadline_date"/>
+                <field name="page_no"/>
             </xpath>
 
         </field>
     </record>
+
+
+
+ <!--   <template id="external_layout_din5008_fix_title"
+              inherit_id="l10n_din5008.external_layout_din5008">
+        <xpath expr="//h2" position="replace">
+            <h2 t-if="o">
+                &lt;!&ndash; Sale Order / Quotation &ndash;&gt;
+                <t t-if="o._name == 'sale.order'">
+                    <t t-if="o.state == 'draft'">
+                        Draft: <span t-field="o.name"/>
+                    </t>
+
+                    <t t-elif="o.state in ['sent']">
+                        Quotation: <span t-field="o.name"/>
+                    </t>
+                    <t t-else="">
+                        Sales Order: <span t-field="o.name"/>
+                    </t>
+                </t>
+
+                &lt;!&ndash; Invoice &ndash;&gt;
+                <t t-elif="o._name == 'account.move'">
+                    Invoice: <span t-field="o.name"/>
+                </t>
+                &lt;!&ndash; Fallback &ndash;&gt;
+                <t t-else="">
+                    <span t-field="o.name"/>
+                </t>
+
+            </h2>
+
+        </xpath>
+
+    </template>-->
+
+
+
+
+
 
 
     <template id="vehicle_custom_content" inherit_id="sale.sale_order_portal_content">
@@ -96,12 +137,7 @@
                             <th>Master Number:</th>
                             <td><span t-field="sale_order.master_number"/></td>
                         </tr>
-<!--                        <tr>
-                            <th>Color:</th>
-                            <td><span t-field="sale_order.color_id"/></td>
-                            <th>Fuel Type:</th>
-                            <td><span t-field="sale_order.fuel_type"/></td>
-                        </tr>-->
+
                         <tr>
                             <th>Last Service:</th>
                             <td><span t-field="sale_order.last_service_date" t-options='{"widget":"date"}'/></td>
@@ -112,7 +148,7 @@
                 </table>
             </div>
         </xpath>
-    </template>
+   </template>
 
 
     <record id="vehicle_view_account_form" model="ir.ui.view">
@@ -151,10 +187,10 @@
                     <field name="color_id" nolabel="1" readonly="1"/>
                 </div>
 
-<!--                <label for="fuel_type" string="Fuel Type"/>
-                <div class="o_col">
-                    <field name="fuel_type" nolabel="1" readonly="1"/>
-                </div>-->
+                <!--                <label for="fuel_type" string="Fuel Type"/>
+                                <div class="o_col">
+                                    <field name="fuel_type" nolabel="1" readonly="1"/>
+                                </div>-->
 
                 <label for="master_number" string="Master No."/>
                 <div class="o_col">
@@ -180,26 +216,25 @@
     </record>
 
 
-<!--
     <template id="external_layout_din5008_inherit" inherit_id="l10n_din5008.external_layout_din5008">
-        <xpath expr="//table[contains(@class, 'din_company_info')]" position="after">
+        <xpath expr="//h2" position="after">
             <t t-if="o and o._name in ['sale.order', 'account.move']">
                 <style>
                     .pdf-vehicle-container {
                     width: 100%;
                     display: block;
                     clear: both;
-                    margin-top: <t t-if="report_type == 'pdf'">-50px</t><t t-else="">15px</t>;
-                    margin-bottom: 10px;
+                    margin-top: <t t-if="report_type == 'pdf'">10px</t><t t-else="">15px</t>;
+                    <!--                    margin-top: -30px !important;-->
+                    margin-bottom: 20px;
                     }
                     .pdf-vehicle-table {
                     width: 100%;
                     border-collapse: collapse !important;
                     table-layout: fixed;
-                    border: none !important; /* 1px solid #AAAAAA !important; Outer border */
+                    border: none !important;
                     }
                     .pdf-vehicle-table th, .pdf-vehicle-table td {
-                    /* Using 1px and a slightly darker grey for PDF visibility */
                     border: none !important;
                     padding: 4px 8px !important;
                     font-size: 9pt;
@@ -217,127 +252,48 @@
                     width: 30%;
                     color: #000;
                     }
-                </style>
 
-                <div class="pdf-vehicle-container">
+                </style>
+                <div class="pdf-vehicle-container"
+                     t-att-style="'margin-top:5px;' if o.l10n_din5008_addresses else 'margin-top:15px;'">
+
                     <table class="pdf-vehicle-table">
                         <tbody>
                             <tr>
                                 <th>Vehicle:</th>
                                 <td><span t-field="o.vehicle_id"/></td>
-                                <th>Your Ref:</th>
-                                <td><span t-field="o.your_ref"/></td>
-                            </tr>
-                            <tr>
-                                <th>Our Ref:</th>
-                                <td><span t-field="o.our_ref"/></td>
+<!--                                <th>Your Ref:</th>
+                                <td><span t-field="o.your_ref"/></td>-->
+<!--                            </tr>
+
+                            <tr>-->
+<!--                                <th>Our Ref:</th>
+                                <td><span t-field="o.our_ref"/></td>-->
                                 <th>Inquiry Date:</th>
                                 <td><span t-field="o.inquiry_date" t-options='{"widget":"date"}'/></td>
                             </tr>
+
                             <tr>
                                 <th>Deadline:</th>
                                 <td><span t-field="o.deadline_date" t-options='{"widget":"date"}'/></td>
                                 <th>License Plate:</th>
                                 <td><span t-field="o.license_plate"/></td>
                             </tr>
+
                             <tr>
                                 <th>VIN/Chassis No.:</th>
                                 <td><span t-field="o.vin"/></td>
                                 <th>Master Number:</th>
                                 <td><span t-field="o.master_number"/></td>
                             </tr>
-
-&lt;!&ndash;                            <tr>
-                                <th>Color:</th>
-                                <td><span t-field="o.color_id"/></td>
-                                <th>Fuel Type:</th>
-                                <td><span t-field="o.fuel_type"/></td>
-                            </tr>&ndash;&gt;
-
-&lt;!&ndash;                            <tr>
-                                <th>Last Service:</th>
-                                <td><span t-field="o.last_service_date" t-options='{"widget":"date"}'/></td>
-                                <th>Year:</th>
-                                <td><span t-field="o.year"/></td>
-                            </tr>&ndash;&gt;
                         </tbody>
                     </table>
+
                 </div>
+
             </t>
         </xpath>
     </template>
--->
-
-    <template id="external_layout_din5008_inherit" inherit_id="l10n_din5008.external_layout_din5008">
-    <xpath expr="//h2" position="after">
-        <t t-if="o and o._name in ['sale.order', 'account.move']">
-            <style>
-                .pdf-vehicle-container {
-                    width: 100%;
-                    display: block;
-                    clear: both;
-                    margin-top: <t t-if="report_type == 'pdf'">10px</t><t t-else="">15px</t>;
-                    margin-bottom: 20px;
-                }
-                .pdf-vehicle-table {
-                    width: 100%;
-                    border-collapse: collapse !important;
-                    table-layout: fixed;
-                    border: none !important;
-                }
-                .pdf-vehicle-table th, .pdf-vehicle-table td {
-                    border: none !important;
-                    padding: 4px 8px !important;
-                    font-size: 9pt;
-                    vertical-align: middle;
-                    line-height: 1.1;
-                }
-                .pdf-vehicle-table th {
-                    background-color: #f8f9fa !important;
-                    font-weight: bold;
-                    width: 20%;
-                    text-align: left;
-                    color: #444;
-                }
-                .pdf-vehicle-table td {
-                    width: 30%;
-                    color: #000;
-                }
-            </style>
-
-            <div class="pdf-vehicle-container">
-                <table class="pdf-vehicle-table">
-                    <tbody>
-                        <tr>
-                            <th>Vehicle:</th>
-                            <td><span t-field="o.vehicle_id"/></td>
-                            <th>Your Ref:</th>
-                            <td><span t-field="o.your_ref"/></td>
-                        </tr>
-                        <tr>
-                            <th>Our Ref:</th>
-                            <td><span t-field="o.our_ref"/></td>
-                            <th>Inquiry Date:</th>
-                            <td><span t-field="o.inquiry_date" t-options='{"widget":"date"}'/></td>
-                        </tr>
-                        <tr>
-                            <th>Deadline:</th>
-                            <td><span t-field="o.deadline_date" t-options='{"widget":"date"}'/></td>
-                            <th>License Plate:</th>
-                            <td><span t-field="o.license_plate"/></td>
-                        </tr>
-                        <tr>
-                            <th>VIN/Chassis No.:</th>
-                            <td><span t-field="o.vin"/></td>
-                            <th>Master Number:</th>
-                            <td><span t-field="o.master_number"/></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </t>
-    </xpath>
-</template>
 
 
 </odoo>

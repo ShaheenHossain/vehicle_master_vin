@@ -10,6 +10,9 @@ class VehicleMaster(models.Model):
     _name = 'vehicle.master'
     _description = 'Vehicle'
 
+
+    issue_place = fields.Char(string="Issue Place")
+    issue_date = fields.Date(string="Issue Date")
     # name = fields.Char(string="Display Name")
     vin = fields.Char(string="VIN", required=True)
     brand = fields.Char()
@@ -93,59 +96,6 @@ class VehicleMaster(models.Model):
         # ✅ Update Many2one brand_id and model_id automatically
         self._update_brand_model_records()
 
-    #
-    # def action_fetch_vehicle_data(self):
-    #     self.ensure_one()
-    #     config = self._get_api_config()
-    #
-    #     if not config['url']:
-    #         raise UserError(_("Please configure Vehicle API URL in Settings."))
-    #
-    #     vin = self.vin
-    #     api_url = f"{config['url']}/decodevinvalues/{vin}?format=json"
-    #
-    #     try:
-    #         response = requests.get(api_url, timeout=10)
-    #         response.raise_for_status()
-    #         data = response.json()
-    #         results = data.get('Results', [{}])[0]
-    #     except Exception as e:
-    #         raise UserError(_("Failed to fetch data: %s") % e)
-    #
-    #     # Basic vehicle info
-    #     self.brand = results.get('Make')
-    #     self.model = results.get('Model')
-    #     self.year = results.get('ModelYear')
-    #
-    #     # Engine information
-    #     self.engine = results.get('EngineModel')
-    #     self.engine_cylinders = results.get('EngineCylinders')
-    #     self.engine_displacement = results.get('DisplacementL')
-    #     self.power_kw = results.get('EngineHP')
-    #
-    #     # Fuel & transmission
-    #     self.fuel_type = results.get('FuelTypePrimary')
-    #     self.transmission = results.get('TransmissionStyle')
-    #
-    #     # Vehicle structure
-    #     self.body_class = results.get('BodyClass')
-    #     self.doors = results.get('Doors')
-    #     self.drive_type = results.get('DriveType')
-    #     self.vehicle_type = results.get('VehicleType')
-    #
-    #     # Manufacturer information
-    #     self.manufacturer = results.get('Manufacturer')
-    #     self.plant_country = results.get('PlantCountry')
-    #     self.plant_city = results.get('PlantCity')
-    #
-    #     # Additional vehicle details
-    #     self.series = results.get('Series')
-    #     self.trim = results.get('Trim')
-    #
-    #     # Safety / configuration
-    #     self.steering_location = results.get('SteeringLocation')
-    #     self.brake_system = results.get('BrakeSystemType')
-
 
     @api.model
     def _get_api_config(self):
@@ -199,6 +149,7 @@ class VehicleMaster(models.Model):
     # our_ref = fields.Many2one('res.partner', string='Our Ref')
 
     our_ref = fields.Many2one('res.partner', string='Our Ref', domain="[('employee_ids', '!=', False)]")
+    page_no = fields.Integer(string='Page No.')
 
 
     # year = fields.Selection([(str(y), str(y)) for y in range(1980, 2031)], string='Year')
@@ -240,9 +191,6 @@ class VehicleMaster(models.Model):
         self.chassis_id = False
         self.body_style_id = False
         self.variant_id = False
-
-
-
 
 
     # fuel_type = fields.Selection(
@@ -357,26 +305,6 @@ class VehicleMaster(models.Model):
                      ('vin', operator, name)]
 
         return self._search(args, limit=limit, order=order)
-
-
-
-    #
-    # @api.model
-    # def _name_search(self, name='', args=None, operator='ilike', limit=100):
-    #     args = args or []
-    #
-    #     if name:
-    #         args = expression.AND([args, [
-    #             '|', '|', '|', '|',
-    #             ('partner_id.name', operator, name),
-    #             ('brand_id.name', operator, name),
-    #             ('model_id.name', operator, name),
-    #             ('master_number', operator, name),
-    #             ('license_plate', operator, name),
-    #         ]])
-    #
-    #     return super()._name_search(name, args, operator, limit)
-    #
 
 
 

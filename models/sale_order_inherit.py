@@ -1,4 +1,7 @@
-from odoo import models, fields, api
+from operator import index
+
+from odoo import models, fields, api, _
+from odoo.tools import format_date
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -11,6 +14,8 @@ class SaleOrder(models.Model):
 
     your_ref = fields.Many2one('res.partner', string='Your Ref', compute='_compute_refs', store=True)
     our_ref = fields.Many2one('res.partner', string='Our Ref', compute='_compute_refs', store=True)
+    page_no = fields.Integer(string='Page No.')
+
 
     @api.depends('vehicle_id')
     def _compute_refs(self):
@@ -82,6 +87,52 @@ class SaleOrder(models.Model):
         })
 
         return invoice_vals
+
+
+    def _compute_l10n_din5008_template_data(self):
+        for record in self:
+            data = []
+
+            # Your Reference
+            if record.your_ref:
+                data.append((_("Your Ref."), record.your_ref.name))
+
+            # Our Reference
+            if record.our_ref:
+                data.append((_("Our Ref."), record.our_ref.name))
+
+            # Inquiry Date
+            if record.inquiry_date:
+                data.append((_("Inquiry Date"), format_date(self.env, record.inquiry_date)))
+
+            # Deadline Date
+            if record.deadline_date:
+                data.append((_("Deadline Date"), format_date(self.env, record.deadline_date)))
+
+            # Page No.
+            if record.page_no:
+                data.append((_("Page No."), record.page_no))
+
+
+            record.l10n_din5008_template_data = data
+
+
+
+    def _compute_l10n_din5008_document_title(self):
+        for record in self:
+            if self._context.get('proforma'):
+                record.l10n_din5008_document_title = _('Pro Forma Invoice %s') % (record.name or '')
+            elif record.state in ('draft', 'sent'):
+                record.l10n_din5008_document_title = _('Quotation %s') % (record.name or '')
+            else:
+                record.l10n_din5008_document_title = _('Sales Order %s') % (record.name or '')
+
+
+
+
+
+
+
 
 
 
