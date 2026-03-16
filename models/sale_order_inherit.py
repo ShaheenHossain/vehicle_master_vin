@@ -6,6 +6,10 @@ from odoo.tools import format_date
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+
+    issue_place_id = fields.Many2one('vehicle.issue.place', string="Issue Place")
+    issue_date = fields.Date(string="Issue Date")
+
     inquiry_date = fields.Date(string="Inquiry Date")
     deadline_date = fields.Date(string="Deadline")
 
@@ -22,6 +26,11 @@ class SaleOrder(models.Model):
         for rec in self:
             rec.your_ref = rec.vehicle_id.your_ref or False
             rec.our_ref = rec.vehicle_id.our_ref or False
+
+    @api.onchange('vehicle_id')
+    def _onchange_vehicle_id(self):
+        if self.vehicle_id:
+            self.issue_place_id = self.vehicle_id.issue_place_id
 
 
     brand_id = fields.Many2one('vehicle.brand', string='Brand')
@@ -50,7 +59,7 @@ class SaleOrder(models.Model):
 
 
     # fuel_type = fields.Selection(related='vehicle_id.fuel_type', store=True, readonly=False)
-    master_number = fields.Char(related='vehicle_id.master_number', store=True, readonly=False)
+    master_number = fields.Char(related='vehicle_id.master_number', string="Master Number", store=True, readonly=False)
     last_service_date = fields.Date(related='vehicle_id.last_service_date', string='Last Service Date', store=True, readonly=False)
 
     @api.onchange('partner_id')
@@ -72,11 +81,13 @@ class SaleOrder(models.Model):
             'deadline_date': self.deadline_date,
             'your_ref': self.your_ref.id if self.your_ref else False,
             'our_ref': self.our_ref.id if self.our_ref else False,
+            'page_no': self.page_no if self.page_no else False,
             'vehicle_id': self.vehicle_id.id if self.vehicle_id else False,
 
             # If these are Char fields
             'license_plate': self.license_plate,
             'vin': self.vin,
+            'issue_place_id': self.issue_place_id.id if self.issue_place_id else False,
             'color_id': self.color_id.id if self.color_id else False,
 
             # Add these also if needed
@@ -92,6 +103,12 @@ class SaleOrder(models.Model):
     def _compute_l10n_din5008_template_data(self):
         for record in self:
             data = []
+
+            # if record.date_order:
+            #     data.append((_("Quotation Date"), format_date(self.env, record.date_order)))
+            #
+            # if record.validity_date:
+            #     data.append((_("Expiration"), format_date(self.env, record.validity_date)))
 
             # Your Reference
             if record.your_ref:
@@ -131,13 +148,12 @@ class SaleOrder(models.Model):
 
 
 
-
-
-
-
-
 class AccountMove(models.Model):
     _inherit = 'account.move'
+
+    issue_place_id = fields.Many2one('vehicle.issue.place', string="Issue Place")
+
+    issue_date = fields.Date(string="Issue Date")
 
     inquiry_date = fields.Date(string="Inquiry Date")
     deadline_date = fields.Date(string="Deadline")
@@ -148,6 +164,7 @@ class AccountMove(models.Model):
 
     your_ref = fields.Many2one('res.partner', string='Your Ref', compute='_compute_refs', store=True)
     our_ref = fields.Many2one('res.partner', string='Our Ref', compute='_compute_refs', store=True)
+    page_no = fields.Integer(string='Page No.')
 
     @api.depends('vehicle_id')
     def _compute_refs(self):
@@ -187,6 +204,63 @@ class AccountMove(models.Model):
                 }
             }
         return {'domain': {'vehicle_id': []}}
+
+
+    def _compute_l10n_din5008_document_title(self):
+        for record in self:
+            record.l10n_din5008_document_title = ''
+
+            if record.move_type == 'out_invoice':
+                if record.state == 'posted':
+                    record.l10n_din5008_document_title = _('Invoice %s') % (record.name or '')
+                elif record.state == 'draft':
+                    record.l10n_din5008_document_title = _('Draft Invoice %s') % (record.name or '')
+                elif record.state == 'cancel':
+                    record.l10n_din5008_document_title = _('Cancelled Invoice %s') % (record.name or '')
+
+            elif record.move_type == 'out_refund':
+                record.l10n_din5008_document_title = _('Credit Note %s') % (record.name or '')
+
+            elif record.move_type == 'in_refund':
+                record.l10n_din5008_document_title = _('Vendor Credit Note %s') % (record.name or '')
+
+            elif record.move_type == 'in_invoice':
+                record.l10n_din5008_document_title = _('Vendor Bill %s') % (record.name or '')
+
+
+    def _compute_l10n_din5008_template_data(self):
+        for record in self:
+            data = []
+
+            # Invoice Information
+
+            if record.invoice_date:
+                data.append((_("Invoice Date"), format_date(self.env, record.invoice_date)))
+
+
+            if record.invoice_origin:
+                data.append((_("Source"), record.invoice_origin))
+
+            # References
+            if record.your_ref:
+                data.append((_("Your Ref."), record.your_ref.name))
+
+            if record.our_ref:
+                data.append((_("Our Ref."), record.our_ref.name))
+
+            # Custom Dates
+            if record.inquiry_date:
+                data.append((_("Inquiry Date"), format_date(self.env, record.inquiry_date)))
+
+            if record.deadline_date:
+                data.append((_("Deadline Date"), format_date(self.env, record.deadline_date)))
+
+            # Page No.
+            if record.page_no:
+                data.append((_("Page No."), record.page_no))
+
+            record.l10n_din5008_template_data = data
+
 
 
 

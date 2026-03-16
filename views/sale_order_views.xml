@@ -13,14 +13,18 @@
                 <field name="license_plate"/>
                 <field name="vin"/>
                 <field name="color_id"/>
-                <field name="fuel_type"/>
-                <field name="master_number"/>
+                <!--                <field name="fuel_type"/>-->
+                <!--                <field name="master_number"/>-->
+                <field name="issue_place_id"/>
+                <!--                <field name="issue_date"/>-->
+                <field name="date_order"/>
                 <field name="last_service_date"/>
             </xpath>
 
             <xpath expr="//field[@name='validity_date']" position="after">
                 <field name="your_ref"/>
                 <field name="our_ref"/>
+                <field name="first_registration"/>
                 <field name="inquiry_date"/>
                 <field name="deadline_date"/>
                 <field name="page_no"/>
@@ -31,38 +35,38 @@
 
 
 
- <!--   <template id="external_layout_din5008_fix_title"
-              inherit_id="l10n_din5008.external_layout_din5008">
-        <xpath expr="//h2" position="replace">
-            <h2 t-if="o">
-                &lt;!&ndash; Sale Order / Quotation &ndash;&gt;
-                <t t-if="o._name == 'sale.order'">
-                    <t t-if="o.state == 'draft'">
-                        Draft: <span t-field="o.name"/>
-                    </t>
+    <!--   <template id="external_layout_din5008_fix_title"
+                 inherit_id="l10n_din5008.external_layout_din5008">
+           <xpath expr="//h2" position="replace">
+               <h2 t-if="o">
+                   &lt;!&ndash; Sale Order / Quotation &ndash;&gt;
+                   <t t-if="o._name == 'sale.order'">
+                       <t t-if="o.state == 'draft'">
+                           Draft: <span t-field="o.name"/>
+                       </t>
 
-                    <t t-elif="o.state in ['sent']">
-                        Quotation: <span t-field="o.name"/>
-                    </t>
-                    <t t-else="">
-                        Sales Order: <span t-field="o.name"/>
-                    </t>
-                </t>
+                       <t t-elif="o.state in ['sent']">
+                           Quotation: <span t-field="o.name"/>
+                       </t>
+                       <t t-else="">
+                           Sales Order: <span t-field="o.name"/>
+                       </t>
+                   </t>
 
-                &lt;!&ndash; Invoice &ndash;&gt;
-                <t t-elif="o._name == 'account.move'">
-                    Invoice: <span t-field="o.name"/>
-                </t>
-                &lt;!&ndash; Fallback &ndash;&gt;
-                <t t-else="">
-                    <span t-field="o.name"/>
-                </t>
+                   &lt;!&ndash; Invoice &ndash;&gt;
+                   <t t-elif="o._name == 'account.move'">
+                       Invoice: <span t-field="o.name"/>
+                   </t>
+                   &lt;!&ndash; Fallback &ndash;&gt;
+                   <t t-else="">
+                       <span t-field="o.name"/>
+                   </t>
 
-            </h2>
+               </h2>
 
-        </xpath>
+           </xpath>
 
-    </template>-->
+       </template>-->
 
 
 
@@ -76,7 +80,7 @@
                 .vehicle-full-width-container {
                 width: 100%;
                 margin-top: 15px; /* Reduced margin */
-                margin-bottom: 15px;
+                margin-bottom: 25px;
                 }
                 .vehicle-table {
                 width: 100%;
@@ -139,16 +143,26 @@
                         </tr>
 
                         <tr>
+                            <th>Issue Place.:</th>
+                            <td><span t-field="sale_order.issue_place_id"/></td>
                             <th>Last Service:</th>
                             <td><span t-field="sale_order.last_service_date" t-options='{"widget":"date"}'/></td>
-                            <th>Year:</th>
-                            <td><span t-field="sale_order.year"/></td>
+                        </tr>
+                        <tr>
+                            <!--
+                                                        <th>Issue Date:</th>
+                                                        <td><span t-field="sale_order.date_order"/></td>
+                                                        <th>Last Service:</th>
+                                                        <td><span t-field="sale_order.last_service_date" t-options='{"widget":"date"}'/></td>
+                                                        <th>Year:</th>
+                                                        <td><span t-field="sale_order.year"/></td>
+                            -->
                         </tr>
                     </tbody>
                 </table>
             </div>
         </xpath>
-   </template>
+    </template>
 
 
     <record id="vehicle_view_account_form" model="ir.ui.view">
@@ -187,11 +201,6 @@
                     <field name="color_id" nolabel="1" readonly="1"/>
                 </div>
 
-                <!--                <label for="fuel_type" string="Fuel Type"/>
-                                <div class="o_col">
-                                    <field name="fuel_type" nolabel="1" readonly="1"/>
-                                </div>-->
-
                 <label for="master_number" string="Master No."/>
                 <div class="o_col">
                     <field name="master_number" nolabel="1" readonly="1"/>
@@ -208,6 +217,7 @@
             <xpath expr="//field[@name='invoice_date']" position="after">
                 <field name="your_ref"/>
                 <field name="our_ref"/>
+                <field name="page_no"/>
                 <field name="inquiry_date"/>
                 <field name="deadline_date"/>
             </xpath>
@@ -215,6 +225,7 @@
         </field>
     </record>
 
+    <!--PDF report sale order and invoice-->
 
     <template id="external_layout_din5008_inherit" inherit_id="l10n_din5008.external_layout_din5008">
         <xpath expr="//h2" position="after">
@@ -225,7 +236,7 @@
                     display: block;
                     clear: both;
                     margin-top: <t t-if="report_type == 'pdf'">10px</t><t t-else="">15px</t>;
-                    <!--                    margin-top: -30px !important;-->
+                    <!--                    margin-top: 10px !important;-->
                     margin-bottom: 20px;
                     }
                     .pdf-vehicle-table {
@@ -236,7 +247,7 @@
                     }
                     .pdf-vehicle-table th, .pdf-vehicle-table td {
                     border: none !important;
-                    padding: 4px 8px !important;
+                    padding: 2px 4px !important;
                     font-size: 9pt;
                     vertical-align: middle;
                     line-height: 1.1;
@@ -254,6 +265,17 @@
                     }
 
                 </style>
+
+                <div style="width:100%; text-align:right; font-size:14px; padding-right:200px; margin-bottom:10px;">
+                    <span t-field="o.issue_place_id"/> ,
+                    <t t-if="o._name == 'sale.order'">
+                        <span t-field="o.date_order" t-options='{"widget":"date"}'/>
+                    </t>
+                    <t t-if="o._name == 'account.move'">
+                        <span t-field="o.invoice_date" t-options='{"widget":"date"}'/>
+                    </t>
+                </div>
+
                 <div class="pdf-vehicle-container"
                      t-att-style="'margin-top:5px;' if o.l10n_din5008_addresses else 'margin-top:15px;'">
 
@@ -262,30 +284,31 @@
                             <tr>
                                 <th>Vehicle:</th>
                                 <td><span t-field="o.vehicle_id"/></td>
-<!--                                <th>Your Ref:</th>
-                                <td><span t-field="o.your_ref"/></td>-->
-<!--                            </tr>
 
-                            <tr>-->
-<!--                                <th>Our Ref:</th>
-                                <td><span t-field="o.our_ref"/></td>-->
-                                <th>Inquiry Date:</th>
-                                <td><span t-field="o.inquiry_date" t-options='{"widget":"date"}'/></td>
                             </tr>
 
                             <tr>
-                                <th>Deadline:</th>
-                                <td><span t-field="o.deadline_date" t-options='{"widget":"date"}'/></td>
                                 <th>License Plate:</th>
                                 <td><span t-field="o.license_plate"/></td>
+                                <th>Color:</th>
+                                <td><span t-field="o.color_id"></span></td>
                             </tr>
+
+                            <tr>
+                                <th>Mileage:</th>
+                                <td><span t-field="o.mileage"></span></td>
+                                <th>First Registration:</th>
+                                <td><span t-field="o.first_registration" t-options='{"widget":"date"}'/></td>
+                            </tr>
+
 
                             <tr>
                                 <th>VIN/Chassis No.:</th>
                                 <td><span t-field="o.vin"/></td>
-                                <th>Master Number:</th>
-                                <td><span t-field="o.master_number"/></td>
+                                <!--                                <th>Master Number:</th>
+                                                                <td><span t-field="o.master_number"/></td>-->
                             </tr>
+
                         </tbody>
                     </table>
 

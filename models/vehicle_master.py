@@ -10,7 +10,7 @@ class VehicleMaster(models.Model):
     _name = 'vehicle.master'
     _description = 'Vehicle'
 
-
+    issue_place_id = fields.Many2one('vehicle.issue.place', string="Issue Place")
     issue_place = fields.Char(string="Issue Place")
     issue_date = fields.Date(string="Issue Date")
     # name = fields.Char(string="Display Name")
@@ -250,7 +250,7 @@ class VehicleMaster(models.Model):
     type_code = fields.Char(string='Type Code', placeholder="e.g. 1VC644", help="Swiss Type Approval (Typengenehmigung) found in Box 24 of the grey card.")
 
     master_number = fields.Char(
-        string='Stammnummer',
+        string='Master Number',
         help="Format: 000.000.000 (Official Swiss vehicle number)",
         copy=False,
         placeholder='e.g., 123.456.789'
@@ -258,7 +258,7 @@ class VehicleMaster(models.Model):
 
     # 2. Add a constraint to ensure the format is correct (XXX.XXX.XXX)
     @api.constrains('master_number')
-    def _check_stammnummer_format(self):
+    def _check_master_number_format(self):
         for record in self:
             if record.master_number:
                 # Regex to check for 3 digits, dot, 3 digits, dot, 3 digits
@@ -306,23 +306,34 @@ class VehicleMaster(models.Model):
 
         return self._search(args, limit=limit, order=order)
 
-
-
     @api.onchange('vin')
     def decode_vin(self):
 
         if not self.vin:
             return
 
-        params = self.env['ir.config_parameter'].sudo()
+        success = False
 
-        auto_user = params.get_param('vehicle.autoidat_user')
-        auto_key = params.get_param('vehicle.autoidat_key')
+        try:
+            success = self.decode_autoidat()
+        except Exception:
+            success = False
 
-        if auto_user and auto_key:
-            self.decode_autoidat()
-        else:
-            self.decode_nhtsa()
+        if not success:
+            try:
+                success = self.decode_dbvin()
+            except Exception:
+                success = False
+
+        if not success:
+            try:
+                success = self.decode_nhtsa()
+            except Exception:
+                pass
+
+        # IMPORTANT
+        if self.brand or self.model:
+            self._update_brand_model_records()
 
 
 
@@ -333,12 +344,16 @@ class VehicleMaster(models.Model):
                 raise ValidationError("VIN must be 17 characters.")
 
 
+
     def decode_nhtsa(self):
 
         url = f"https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/{self.vin}?format=json"
 
         response = requests.get(url, timeout=10)
-        response.raise_for_status()
+
+        if response.status_code != 200:
+            return False
+
         data = response.json()
 
         results = data.get('Results', [])
@@ -355,6 +370,19 @@ class VehicleMaster(models.Model):
         self.fuel_type = get_value('Fuel Type - Primary')
         self.transmission = get_value('Transmission Style')
 
+        self.body_class = get_value('Body Class')
+        self.drive_type = get_value('Drive Type')
+        self.engine_cylinders = get_value('Engine Number of Cylinders')
+        self.series = get_value('Series')
+        self.trim = get_value('Trim')
+
+        if self.brand or self.model:
+            return True
+
+        return False
+
+
+
 
 
     def decode_autoidat(self):
@@ -364,21 +392,22 @@ class VehicleMaster(models.Model):
         user = params.get_param('vehicle.autoidat_user')
         key = params.get_param('vehicle.autoidat_key')
 
+        if not user or not key:
+            return False
+
         url = "https://api.auto-i-dat.com/vehicle"
 
-        payload = {
-            "vin": self.vin
-        }
+        payload = {"vin": self.vin}
 
         headers = {
             "Authorization": f"Bearer {key}",
             "User": user
         }
 
-        response = requests.post(url, json=payload, headers=headers)
+        response = requests.post(url, json=payload, headers=headers, timeout=10)
 
         if response.status_code != 200:
-            return
+            return False
 
         data = response.json()
 
@@ -387,6 +416,37 @@ class VehicleMaster(models.Model):
         self.year = data.get('year')
         self.fuel_type = data.get('fuelType')
         self.transmission = data.get('transmission')
+
+        return True
+
+
+
+    def decode_dbvin(self):
+
+        url = f"https://db.vin/api/v1/vin/{self.vin}"
+
+        response = requests.get(url, timeout=10)
+
+        if response.status_code != 200:
+            return False
+
+        data = response.json()
+
+        if not data:
+            return False
+
+        self.brand = data.get("brand")
+        self.model = data.get("model")
+        self.year = data.get("year")
+        self.fuel_type = data.get("fuelType")
+        self.body_class = data.get("bodyType")
+        self.trim = data.get("version")
+        self.vehicle_type = data.get("vehicleType")
+
+        if self.brand or self.model:
+            return True
+
+        return False
 
 
 
@@ -413,6 +473,9 @@ class VehicleSettings(models.TransientModel):
         IrValues.set_param('vehicle_master_vin.vehicle_api_url', self.vehicle_api_url or '')
         IrValues.set_param('vehicle_master_vin.vehicle_api_user', self.vehicle_api_user or '')
         IrValues.set_param('vehicle_master_vin.vehicle_api_key', self.vehicle_api_key or '')
+
+
+
 
 
 class ResConfigSettings(models.TransientModel):
@@ -580,3 +643,9 @@ class VehicleVariant(models.Model):
          'Variant already exists for this model!')
     ]
 
+
+class VehicleIssuePlace(models.Model):
+    _name = 'vehicle.issue.place'
+    _description = 'Vehicle Issue Place'
+
+    name = fields.Char(string="Place", required=True)

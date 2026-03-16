@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e-20241206\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-12 08:49+0000\n"
-"PO-Revision-Date: 2026-03-12 08:49+0000\n"
+"POT-Creation-Date: 2026-03-15 08:14+0000\n"
+"PO-Revision-Date: 2026-03-15 08:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -367,6 +367,13 @@ msgid "Brands"
 msgstr "Marken"
 
 #. module: vehicle_master_vin
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Cancelled Invoice %s"
+msgstr ""
+
+#. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__plate_scan_temp
 msgid "Capture Plate"
 msgstr "Fangplatte"
@@ -405,6 +412,11 @@ msgid "Color Name"
 msgstr "Farbname"
 
 #. module: vehicle_master_vin
+#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
+msgid "Color:"
+msgstr "Farbe:"
+
+#. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_res_config_settings
 msgid "Config Settings"
 msgstr "Konfigurationseinstellungen"
@@ -437,6 +449,13 @@ msgid "Created on"
 msgstr "Erstellt am"
 
 #. module: vehicle_master_vin
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Credit Note %s"
+msgstr ""
+
+#. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_partner__date_of_birth
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_users__date_of_birth
 msgid "Date of Birth"
@@ -449,13 +468,20 @@ msgstr "Geburtsdatum"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__deadline_date
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_stock_picking__deadline_date
 msgid "Deadline"
-msgstr "Frist"
+msgstr "Termin"
 
 #. module: vehicle_master_vin
-#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Deadline Date"
+msgstr "Termindatum"
+
+#. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Deadline:"
-msgstr "Frist:"
+msgstr "Termin:"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_body__display_name
@@ -472,6 +498,13 @@ msgstr "Anzeigename"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__doors
 msgid "Doors"
 msgstr "Türen"
+
+#. module: vehicle_master_vin
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Draft Invoice %s"
+msgstr ""
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__drive_type
@@ -495,6 +528,13 @@ msgstr "Hubraum des Motors"
 
 #. module: vehicle_master_vin
 #. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Expiration"
+msgstr "Ablauf"
+
+#. module: vehicle_master_vin
+#. odoo-python
 #: code:addons/vehicle_master_vin/models/vehicle_master.py:0
 #, python-format
 msgid "Failed to fetch data: %s"
@@ -513,6 +553,11 @@ msgstr "Von VIN abrufen"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__first_registration
 msgid "First Registration"
 msgstr "Erstanmeldung"
+
+#. module: vehicle_master_vin
+#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
+msgid "First Registration:"
+msgstr "Erstanmeldung:"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,help:vehicle_master_vin.field_account_bank_statement_line__master_number
@@ -570,16 +615,19 @@ msgid "ID"
 msgstr "AUSWEIS"
 
 #. module: vehicle_master_vin
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__inquiry_date
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_move__inquiry_date
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_payment__inquiry_date
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__inquiry_date
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_stock_picking__inquiry_date
+#, python-format
 msgid "Inquiry Date"
 msgstr "Anfragedatum"
 
 #. module: vehicle_master_vin
-#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Inquiry Date:"
 msgstr "Anfragedatum:"
@@ -598,6 +646,48 @@ msgid ""
 "Invalid file format for %s! Only JPG and PNG are allowed. PDFs are strictly "
 "prohibited."
 msgstr ""
+
+#. module: vehicle_master_vin
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Invoice %s"
+msgstr ""
+
+#. module: vehicle_master_vin
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Invoice Date"
+msgstr "Rechnungsdatum"
+
+#. module: vehicle_master_vin
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__issue_date
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_account_move__issue_date
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_account_payment__issue_date
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__issue_date
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__issue_date
+msgid "Issue Date"
+msgstr "Ausgabedatum"
+
+#. module: vehicle_master_vin
+#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
+msgid "Issue Date:"
+msgstr "Ausgabedatum:"
+
+#. module: vehicle_master_vin
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__issue_place
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_account_move__issue_place
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_account_payment__issue_place
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__issue_place
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__issue_place
+msgid "Issue Place"
+msgstr "Ausgabeort"
+
+#. module: vehicle_master_vin
+#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
+msgid "Issue Place.:"
+msgstr "Ausgabeort:"
 
 #. module: vehicle_master_vin
 #: model:ir.model,name:vehicle_master_vin.model_account_move
@@ -653,13 +743,13 @@ msgstr "Zuletzt aktualisiert am"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__license_plate
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_view_account_form
 msgid "License Plate"
-msgstr "Kennzeichen"
+msgstr "Kontrollschild"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "License Plate:"
-msgstr "Kennzeichen:"
+msgstr "Kontrollschild:"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_brand__logo
@@ -674,20 +764,24 @@ msgstr "Hersteller"
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_view_account_form
 msgid "Master No."
-msgstr "Meister Nr."
+msgstr "Stammnummer"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__master_number
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_move__master_number
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_payment__master_number
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__master_number
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__master_number
+#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
+#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
+#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_tree
 msgid "Master Number"
-msgstr "Master-Nummer"
+msgstr "Stammnummer"
 
 #. module: vehicle_master_vin
-#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Master Number:"
-msgstr "Master-Nummer:"
+msgstr "Stammnummer:"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__mileage
@@ -696,7 +790,12 @@ msgstr "Master-Nummer:"
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__mileage
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__mileage
 msgid "Mileage"
-msgstr "Kilometerstand"
+msgstr "Km-stand"
+
+#. module: vehicle_master_vin
+#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
+msgid "Mileage:"
+msgstr "Mileage:"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__model_id
@@ -760,7 +859,14 @@ msgid "Our Ref"
 msgstr "Unser Ref"
 
 #. module: vehicle_master_vin
-#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Our Ref."
+msgstr "Unser Ref."
+
+#. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Our Ref:"
 msgstr "Unser Ref:"
@@ -771,6 +877,19 @@ msgstr "Unser Ref:"
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
 msgid "Owner"
 msgstr "Eigentümer"
+
+#. module: vehicle_master_vin
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__page_no
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_account_move__page_no
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_account_payment__page_no
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__page_no
+#: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__page_no
+#, python-format
+msgid "Page No."
+msgstr "Seitennr."
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__plant_city
@@ -795,6 +914,27 @@ msgid "Power Kw"
 msgstr "Leistung kW"
 
 #. module: vehicle_master_vin
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Pro Forma Invoice %s"
+msgstr ""
+
+#. module: vehicle_master_vin
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Quotation %s"
+msgstr ""
+
+#. module: vehicle_master_vin
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Quotation Date"
+msgstr "Angebotsdatum"
+
+#. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 msgid "References"
 msgstr "Referenzen"
@@ -803,6 +943,13 @@ msgstr "Referenzen"
 #: model:ir.model,name:vehicle_master_vin.model_sale_order
 msgid "Sales Order"
 msgstr "Kundenauftrag"
+
+#. module: vehicle_master_vin
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Sales Order %s"
+msgstr ""
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
@@ -821,13 +968,11 @@ msgid "Side View"
 msgstr "Seitenansicht"
 
 #. module: vehicle_master_vin
-#: model:ir.model.fields,field_description:vehicle_master_vin.field_sale_order__master_number
-#: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__master_number
-#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
-#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
-#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_tree
-msgid "Stammnummer"
-msgstr "Stammnummer"
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Source"
+msgstr "Quelle"
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_vehicle_master__steering_location
@@ -1043,8 +1188,8 @@ msgstr "Fahrzeugvariante"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
-msgid "Vehicle, Owner, Plate, VIN or Stammnummer"
-msgstr "Fahrzeug, Besitzer, Kennzeichen, Fahrgestellnummer oder Stammnummer"
+msgid "Vehicle, Owner, Plate, VIN or Master Number"
+msgstr "Fahrzeug, Besitzer, Kennzeichen, VIN oder Hauptnummer"
 
 #. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
@@ -1060,6 +1205,20 @@ msgstr "Fahrzeug:"
 #: model:ir.ui.menu,name:vehicle_master_vin.menu_vehicle
 msgid "Vehicles"
 msgstr "Fahrzeuge"
+
+#. module: vehicle_master_vin
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Vendor Bill %s"
+msgstr ""
+
+#. module: vehicle_master_vin
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Vendor Credit Note %s"
+msgstr ""
 
 #. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_res_partner__whatsapp_no
@@ -1088,11 +1247,6 @@ msgid "Year To"
 msgstr "Jahr bis"
 
 #. module: vehicle_master_vin
-#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
-msgid "Year:"
-msgstr "Jahr:"
-
-#. module: vehicle_master_vin
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_bank_statement_line__your_ref
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_move__your_ref
 #: model:ir.model.fields,field_description:vehicle_master_vin.field_account_payment__your_ref
@@ -1103,7 +1257,14 @@ msgid "Your Ref"
 msgstr "Ihre Ref"
 
 #. module: vehicle_master_vin
-#: model_terms:ir.ui.view,arch_db:vehicle_master_vin.external_layout_din5008_inherit
+#. odoo-python
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#: code:addons/vehicle_master_vin/models/sale_order_inherit.py:0
+#, python-format
+msgid "Your Ref."
+msgstr "Ihre Ref."
+
+#. module: vehicle_master_vin
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.vehicle_custom_content
 msgid "Your Ref:"
 msgstr "Ihre Ansprechpartner:"

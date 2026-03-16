@@ -826,7 +826,7 @@ msgstr "সাইড ভিউ"
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_form
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_master_search
 #: model_terms:ir.ui.view,arch_db:vehicle_master_vin.view_vehicle_tree
-msgid "Stammnummer"
+msgid "Master Number"
 msgstr "স্ট্যামনুমার"
 
 #. module: vehicle_master_vin

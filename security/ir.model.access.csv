@@ -6,3 +6,4 @@ access_vehicle_chassis,access.vehicle.chassis,model_vehicle_chassis,,1,1,1,1
 access_vehicle_body,access.vehicle.body,model_vehicle_body,,1,1,1,1
 access_vehicle_variant,access.vehicle.variant,model_vehicle_variant,,1,1,1,1
 access_vehicle_color,access.vehicle.color,model_vehicle_color,,1,1,1,1
+access_vehicle_issue_place,access.vehicle.issue.place,model_vehicle_issue_place,,1,1,1,1

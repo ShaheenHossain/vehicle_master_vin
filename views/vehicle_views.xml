@@ -6,7 +6,7 @@
         <field name="model">vehicle.master</field>
         <field name="arch" type="xml">
             <search string="Search Vehicles">
-                <field name="name" string="Vehicle, Owner, Plate, VIN or Stammnummer"
+                <field name="name" string="Vehicle, Owner, Plate, VIN or Master Number"
                        filter_domain="['|', '|', '|', '|',
                                    ('name', 'ilike', self),
                                    ('partner_id.name', 'ilike', self),
@@ -17,7 +17,7 @@
                 <field name="partner_id" string="Owner"/>
                 <field name="license_plate"/>
                 <field name="vin" string="VIN/Chassis"/>
-                <field name="master_number" string="Stammnummer"/>
+                <field name="master_number" string="Master Number"/>
                 <field name="brand_id"/>
                 <field name="model_id"/>
 
@@ -90,7 +90,7 @@
                 <field name="year"/>
                 <field name="license_plate"/>
                 <field name="vin"/>
-                <field name="master_number" string="Stammnummer"/>
+                <field name="master_number" string="Master Number"/>
                 <field name="mileage"/>
                 <field name="your_ref" optional="hide"/>
                 <field name="our_ref" optional="hide"/>
@@ -106,59 +106,19 @@
         <field name="arch" type="xml">
             <form string="Vehicle">
                 <sheet>
-                    <header>
-                        <button name="action_fetch_vehicle_data"
-                                type="object"
-                                string="Fetch from VIN"
-                                class="btn-primary"/>
-                    </header>
 
 
-
-                    <group>
-                        <group string="References">
-                            <field name="your_ref"/>
-                            <field name="our_ref"/>
-                            <field name="our_ref"/>
-                        </group>
-
-                        <group>
-                            <field name="vin"/>
-                            <field name="brand"/>
-                            <field name="model"/>
-                            <field name="year"/>
-                            <field name="engine"/>
-                            <field name="fuel_type"/>
-                            <field name="power_kw"/>
-                            <field name="transmission"/>
-                            <field name="vehicle_type"/>
-                        </group>
-                        <group>
-
-                            <field name="body_class"/>
-                            <field name="doors"/>
-                            <field name="engine_cylinders"/>
-                            <field name="engine_displacement"/>
-                            <field name="manufacturer"/>
-                            <field name="plant_country"/>
-                            <field name="plant_city"/>
-                            <field name="trim"/>
-                        </group>
-                    </group>
                     <div class="oe_title">
                         <label for="name" string="Vehicle Display Name"/>
                         <h1>
                             <field name="name" placeholder="Vehicle Name"/>
                         </h1>
                     </div>
-
-
                     <!-- BASIC VEHICLE DATA -->
                     <group string="Vehicle Information">
                         <group>
                             <field name="partner_id" string="Owner"/>
                             <field name="license_plate"/>
-                            <field name="color_id"/>
                             <field name="brand_id"/>
                             <field name="model_id"/>
                             <field name="variant_id"/>
@@ -184,11 +144,48 @@
                     </group>
 
 
+                    <header>
+                        <button name="action_fetch_vehicle_data"
+                                type="object"
+                                string="Fetch from VIN"
+                                class="btn-primary"/>
+                    </header>
+
+                    <group>
+                        <group>
+                            <field name="vin"/>
+                            <field name="brand"/>
+                            <field name="model"/>
+                            <field name="year"/>
+                            <field name="engine"/>
+                            <field name="fuel_type"/>
+                            <field name="power_kw"/>
+                            <field name="transmission"/>
+                            <field name="vehicle_type"/>
+                        </group>
+                        <group>
+
+                            <field name="body_class"/>
+                            <field name="doors"/>
+                            <field name="engine_cylinders"/>
+                            <field name="engine_displacement"/>
+                            <field name="manufacturer"/>
+                            <field name="plant_country"/>
+                            <field name="plant_city"/>
+                            <field name="trim"/>
+                        </group>
+                    </group>
+
+
+
+
                     <!-- SWISS VEHICLE DATA -->
                     <group string="Swiss Registration Data">
                         <group>
-                            <field name="license_plate"/>
-                            <field name="master_number" string="Stammnummer"/>
+<!--                            <field name="license_plate"/>-->
+                            <field name="master_number" string="Master Number"/>
+                            <field name="issue_place_id"/>
+<!--                            <field name="issue_date"/>-->
                             <field name="type_code"/>
                         </group>
                         <group>
@@ -199,7 +196,15 @@
                     </group>
 
 
-
+                    <!-- REFERENCES -->
+                    <group string="References">
+                        <group>
+                            <field name="your_ref"/>
+                        </group>
+                        <group>
+                            <field name="our_ref"/>
+                        </group>
+                    </group>
 
 
                     <!-- PHOTOS -->

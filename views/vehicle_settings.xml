@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <odoo>
 
@@ -8,35 +8,77 @@
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
 
-            <!-- Insert inside the form -->
             <xpath expr="//form" position="inside">
 
-                <app name="vehicle_master_vin" string="Vehicle">
+                <app name="vehicle_master_vin" string="Vehicle VIN Decoder">
 
-                    <!-- Vehicle API Configuration block -->
-                    <block title="Vehicle API Configuration">
+                    <!-- General VIN Provider -->
+                    <block title="VIN Decoder Settings">
+
+                        <setting string="Primary VIN API Provider">
+                            <field name="vin_api_provider"/>
+                        </setting>
+
+                        <div class="text-muted">
+                            VIN decoding will automatically fallback to other APIs if the selected provider fails.
+                        </div>
+
+                    </block>
+
+                    <!-- AUTO-i-DAT API -->
+                    <block title="Vehicle AUTO-i-DAT API Configuration">
+
+                        <setting string="AUTO-i-DAT User">
+                            <field name="autoidat_user"/>
+                        </setting>
+
+                        <setting string="AUTO-i-DAT API Key">
+                            <field name="autoidat_key" password="True"/>
+                        </setting>
+
+                        <div class="text-muted">
+                            AUTO-i-DAT provides detailed vehicle data for European vehicles including Switzerland.
+                        </div>
+
+                    </block>
+
+                    <!-- Generic VIN API -->
+                    <block title="Vehicle Custom VIN API Configuration">
+
                         <setting string="Vehicle API URL">
                             <field name="vehicle_api_url"/>
                         </setting>
+
                         <setting string="Vehicle API User">
                             <field name="vehicle_api_user"/>
                         </setting>
+
                         <setting string="Vehicle API Key">
-                            <field name="vehicle_api_key"/>
+                            <field name="vehicle_api_key" password="True"/>
                         </setting>
+
+                        <div class="text-muted">
+                            Optional external VIN API endpoint. Example: internal decoder or partner service.
+                        </div>
 
                     </block>
 
-                    <block title="I-DAT API Configuration">
-                        <setting string="I-DAT User">
-                            <field name="autoidat_user"/>
-                        </setting>
-                        <setting string="I-DAT API Key">
-                            <field name="autoidat_key"/>
-                        </setting>
+                    <!-- Fallback APIs Info -->
+                    <block title="Vehicle Fallback APIs (Automatic)">
+
+                        <div class="text-muted">
+                            The system automatically tries the following VIN decoders if the primary API fails:
+                        </div>
+
+                        <ul class="mt16">
+                            <li><b>AUTO-i-DAT</b> – Best for European vehicles</li>
+                            <li><b>DB.VIN</b> – Free global VIN decoder</li>
+                            <li><b>NHTSA</b> – Free VIN decoder (best for USA vehicles)</li>
+                        </ul>
+
                     </block>
 
-               </app>
+                </app>
 
             </xpath>
 
@@ -44,4 +86,3 @@
     </record>
 
 </odoo>
-
