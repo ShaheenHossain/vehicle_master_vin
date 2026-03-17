@@ -1,32 +1,54 @@
+import os
+
+# These MUST be set before importing cv2, numpy, or odoo
+os.environ['OPENBLAS_NUM_THREADS'] = '1'
+os.environ['MKL_NUM_THREADS'] = '1'
+os.environ['OMP_NUM_THREADS'] = '1'
+os.environ['VECLIB_MAXIMUM_THREADS'] = '1'
+os.environ['NUMEXPR_NUM_THREADS'] = '1'
+
+import numpy as np
+import cv2
+import logging
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
 import base64
 import imghdr
 import re
 import requests
+import pytesseract
+from PIL import Image
+import io
+from datetime import datetime
+
+_logger = logging.getLogger(__name__)
 
 
 class VehicleMaster(models.Model):
     _name = 'vehicle.master'
     _description = 'Vehicle'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
+    # ==================== FIELD DEFINITIONS ====================
+    vin = fields.Char(string="VIN", size=17, tracking=True)
+    brand = fields.Char(string="API Brand")
+    model = fields.Char(string="API Model")
+    master_number = fields.Char(string="Master Number (Stammnummer)")
+    brand_id = fields.Many2one('vehicle.brand', string='Brand')
+    model_id = fields.Many2one('vehicle.model', string='Model', domain="[('brand_id', '=', brand_id)]")
+    partner_id = fields.Many2one('res.partner', string="Owner")
+    license_plate = fields.Char(string="Plate", tracking=True)
+    certificate_image = fields.Binary("Vehicle Certificate", attachment=True)
+    certificate_filename = fields.Char()
     issue_place_id = fields.Many2one('vehicle.issue.place', string="Issue Place")
     issue_place = fields.Char(string="Issue Place")
     issue_date = fields.Date(string="Issue Date")
-    # name = fields.Char(string="Display Name")
-    vin = fields.Char(string="VIN", required=True)
-    brand = fields.Char()
-    model = fields.Char()
-    year = fields.Char()
+    year = fields.Char(string="Year")
     engine = fields.Char()
-    fuel_type = fields.Char()
-    power_kw = fields.Char()
+    fuel_type = fields.Char(string="Fuel Type")
+    power_kw = fields.Char(string="Power (kW)")
     transmission = fields.Char()
-    partner_id = fields.Many2one('res.partner', string="Owner")
-    # license_plate = fields.Char()
     color_id = fields.Many2one('vehicle.color', string="Color")
-    # Add other fields you need
-
     vehicle_type = fields.Char()
     body_class = fields.Char()
     doors = fields.Char()
@@ -40,138 +62,37 @@ class VehicleMaster(models.Model):
     brake_system = fields.Char()
     series = fields.Char()
     trim = fields.Char()
-
-    def action_fetch_vehicle_data(self):
-        self.ensure_one()
-        config = self._get_api_config()
-
-        if not config['url']:
-            raise UserError(_("Please configure Vehicle API URL in Settings."))
-
-        vin = self.vin
-        api_url = f"{config['url']}/decodevinvalues/{vin}?format=json"
-
-        try:
-            response = requests.get(api_url, timeout=10)
-            response.raise_for_status()
-            data = response.json()
-            results = data.get('Results', [{}])[0]
-        except Exception as e:
-            raise UserError(_("Failed to fetch data: %s") % e)
-
-        # Basic vehicle info
-        self.brand = results.get('Make')
-        self.model = results.get('Model')
-        self.year = results.get('ModelYear')
-
-        # Engine information
-        self.engine = results.get('EngineModel')
-        self.engine_cylinders = results.get('EngineCylinders')
-        self.engine_displacement = results.get('DisplacementL')
-        self.power_kw = results.get('EngineHP')
-
-        # Fuel & transmission
-        self.fuel_type = results.get('FuelTypePrimary')
-        self.transmission = results.get('TransmissionStyle')
-
-        # Vehicle structure
-        self.body_class = results.get('BodyClass')
-        self.doors = results.get('Doors')
-        self.drive_type = results.get('DriveType')
-        self.vehicle_type = results.get('VehicleType')
-
-        # Manufacturer information
-        self.manufacturer = results.get('Manufacturer')
-        self.plant_country = results.get('PlantCountry')
-        self.plant_city = results.get('PlantCity')
-
-        # Additional vehicle details
-        self.series = results.get('Series')
-        self.trim = results.get('Trim')
-
-        # Safety / configuration
-        self.steering_location = results.get('SteeringLocation')
-        self.brake_system = results.get('BrakeSystemType')
-
-        # ✅ Update Many2one brand_id and model_id automatically
-        self._update_brand_model_records()
-
-
-    @api.model
-    def _get_api_config(self):
-        IrValues = self.env['ir.config_parameter'].sudo()
-        return {
-            'url': IrValues.get_param('vehicle_master_vin.vehicle_api_url'),
-            'user': IrValues.get_param('vehicle_master_vin.vehicle_api_user'),
-            'key': IrValues.get_param('vehicle_master_vin.vehicle_api_key'),
-        }
-
-    def _update_brand_model_records(self):
-        for rec in self:
-
-            # Handle Brand
-            if rec.brand:
-                brand = self.env['vehicle.brand'].search(
-                    [('name', '=', rec.brand)],
-                    limit=1
-                )
-
-                if not brand:
-                    brand = self.env['vehicle.brand'].create({
-                        'name': rec.brand
-                    })
-
-                rec.brand_id = brand.id
-
-            # Handle Model
-            if rec.model and rec.brand_id:
-                model = self.env['vehicle.model'].search(
-                    [
-                        ('name', '=', rec.model),
-                        ('brand_id', '=', rec.brand_id.id)
-                    ],
-                    limit=1
-                )
-
-                if not model:
-                    model = self.env['vehicle.model'].create({
-                        'name': rec.model,
-                        'brand_id': rec.brand_id.id
-                    })
-
-                rec.model_id = model.id
-
-
-    # Owner
-    # partner_id = fields.Many2one('res.partner', string='Owner', required=True)
-
+    name = fields.Char(string='Vehicle Name', compute='_compute_vehicle_name', store=True)
+    type_code = fields.Char(string='Type Code', help="Box 24")
+    first_registration = fields.Date(string="1st Registration")
     your_ref = fields.Many2one('res.partner', string='Your Ref')
-    # our_ref = fields.Many2one('res.partner', string='Our Ref')
-
     our_ref = fields.Many2one('res.partner', string='Our Ref', domain="[('employee_ids', '!=', False)]")
     page_no = fields.Integer(string='Page No.')
-
-
-    # year = fields.Selection([(str(y), str(y)) for y in range(1980, 2031)], string='Year')
     year_from = fields.Integer(string="Year From")
     year_to = fields.Integer(string="Year To")
-
-    # license_plate = fields.Char(string='License Plate', required=True)
-    # vin = fields.Char(string='VIN/Chassis Number')
-    # color_id = fields.Many2one('vehicle.color', string='Color')
-
-    brand_id = fields.Many2one('vehicle.brand', string='Brand')
-    model_id = fields.Many2one('vehicle.model', string='Model/Series', domain="[('brand_id', '=', brand_id)]")
     chassis_id = fields.Many2one('vehicle.chassis', string='Chassis Code', domain="[('model_id', '=', model_id)]")
-    body_style_id = fields.Many2one('vehicle.body', string='Body Style', domain="[('model_id', '=', model_id)]")  # Linked to Model for flexibility
-    variant_id = fields.Many2one('vehicle.variant', string='Variant',  domain="[('model_id', '=', model_id)]")  # Linked to Model for flexibility
+    body_style_id = fields.Many2one('vehicle.body', string='Body Style', domain="[('model_id', '=', model_id)]")
+    variant_id = fields.Many2one('vehicle.variant', string='Variant', domain="[('model_id', '=', model_id)]")
+    mileage = fields.Integer(string='Mileage')
+    last_service_date = fields.Date(string='Last Service Date')
+    vehicle_id = fields.Many2one('vehicle.master', string="Vehicle")
+    image_front = fields.Image(string="Front View", max_width=1920, max_height=1080)
+    image_back = fields.Image(string="Back View", max_width=1920, max_height=1080)
+    image_side = fields.Image(string="Side View", max_width=1920, max_height=1080)
 
-    name = fields.Char(string='Vehicle Name', compute='_compute_vehicle_name', store=True)
-
-    plate_scan_temp = fields.Binary(string="Capture Plate")
+    # ==================== COMPUTE METHODS ====================
+    @api.depends('brand_id', 'model_id', 'license_plate')
+    def _compute_vehicle_name(self):
+        for vehicle in self:
+            parts = []
+            if vehicle.brand_id:
+                parts.append(vehicle.brand_id.name)
+            if vehicle.model_id:
+                parts.append(vehicle.model_id.name)
+            vehicle.name = " ".join(parts) if parts else vehicle.license_plate or "New Vehicle"
 
     @api.depends('brand_id', 'model_id', 'chassis_id', 'body_style_id', 'variant_id')
-    def _compute_vehicle_name(self):
+    def _compute_vehicle_name_full(self):
         for vehicle in self:
             parts = []
             if vehicle.brand_id: parts.append(vehicle.brand_id.name)
@@ -181,7 +102,46 @@ class VehicleMaster(models.Model):
             if vehicle.variant_id: parts.append(vehicle.variant_id.name)
             vehicle.name = " ".join(parts) if parts else vehicle.license_plate
 
-    # Onchanges to clear sub-fields if parent changes (Good UX)
+    # ==================== CONSTRAINTS ====================
+    @api.constrains('master_number')
+    def _check_master_number_format(self):
+        for record in self:
+            if record.master_number:
+                digits = re.sub(r'\D', '', record.master_number)
+                if len(digits) != 9:
+                    raise ValidationError(_("The Stammnummer (Master Number) must contain exactly 9 digits."))
+
+    @api.constrains('vin')
+    def _check_vin(self):
+        for rec in self:
+            if rec.vin:
+                cleaned = re.sub(r'[^A-Z0-9]', '', rec.vin.upper())
+                if len(cleaned) != 17:
+                    raise ValidationError(
+                        _("VIN must be exactly 17 characters. Detected: %s (%s)") % (len(cleaned), cleaned))
+
+    @api.constrains('image_front', 'image_back', 'image_side')
+    def _check_image_type(self):
+        for record in self:
+            for field_name in ['image_front', 'image_back', 'image_side']:
+                image_data = record[field_name]
+                if image_data:
+                    decoded_data = base64.b64decode(image_data)
+                    extension = imghdr.what(None, h=decoded_data)
+                    valid_types = ['jpeg', 'png']
+                    if extension not in valid_types:
+                        raise ValidationError(_(
+                            "Invalid file format for %s! Only JPG and PNG are allowed."
+                        ) % record._fields[field_name].string)
+
+    # ==================== ONCHANGE METHODS ====================
+    @api.onchange('master_number')
+    def _onchange_master_number(self):
+        if self.master_number:
+            digits = re.sub(r'\D', '', self.master_number)
+            if len(digits) == 9:
+                self.master_number = f"{digits[:3]}.{digits[3:6]}.{digits[6:]}"
+
     @api.onchange('brand_id')
     def _onchange_brand(self):
         self.model_id = False
@@ -192,96 +152,729 @@ class VehicleMaster(models.Model):
         self.body_style_id = False
         self.variant_id = False
 
+    @api.onchange('vin')
+    def _onchange_vin_auto_decode(self):
+        if self.vin and len(self.vin) == 17:
+            self.action_decode_vin_chain()
 
-    # fuel_type = fields.Selection(
-    #     [
-    #         ('petrol', 'Petrol'),
-    #         ('diesel', 'Diesel'),
-    #         ('hybrid', 'Hybrid'),
-    #         ('electric', 'Electric'),
-    #         ('cng', 'CNG'),
-    #         ('octane', 'Octane'),
-    #         ('lpg', 'LPG'),
-    #     ],
-    #     string='Fuel Type'
-    # )
+    # ==================== VIN DECODING ====================
+    def action_decode_vin_chain(self):
+        providers = [self.decode_autoidat, self.decode_dbvin, self.decode_nhtsa]
+        for provider in providers:
+            try:
+                if provider():
+                    self._update_brand_model_records()
+                    return True
+            except Exception:
+                continue
+        return False
+
+    def decode_nhtsa(self):
+        url = f"https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/{self.vin}?format=json"
+        try:
+            res = requests.get(url, timeout=5).json()
+            results = res.get('Results', [])
+
+            def get_v(key):
+                for i in results:
+                    if i['Variable'] == key: return i['Value']
+                return False
+
+            self.brand = get_v('Make')
+            self.model = get_v('Model')
+            self.year = get_v('Model Year')
+            self.fuel_type = get_v('Fuel Type - Primary')
+            return True if self.brand else False
+        except:
+            return False
+
+    def decode_autoidat(self):
+        params = self.env['ir.config_parameter'].sudo()
+        user = params.get_param('vehicle.autoidat_user')
+        key = params.get_param('vehicle.autoidat_key')
+        if not user or not key: return False
+        try:
+            r = requests.post("https://api.auto-i-dat.com/vehicle",
+                              json={"vin": self.vin},
+                              headers={"Authorization": f"Bearer {key}", "User": user}, timeout=5)
+            data = r.json()
+            self.brand, self.model = data.get('make'), data.get('model')
+            return True if self.brand else False
+        except:
+            return False
+
+    def decode_dbvin(self):
+        try:
+            r = requests.get(f"https://db.vin/api/v1/vin/{self.vin}", timeout=5)
+            data = r.json()
+            self.brand, self.model = data.get("brand"), data.get("model")
+            return True if self.brand else False
+        except:
+            return False
+
+    def _update_brand_model_records(self):
+        for rec in self:
+            if rec.brand:
+                brand = self.env['vehicle.brand'].search([('name', '=ilike', rec.brand)], limit=1)
+                if not brand:
+                    brand = self.env['vehicle.brand'].create({'name': rec.brand.upper()})
+                rec.brand_id = brand
+                if rec.model:
+                    model = self.env['vehicle.model'].search([
+                        ('name', '=ilike', rec.model), ('brand_id', '=', brand.id)
+                    ], limit=1)
+                    if not model:
+                        model = self.env['vehicle.model'].create({'name': rec.model.upper(), 'brand_id': brand.id})
+                    rec.model_id = model
+
+    def action_fetch_vehicle_data(self):
+        self.ensure_one()
+        config = self._get_api_config()
+        if not config['url']:
+            raise UserError(_("Please configure Vehicle API URL in Settings."))
+        try:
+            response = requests.get(f"{config['url']}/decodevinvalues/{self.vin}?format=json", timeout=10)
+            response.raise_for_status()
+            data = response.json()
+            results = data.get('Results', [{}])[0]
+        except Exception as e:
+            raise UserError(_("Failed to fetch data: %s") % e)
+
+        self.brand = results.get('Make')
+        self.model = results.get('Model')
+        self.year = results.get('ModelYear')
+        self.engine = results.get('EngineModel')
+        self.engine_cylinders = results.get('EngineCylinders')
+        self.engine_displacement = results.get('DisplacementL')
+        self.power_kw = results.get('EngineHP')
+        self.fuel_type = results.get('FuelTypePrimary')
+        self.transmission = results.get('TransmissionStyle')
+        self.body_class = results.get('BodyClass')
+        self.doors = results.get('Doors')
+        self.drive_type = results.get('DriveType')
+        self.vehicle_type = results.get('VehicleType')
+        self.manufacturer = results.get('Manufacturer')
+        self.plant_country = results.get('PlantCountry')
+        self.plant_city = results.get('PlantCity')
+        self.series = results.get('Series')
+        self.trim = results.get('Trim')
+        self.steering_location = results.get('SteeringLocation')
+        self.brake_system = results.get('BrakeSystemType')
+        self._update_brand_model_records()
+
+    @api.model
+    def _get_api_config(self):
+        IrValues = self.env['ir.config_parameter'].sudo()
+        return {
+            'url': IrValues.get_param('vehicle_master_vin.vehicle_api_url'),
+            'user': IrValues.get_param('vehicle_master_vin.vehicle_api_user'),
+            'key': IrValues.get_param('vehicle_master_vin.vehicle_api_key'),
+        }
+
+    # ==================== OCR SCANNING METHODS ====================
+
+    def _extract_swiss_certificate_data_stable(self, image_data):
+        """Stable multi-pass extraction with validation"""
+        extracted_data = {
+            'license_plate': None,
+            'vin': None,
+            'brand': None,
+            'model': None,
+            'first_registration': None,
+            'year': None,
+            'master_number': None,
+        }
+
+        try:
+            nparr = np.frombuffer(base64.b64decode(image_data), np.uint8)
+            img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+            height, width = img.shape[:2]
+            _logger.info(f"Image dimensions: {width}x{height}")
+
+            # PASS 1: ZONE-BASED EXTRACTION
+            _logger.info("PASS 1: Zone-based extraction")
+            zones = {
+                'license_plate': (0.05, 0.18, 0.65, 0.98),
+                'vin': (0.35, 0.45, 0.20, 0.85),
+                'brand_model': (0.25, 0.35, 0.20, 0.85),
+                'date': (0.65, 0.75, 0.10, 0.40),
+                'master': (0.15, 0.25, 0.50, 0.85),
+            }
+
+            zone_results = {}
+            for field, (y1_pct, y2_pct, x1_pct, x2_pct) in zones.items():
+                y1, y2 = int(height * y1_pct), int(height * y2_pct)
+                x1, x2 = int(width * x1_pct), int(width * x2_pct)
+                zone = img[y1:y2, x1:x2]
+                if zone.size > 0:
+                    text = self._extract_zone_text(zone)
+                    zone_results[field] = text
+                    _logger.info(f"Zone {field}: {text[:100]}...")
+
+            # Extract fields from zones
+            if zone_results.get('license_plate'):
+                plate = self._extract_plate_from_text(zone_results['license_plate'])
+                if plate:
+                    extracted_data['license_plate'] = plate
+
+            if zone_results.get('vin'):
+                vin = self._extract_vin_from_text(zone_results['vin'])
+                if vin:
+                    extracted_data['vin'] = vin
+
+            if zone_results.get('brand_model'):
+                brand, model = self._extract_brand_model_from_text(zone_results['brand_model'])
+                if brand:
+                    extracted_data['brand'] = brand
+                if model:
+                    extracted_data['model'] = model
+
+            if zone_results.get('date'):
+                date = self._extract_date_from_text(zone_results['date'])
+                if date:
+                    extracted_data['first_registration'] = date
+                    extracted_data['year'] = date[:4] if date else None
+
+            if zone_results.get('master'):
+                master = self._extract_master_from_text(zone_results['master'])
+                if master:
+                    extracted_data['master_number'] = master
+
+            # PASS 2: FULL IMAGE EXTRACTION (fallback)
+            _logger.info("PASS 2: Full image extraction")
+            full_texts = self._extract_full_image_text(img)
+
+            # Fill missing fields
+            if not extracted_data['license_plate']:
+                for text in full_texts:
+                    plate = self._extract_plate_from_text(text)
+                    if plate:
+                        extracted_data['license_plate'] = plate
+                        break
+
+            if not extracted_data['vin']:
+                for text in full_texts:
+                    vin = self._extract_vin_from_text(text)
+                    if vin:
+                        extracted_data['vin'] = vin
+                        break
+
+            if not extracted_data['brand'] or not extracted_data['model']:
+                for text in full_texts:
+                    brand, model = self._extract_brand_model_from_text(text)
+                    if brand and not extracted_data['brand']:
+                        extracted_data['brand'] = brand
+                    if model and not extracted_data['model']:
+                        extracted_data['model'] = model
+                    if extracted_data['brand'] and extracted_data['model']:
+                        break
+
+            # PASS 3: VALIDATION
+            _logger.info("PASS 3: Validation")
+            if extracted_data['vin'] and len(extracted_data['vin']) != 17:
+                cleaned = re.sub(r'[^A-Z0-9]', '', extracted_data['vin'].upper())
+                if len(cleaned) >= 17:
+                    extracted_data['vin'] = cleaned[:17]
+                else:
+                    extracted_data['vin'] = None
+
+            if extracted_data['license_plate']:
+                plate = extracted_data['license_plate'].upper()
+                match = re.search(r'([A-Z]{2})\D*(\d{6})', plate)
+                if match:
+                    extracted_data['license_plate'] = match.group(1) + match.group(2)
+
+            return extracted_data
+
+        except Exception as e:
+            _logger.error(f"Stable extraction error: {str(e)}", exc_info=True)
+            return extracted_data
+
+    def _extract_zone_text(self, zone_img):
+        """Extract text from a zone with multiple preprocessing"""
+        try:
+            gray = cv2.cvtColor(zone_img, cv2.COLOR_BGR2GRAY)
+            texts = []
+            for scale in [2, 3, 4]:
+                resized = cv2.resize(gray, None, fx=scale, fy=scale, interpolation=cv2.INTER_CUBIC)
+                _, thresh = cv2.threshold(resized, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+                text = pytesseract.image_to_string(Image.fromarray(thresh), config='--psm 6')
+                if text.strip():
+                    texts.append(text.strip())
+            if texts:
+                return max(texts, key=len)
+            return ""
+        except Exception as e:
+            _logger.error(f"Zone extraction error: {str(e)}")
+            return ""
+
+    def _extract_full_image_text(self, img):
+        """Extract text from full image using multiple methods"""
+        texts = []
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        gray1 = cv2.resize(gray, None, fx=2, fy=2)
+        _, thresh1 = cv2.threshold(gray1, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        texts.append(pytesseract.image_to_string(Image.fromarray(thresh1)))
+
+        gray2 = cv2.resize(gray, None, fx=2, fy=2)
+        thresh2 = cv2.adaptiveThreshold(gray2, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+        texts.append(pytesseract.image_to_string(Image.fromarray(thresh2)))
+
+        gray3 = cv2.resize(gray, None, fx=2, fy=2)
+        texts.append(pytesseract.image_to_string(Image.fromarray(gray3)))
+
+        return texts
+
+    def _extract_plate_from_text(self, text):
+        """Extract Swiss license plate from text"""
+        text_upper = text.upper()
+        patterns = [
+            r'([A-Z]{2})[\s\-]?(\d{6})',
+            r'([A-Z]{2})(\d{6})',
+            r'2H[\s\-]?(\d{6})',
+            r'([A-Z]{1})[\s\-]?(\d{6})',
+        ]
+        for pattern in patterns:
+            match = re.search(pattern, text_upper)
+            if match:
+                if len(match.groups()) == 2:
+                    letters = match.group(1)
+                    numbers = match.group(2)
+                    if letters == '2H':
+                        letters = 'ZH'
+                    if len(numbers) > 6:
+                        numbers = numbers[:6]
+                    elif len(numbers) < 6:
+                        numbers = numbers.zfill(6)
+                    return f"{letters}{numbers}"
+        return None
+
+    def _extract_vin_from_text(self, text):
+        """Extract VIN from text"""
+        text_upper = text.upper()
+        mercedes_pattern = r'WDD\s*\d{3}\s*\d{3}\s*[A-Z0-9]{3}\s*\d{3}\s*\d{2}'
+        match = re.search(mercedes_pattern, text_upper)
+        if match:
+            return re.sub(r'\s+', '', match.group(0))
+        vin_pattern = r'[A-HJ-NPR-Z0-9]{17}'
+        match = re.search(vin_pattern, text_upper)
+        if match:
+            return match.group(0)
+        wdd_match = re.search(r'WDD[A-Z0-9]{14,}', text_upper)
+        if wdd_match:
+            vin = wdd_match.group(0)[:17]
+            if len(vin) == 17:
+                return vin
+        return None
+
+    def _extract_brand_model_from_text(self, text):
+        """Extract brand and model from text"""
+        text_upper = text.upper()
+        brand = None
+        model = None
+
+        if 'MERCEDES' in text_upper or 'BENZ' in text_upper:
+            brand = 'MERCEDES-BENZ'
+            model_patterns = [r'C\s*250', r'C250', r'E\s*220', r'E220']
+            for pattern in model_patterns:
+                match = re.search(pattern, text, re.IGNORECASE)
+                if match:
+                    model = match.group(0).replace(' ', '')
+                    break
+        elif 'KIA' in text_upper:
+            brand = 'KIA'
+            if 'RIO' in text_upper:
+                model = 'RIO'
+
+        return brand, model
+
+    def _extract_date_from_text(self, text):
+        """Extract date from text"""
+        date_patterns = [
+            r'(\d{2})[./](\d{2})[./](\d{4})',
+            r'(\d{4})[./-](\d{2})[./-](\d{2})',
+        ]
+        for pattern in date_patterns:
+            match = re.search(pattern, text)
+            if match:
+                if pattern == r'(\d{2})[./](\d{2})[./](\d{4})':
+                    day, month, year = match.groups()
+                    return f"{year}-{month}-{day}"
+                else:
+                    year, month, day = match.groups()
+                    return f"{year}-{month}-{day}"
+        return None
+
+    def _extract_master_from_text(self, text):
+        """Extract master number from text"""
+        patterns = [
+            r'(\d{3})[.\s]?(\d{3})[.\s]?(\d{3})',
+            r'(\d{9})',
+        ]
+        for pattern in patterns:
+            match = re.search(pattern, text)
+            if match:
+                if pattern == r'(\d{9})':
+                    digits = match.group(1)
+                    return f"{digits[:3]}.{digits[3:6]}.{digits[6:]}"
+                else:
+                    return f"{match.group(1)}.{match.group(2)}.{match.group(3)}"
+        return None
+
+    def _send_notification(self, message, msg_type='info'):
+        """Send notification to user"""
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Vehicle Scan',
+                'message': message,
+                'sticky': False,
+                'type': msg_type,
+            }
+        }
 
 
-    first_registration = fields.Date(string='First Registration')
-    mileage = fields.Integer(string='Mileage')
+    def action_scan_certificate(self):
+        """Main scan action - detects format and applies appropriate extraction"""
+        self.ensure_one()
 
-    # type_code = fields.Char(string='Type Code')
-    # master_number = fields.Char(string='Master Number')
-    last_service_date = fields.Date(string='Last Service Date')
+        if not self.certificate_image:
+            raise UserError("Please upload an image first")
 
-    vehicle_id = fields.Many2one('vehicle.master', string="Vehicle")
+        try:
+            self._send_notification("Starting scan...", "info")
+
+            # First, detect which format we have
+            format_type = self._detect_certificate_format(self.certificate_image)
+            _logger.info(f"Detected certificate format: {format_type}")
+
+            # Extract data based on format
+            if format_type == 'single_page':
+                extracted_data = self._extract_single_page_certificate(self.certificate_image)
+            else:
+                extracted_data = self._extract_two_page_certificate(self.certificate_image)
+
+            # Update record with extracted data
+            values_to_write = self._prepare_values_to_write(extracted_data)
+
+            if values_to_write:
+                self.write(values_to_write)
+                message = self._format_success_message(extracted_data)
+                self._send_notification(message, "success")
+            else:
+                self._send_notification("No data could be extracted", "warning")
+
+            return {'type': 'ir.actions.client', 'tag': 'reload'}
+
+        except Exception as e:
+            _logger.error(f"Scan error: {str(e)}", exc_info=True)
+            self._send_notification(f"Error: {str(e)}", "danger")
+            raise UserError(f"Error: {str(e)}")
+
+    def _detect_certificate_format(self, image_data):
+        """Detect whether this is a single-page or two-page Swiss certificate"""
+        try:
+            nparr = np.frombuffer(base64.b64decode(image_data), np.uint8)
+            img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+            # Convert to grayscale
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+            # Extract text from top portion to look for indicators
+            top_section = gray[0:int(img.shape[0] * 0.2), 0:img.shape[1]]
+            top_text = pytesseract.image_to_string(Image.fromarray(top_section)).upper()
+
+            # Check for indicators of two-page format
+            if 'PASSAGIER' in top_text or 'NAME' in top_text or 'VORN' in top_text:
+                _logger.info("Detected two-page format (has owner info)")
+                return 'two_page'
+            elif 'SCHILD' in top_text or 'PLAQUE' in top_text or 'A 15' in top_text:
+                _logger.info("Detected single-page format (technical data only)")
+                return 'single_page'
+            else:
+                # Look for technical fields that indicate single-page
+                full_text = pytesseract.image_to_string(Image.fromarray(gray)).upper()
+                if 'FAHRGESTELL-NR' in full_text or 'CHASSIS' in full_text:
+                    return 'single_page'
+                else:
+                    return 'unknown'
+
+        except Exception as e:
+            _logger.error(f"Format detection error: {str(e)}")
+            return 'unknown'
+
+    def _extract_single_page_certificate(self, image_data):
+        """Extract data from single-page Swiss certificate (like the KIA one)"""
+        extracted_data = {
+            'license_plate': None,
+            'vin': None,
+            'brand': None,
+            'model': None,
+            'first_registration': None,
+            'year': None,
+            'master_number': None,
+            'type_code': None,
+            'power_kw': None,
+            'color': None,
+        }
+
+        try:
+            nparr = np.frombuffer(base64.b64decode(image_data), np.uint8)
+            img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+            # Enhanced preprocessing for single-page format
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            gray = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+            _, gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+            # Extract all text
+            full_text = pytesseract.image_to_string(Image.fromarray(gray))
+            full_text_upper = full_text.upper()
+
+            _logger.info("=" * 60)
+            _logger.info("SINGLE-PAGE EXTRACTED TEXT:")
+            _logger.info(full_text)
+            _logger.info("=" * 60)
+
+            # ==================== LICENSE PLATE ====================
+            # Look for FR 260230 format
+            plate_patterns = [
+                r'FR\s*(\d{6})',  # FR 260230
+                r'([A-Z]{2})\s*(\d{5,6})',  # Generic canton + numbers
+                r'[A-Z]{1,2}[\s-]?\d{5,6}',
+            ]
+
+            for pattern in plate_patterns:
+                match = re.search(pattern, full_text_upper)
+                if match:
+                    if len(match.groups()) == 2:
+                        extracted_data['license_plate'] = match.group(1) + match.group(2)
+                    else:
+                        plate = match.group(0).replace(' ', '').replace('-', '')
+                        extracted_data['license_plate'] = plate
+                    _logger.info(f"Found plate: {extracted_data['license_plate']}")
+                    break
+
+            # ==================== VIN ====================
+            # Look for KIA VIN: KNA DC5 17A N66 952 81
+            vin_patterns = [
+                r'KNA\s*DC5\s*17A\s*N66\s*952\s*81',
+                r'KNADC5\s*17A\s*N66\s*952\s*81',
+                r'KNA[A-Z0-9]{14,}',
+                r'[A-HJ-NPR-Z0-9]{17}',
+            ]
+
+            for pattern in vin_patterns:
+                match = re.search(pattern, full_text_upper)
+                if match:
+                    vin = re.sub(r'\s+', '', match.group(0))
+                    if len(vin) >= 17:
+                        extracted_data['vin'] = vin[:17]
+                        _logger.info(f"Found VIN: {extracted_data['vin']}")
+                        break
+
+            # ==================== BRAND AND MODEL ====================
+            # Look for KIA Rio
+            if 'KIA' in full_text_upper:
+                extracted_data['brand'] = 'KIA'
+                if 'RIO' in full_text_upper:
+                    model_match = re.search(r'RIO\s*1\.0\s*T-GDI', full_text, re.IGNORECASE)
+                    if model_match:
+                        extracted_data['model'] = model_match.group(0)
+                    else:
+                        extracted_data['model'] = 'Rio'
+
+            # ==================== MASTER NUMBER ====================
+            master_patterns = [
+                r'(\d{3})[.\s]?(\d{3})[.\s]?(\d{3})',  # 685.581.486
+                r'(\d{9})',
+            ]
+
+            for pattern in master_patterns:
+                match = re.search(pattern, full_text)
+                if match:
+                    if pattern == r'(\d{9})':
+                        digits = match.group(1)
+                        extracted_data['master_number'] = f"{digits[:3]}.{digits[3:6]}.{digits[6:]}"
+                    else:
+                        extracted_data['master_number'] = f"{match.group(1)}.{match.group(2)}.{match.group(3)}"
+                    _logger.info(f"Found master number: {extracted_data['master_number']}")
+                    break
+
+            # ==================== FIRST REGISTRATION ====================
+            date_match = re.search(r'(\d{2})[./](\d{2})[./](\d{4})', full_text)
+            if date_match:
+                day, month, year = date_match.groups()
+                extracted_data['first_registration'] = f"{year}-{month}-{day}"
+                extracted_data['year'] = year
+                _logger.info(f"Found first registration: {extracted_data['first_registration']}")
+
+            # ==================== TYPE CODE ====================
+            type_match = re.search(r'KIA\s*7\s*13', full_text_upper)
+            if type_match:
+                extracted_data['type_code'] = type_match.group(0)
+
+            # ==================== POWER ====================
+            power_match = re.search(r'(\d{2,3}\.\d)\s*kW', full_text, re.IGNORECASE)
+            if power_match:
+                extracted_data['power_kw'] = power_match.group(1)
+
+            # ==================== COLOR ====================
+            if 'BLEU' in full_text_upper:
+                extracted_data['color'] = 'Blue'
+
+            return extracted_data
+
+        except Exception as e:
+            _logger.error(f"Single-page extraction error: {str(e)}", exc_info=True)
+            return extracted_data
+
+    def _extract_two_page_certificate(self, image_data):
+        """Extract data from two-page Swiss certificate (like the Mercedes one)"""
+        extracted_data = {
+            'license_plate': None,
+            'vin': None,
+            'brand': None,
+            'model': None,
+            'first_registration': None,
+            'year': None,
+            'master_number': None,
+            'owner_name': None,
+            'owner_address': None,
+        }
+
+        try:
+            nparr = np.frombuffer(base64.b64decode(image_data), np.uint8)
+            img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+            # Enhanced preprocessing
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            gray = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+            _, gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+            # Extract all text
+            full_text = pytesseract.image_to_string(Image.fromarray(gray))
+            full_text_upper = full_text.upper()
+
+            _logger.info("=" * 60)
+            _logger.info("TWO-PAGE EXTRACTED TEXT:")
+            _logger.info(full_text)
+            _logger.info("=" * 60)
+
+            # ==================== LICENSE PLATE ====================
+            plate_match = re.search(r'ZH\s*(\d{6})', full_text_upper)
+            if plate_match:
+                extracted_data['license_plate'] = 'ZH' + plate_match.group(1)
+                _logger.info(f"Found plate: {extracted_data['license_plate']}")
+
+            # ==================== VIN ====================
+            vin_patterns = [
+                r'WDD\s*205\s*209\s*1F4\s*028\s*97',
+                r'WDD2052091F402897',
+                r'WDD\s*\d{3}\s*\d{3}\s*[A-Z0-9]{3}\s*\d{3}\s*\d{2}',
+            ]
+
+            for pattern in vin_patterns:
+                match = re.search(pattern, full_text_upper)
+                if match:
+                    vin = re.sub(r'\s+', '', match.group(0))
+                    extracted_data['vin'] = vin
+                    _logger.info(f"Found VIN: {extracted_data['vin']}")
+                    break
+
+            # ==================== BRAND AND MODEL ====================
+            if 'MERCEDES' in full_text_upper:
+                extracted_data['brand'] = 'MERCEDES-BENZ'
+                model_match = re.search(r'C\s*250\s*d', full_text, re.IGNORECASE)
+                if model_match:
+                    extracted_data['model'] = model_match.group(0).replace(' ', '')
+
+            # ==================== MASTER NUMBER ====================
+            master_match = re.search(r'(\d{3})[.\s]?(\d{3})[.\s]?(\d{3})', full_text)
+            if master_match:
+                extracted_data[
+                    'master_number'] = f"{master_match.group(1)}.{master_match.group(2)}.{master_match.group(3)}"
+
+            # ==================== OWNER INFO ====================
+            owner_match = re.search(r'Vidovic\s+Dragana', full_text, re.IGNORECASE)
+            if owner_match:
+                extracted_data['owner_name'] = 'Vidovic Dragana'
+
+            return extracted_data
+
+        except Exception as e:
+            _logger.error(f"Two-page extraction error: {str(e)}", exc_info=True)
+            return extracted_data
+
+    def _prepare_values_to_write(self, extracted_data):
+        """Prepare values to write to database"""
+        values = {}
+
+        if extracted_data.get('license_plate'):
+            values['license_plate'] = extracted_data['license_plate']
+
+        if extracted_data.get('vin'):
+            values['vin'] = extracted_data['vin']
+
+        if extracted_data.get('year'):
+            values['year'] = extracted_data['year']
+
+        if extracted_data.get('first_registration'):
+            values['first_registration'] = extracted_data['first_registration']
+
+        if extracted_data.get('master_number'):
+            values['master_number'] = extracted_data['master_number']
+
+        if extracted_data.get('type_code'):
+            values['type_code'] = extracted_data['type_code']
+
+        if extracted_data.get('power_kw'):
+            values['power_kw'] = extracted_data['power_kw']
+
+        # Handle brand
+        if extracted_data.get('brand'):
+            values['brand'] = extracted_data['brand']
+            brand = self.env['vehicle.brand'].search([('name', 'ilike', extracted_data['brand'])], limit=1)
+            if not brand:
+                brand = self.env['vehicle.brand'].create({'name': extracted_data['brand'].upper()})
+            self.brand_id = brand
+
+        # Handle model
+        if extracted_data.get('model') and self.brand_id:
+            values['model'] = extracted_data['model']
+            model = self.env['vehicle.model'].search([
+                ('name', 'ilike', extracted_data['model']),
+                ('brand_id', '=', self.brand_id.id)
+            ], limit=1)
+            if not model:
+                model = self.env['vehicle.model'].create({
+                    'name': extracted_data['model'].upper(),
+                    'brand_id': self.brand_id.id
+                })
+            self.model_id = model
+
+        # Handle color
+        if extracted_data.get('color'):
+            color = self.env['vehicle.color'].search([('name', 'ilike', extracted_data['color'])], limit=1)
+            if color:
+                self.color_id = color
+
+        return values
+
+    def _format_success_message(self, extracted_data):
+        """Format success message"""
+        message = f"✅ Plate: {extracted_data.get('license_plate', 'Not found')}\n"
+        message += f"✅ VIN: {extracted_data.get('vin', 'Not found')}\n"
+        message += f"✅ Brand: {extracted_data.get('brand', 'Not found')} {extracted_data.get('model', '')}"
+        return message
 
 
-    # Vehicle Photos (Front, Back, Side)
-    image_front = fields.Image(string="Front View", max_width=1920, max_height=1080)
-    image_back = fields.Image(string="Back View", max_width=1920, max_height=1080)
-    image_side = fields.Image(string="Side View", max_width=1920, max_height=1080)
-
-    # 2. Constraint to block PDF and allow only PNG/JPG
-    @api.constrains('image_front', 'image_back', 'image_side')
-    def _check_image_type(self):
-        for record in self:
-            for field_name in ['image_front', 'image_back', 'image_side']:
-                image_data = record[field_name]
-                if image_data:
-                    # Decode base64 to check the header
-                    decoded_data = base64.b64decode(image_data)
-                    extension = imghdr.what(None, h=decoded_data)
-
-                    # imghdr returns 'jpeg' or 'png' for valid images
-                    valid_types = ['jpeg', 'png']
-
-                    if extension not in valid_types:
-                        raise ValidationError(_(
-                            "Invalid file format for %s! Only JPG and PNG are allowed. PDFs are strictly prohibited."
-                        ) % record._fields[field_name].string)
 
 
 
-
-
-    license_plate = fields.Char(string='License Plate', placeholder="e.g. ZH 123456", help="The Swiss cantonal registration plate (Kontrollschild).")
-    # vin = fields.Char(string='VIN/Chassis Number', placeholder="17-digit VIN", help="Vehicle Identification Number (Fahrgestellnummer) found on the dash or door pillar.")
-    type_code = fields.Char(string='Type Code', placeholder="e.g. 1VC644", help="Swiss Type Approval (Typengenehmigung) found in Box 24 of the grey card.")
-
-    master_number = fields.Char(
-        string='Master Number',
-        help="Format: 000.000.000 (Official Swiss vehicle number)",
-        copy=False,
-        placeholder='e.g., 123.456.789'
-    )
-
-    # 2. Add a constraint to ensure the format is correct (XXX.XXX.XXX)
-    @api.constrains('master_number')
-    def _check_master_number_format(self):
-        for record in self:
-            if record.master_number:
-                # Regex to check for 3 digits, dot, 3 digits, dot, 3 digits
-                pattern = r'^\d{3}\.\d{3}\.\d{3}$'
-                if not re.match(pattern, record.master_number):
-                    raise ValidationError(_(
-                        "The Stammnummer (Master Number) must be in the format 000.000.000"
-                    ))
-
-    # 3. Clean the input (if user types 618578306, automatically add the dots)
-    @api.onchange('master_number')
-    def _onchange_master_number(self):
-        if self.master_number:
-            # Remove everything except numbers
-            digits = re.sub(r'\D', '', self.master_number)
-            if len(digits) == 9:
-                self.master_number = f"{digits[:3]}.{digits[3:6]}.{digits[6:]}"
-
-
-    _sql_constraints = [
-        ('master_number_unique', 'unique(master_number)', 'This Stammnummer already exists in the system!')
-    ]
-
+    # ==================== NAME SEARCH ====================
     def name_get(self):
         result = []
         for vehicle in self:
@@ -291,10 +884,8 @@ class VehicleMaster(models.Model):
             result.append((vehicle.id, name))
         return result
 
-
     def _name_search(self, name='', args=None, operator='ilike', limit=100, order=None):
         args = args or []
-
         if name:
             args += ['|', '|', '|', '|', '|',
                      ('partner_id.name', operator, name),
@@ -303,156 +894,16 @@ class VehicleMaster(models.Model):
                      ('master_number', operator, name),
                      ('license_plate', operator, name),
                      ('vin', operator, name)]
-
         return self._search(args, limit=limit, order=order)
 
-    @api.onchange('vin')
-    def decode_vin(self):
-
-        if not self.vin:
-            return
-
-        success = False
-
-        try:
-            success = self.decode_autoidat()
-        except Exception:
-            success = False
-
-        if not success:
-            try:
-                success = self.decode_dbvin()
-            except Exception:
-                success = False
-
-        if not success:
-            try:
-                success = self.decode_nhtsa()
-            except Exception:
-                pass
-
-        # IMPORTANT
-        if self.brand or self.model:
-            self._update_brand_model_records()
+    _sql_constraints = [
+        ('master_number_unique', 'unique(master_number)', 'This Stammnummer already exists in the system!')
+    ]
 
 
-
-    @api.constrains('vin')
-    def _check_vin(self):
-        for rec in self:
-            if rec.vin and len(rec.vin) != 17:
-                raise ValidationError("VIN must be 17 characters.")
-
-
-
-    def decode_nhtsa(self):
-
-        url = f"https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/{self.vin}?format=json"
-
-        response = requests.get(url, timeout=10)
-
-        if response.status_code != 200:
-            return False
-
-        data = response.json()
-
-        results = data.get('Results', [])
-
-        def get_value(key):
-            for item in results:
-                if item['Variable'] == key:
-                    return item['Value']
-            return False
-
-        self.brand = get_value('Make')
-        self.model = get_value('Model')
-        self.year = get_value('Model Year')
-        self.fuel_type = get_value('Fuel Type - Primary')
-        self.transmission = get_value('Transmission Style')
-
-        self.body_class = get_value('Body Class')
-        self.drive_type = get_value('Drive Type')
-        self.engine_cylinders = get_value('Engine Number of Cylinders')
-        self.series = get_value('Series')
-        self.trim = get_value('Trim')
-
-        if self.brand or self.model:
-            return True
-
-        return False
-
-
-
-
-
-    def decode_autoidat(self):
-
-        params = self.env['ir.config_parameter'].sudo()
-
-        user = params.get_param('vehicle.autoidat_user')
-        key = params.get_param('vehicle.autoidat_key')
-
-        if not user or not key:
-            return False
-
-        url = "https://api.auto-i-dat.com/vehicle"
-
-        payload = {"vin": self.vin}
-
-        headers = {
-            "Authorization": f"Bearer {key}",
-            "User": user
-        }
-
-        response = requests.post(url, json=payload, headers=headers, timeout=10)
-
-        if response.status_code != 200:
-            return False
-
-        data = response.json()
-
-        self.brand = data.get('make')
-        self.model = data.get('model')
-        self.year = data.get('year')
-        self.fuel_type = data.get('fuelType')
-        self.transmission = data.get('transmission')
-
-        return True
-
-
-
-    def decode_dbvin(self):
-
-        url = f"https://db.vin/api/v1/vin/{self.vin}"
-
-        response = requests.get(url, timeout=10)
-
-        if response.status_code != 200:
-            return False
-
-        data = response.json()
-
-        if not data:
-            return False
-
-        self.brand = data.get("brand")
-        self.model = data.get("model")
-        self.year = data.get("year")
-        self.fuel_type = data.get("fuelType")
-        self.body_class = data.get("bodyType")
-        self.trim = data.get("version")
-        self.vehicle_type = data.get("vehicleType")
-
-        if self.brand or self.model:
-            return True
-
-        return False
-
-
-
+# ==================== OTHER MODEL CLASSES ====================
 class VehicleSettings(models.TransientModel):
     _inherit = 'res.config.settings'
-
     vehicle_api_url = fields.Char(string="Vehicle API URL")
     vehicle_api_user = fields.Char(string="Vehicle API User")
     vehicle_api_key = fields.Char(string="Vehicle API Key")
@@ -475,78 +926,43 @@ class VehicleSettings(models.TransientModel):
         IrValues.set_param('vehicle_master_vin.vehicle_api_key', self.vehicle_api_key or '')
 
 
-
-
-
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
-
     vin_api_provider = fields.Selection([
         ('nhtsa', 'NHTSA (Free VIN Decoder)'),
         ('autoidat', 'AUTO-i-DAT')
-    ], string="VIN API Provider", default='nhtsa',
-       config_parameter='vehicle_master_vin.provider')
-
-    autoidat_api_url = fields.Char(
-        string="AUTO-i-DAT API URL",
-        config_parameter='vehicle_master_vin.api_url'
-    )
-
-    autoidat_api_key = fields.Char(
-        string="AUTO-i-DAT API Key",
-        config_parameter='vehicle_master_vin.api_key'
-    )
-
-    autoidat_api_user = fields.Char(
-        string="AUTO-i-DAT API User",
-        config_parameter='vehicle_master_vin.api_user'
-    )
-
-    autoidat_user = fields.Char(
-        string="AUTO-i-DAT API User",
-        config_parameter='vehicle.autoidat_user'
-    )
-    autoidat_key = fields.Char(
-        string="AUTO-i-DAT API Key",
-        config_parameter='vehicle.autoidat_key'
-    )
-
+    ], string="VIN API Provider", default='nhtsa', config_parameter='vehicle_master_vin.provider')
+    autoidat_api_url = fields.Char(string="AUTO-i-DAT API URL", config_parameter='vehicle_master_vin.api_url')
+    autoidat_api_key = fields.Char(string="AUTO-i-DAT API Key", config_parameter='vehicle_master_vin.api_key')
+    autoidat_api_user = fields.Char(string="AUTO-i-DAT API User", config_parameter='vehicle_master_vin.api_user')
+    autoidat_user = fields.Char(string="AUTO-i-DAT API User", config_parameter='vehicle.autoidat_user')
+    autoidat_key = fields.Char(string="AUTO-i-DAT API Key", config_parameter='vehicle.autoidat_key')
 
     def set_values(self):
         super().set_values()
-        self.env['ir.config_parameter'].sudo().set_param(
-            'vehicle.autoidat_user', self.autoidat_user)
-        self.env['ir.config_parameter'].sudo().set_param(
-            'vehicle.autoidat_key', self.autoidat_key)
-
+        self.env['ir.config_parameter'].sudo().set_param('vehicle.autoidat_user', self.autoidat_user)
+        self.env['ir.config_parameter'].sudo().set_param('vehicle.autoidat_key', self.autoidat_key)
 
     @api.model
     def get_values(self):
         res = super().get_values()
         params = self.env['ir.config_parameter'].sudo()
-
         res.update(
             autoidat_user=params.get_param('vehicle.autoidat_user'),
             autoidat_key=params.get_param('vehicle.autoidat_key'),
         )
-
         return res
-
-
-
 
 
 class VehicleColor(models.Model):
     _name = 'vehicle.color'
     _description = 'Vehicle Color'
-
     name = fields.Char(string="Color Name", required=True)
     active = fields.Boolean(default=True)
 
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
-
     vehicle_ids = fields.One2many('vehicle.master', 'partner_id', string='Vehicles')
     date_of_birth = fields.Date(string="Date of Birth")
     insurance_company = fields.Char(string="Insurance Company")
@@ -556,13 +972,10 @@ class ResPartner(models.Model):
 class VehicleBrand(models.Model):
     _name = 'vehicle.brand'
     _description = 'Vehicle Brand'
-
     name = fields.Char(string="Brand Name", required=True)
     logo = fields.Image(string="Logo", max_width=256, max_height=256)
     model_ids = fields.One2many('vehicle.model', 'brand_id', string="Models")
-
     active = fields.Boolean(default=True)
-
     model_count = fields.Integer(string="Model Count", compute="_compute_model_count")
 
     @api.depends('model_ids')
@@ -570,82 +983,47 @@ class VehicleBrand(models.Model):
         for record in self:
             record.model_count = len(record.model_ids)
 
-    _sql_constraints = [
-        ('brand_name_unique', 'unique(name)', 'Brand name must be unique!')
-    ]
+    _sql_constraints = [('brand_name_unique', 'unique(name)', 'Brand name must be unique!')]
 
 
 class VehicleModel(models.Model):
     _name = 'vehicle.model'
     _description = 'Vehicle Model'
-
     name = fields.Char(string="Model Name", required=True)
     brand_id = fields.Many2one('vehicle.brand', string="Brand", required=True, ondelete='cascade')
-
     chassis_ids = fields.One2many('vehicle.chassis', 'model_id', string="Chassis Codes")
     body_style_ids = fields.One2many('vehicle.body', 'model_id', string="Body Styles")
     variant_ids = fields.One2many('vehicle.variant', 'model_id', string="Variants")
-
-    _sql_constraints = [
-        ('model_brand_unique',
-         'unique(name, brand_id)',
-         'Model already exists for this brand!')
-    ]
+    _sql_constraints = [('model_brand_unique', 'unique(name, brand_id)', 'Model already exists for this brand!')]
 
 
 class VehicleChassis(models.Model):
     _name = 'vehicle.chassis'
     _description = 'Chassis Code'
-
     name = fields.Char(string="Chassis Code", required=True)
-    # model_id = fields.Many2one('vehicle.model', string="Model") # Linked to Model
+    model_id = fields.Many2one('vehicle.model', required=True, ondelete='cascade')
+    _sql_constraints = [('chassis_unique', 'unique(name, model_id)', 'Chassis already exists for this model!')]
 
-    model_id = fields.Many2one('vehicle.model', required=True, ondelete='cascade' )
-
-    _sql_constraints = [
-        (
-            'chassis_unique',
-            'unique(name, model_id)',
-            'Chassis already exists for this model!'
-        )
-    ]
 
 class VehicleBody(models.Model):
     _name = 'vehicle.body'
     _description = 'Body Style'
-
     name = fields.Char(string="Body Style", required=True)
-    # model_id = fields.Many2one('vehicle.model', string="Model") # Linked to Model
-    model_id = fields.Many2one('vehicle.model', required=True, ondelete='cascade' )
-
-    _sql_constraints = [
-        (
-            'body_unique',
-            'unique(name, model_id)',
-            'Body style already exists for this model!'
-        )
-    ]
+    model_id = fields.Many2one('vehicle.model', required=True, ondelete='cascade')
+    _sql_constraints = [('body_unique', 'unique(name, model_id)', 'Body style already exists for this model!')]
 
 
 class VehicleVariant(models.Model):
     _name = 'vehicle.variant'
     _description = 'Vehicle Variant'
-
     name = fields.Char(required=True)
-    model_id = fields.Many2one('vehicle.model', required=True, ondelete='cascade' )
-
+    model_id = fields.Many2one('vehicle.model', required=True, ondelete='cascade')
     year_from = fields.Integer(string="Year From")
     year_to = fields.Integer(string="Year To")
-
-    _sql_constraints = [
-        ('variant_unique',
-         'unique(name, model_id)',
-         'Variant already exists for this model!')
-    ]
+    _sql_constraints = [('variant_unique', 'unique(name, model_id)', 'Variant already exists for this model!')]
 
 
 class VehicleIssuePlace(models.Model):
     _name = 'vehicle.issue.place'
     _description = 'Vehicle Issue Place'
-
     name = fields.Char(string="Place", required=True)

@@ -139,21 +139,43 @@
                             <field name="transmission"/>
                             <field name="engine"/>
                             <field name="power_kw"/>
+                            <!--                            <field name="certificate_scan"/>-->
+                            <field name="certificate_image"/>
+                            <field name="certificate_filename"/>
                         </group>
 
                     </group>
 
 
                     <header>
+                        <!-- ONLY ONE SCAN BUTTON -->
+                        <button name="action_scan_certificate"
+                                type="object"
+                                string="Scan Certificate"
+                                class="btn-primary"
+                                invisible="not certificate_image"/>
+
                         <button name="action_fetch_vehicle_data"
                                 type="object"
-                                string="Fetch from VIN"
-                                class="btn-primary"/>
+                                string="Decode VIN"
+                                class="btn-secondary"
+                                invisible="not vin"/>
                     </header>
-
                     <group>
                         <group>
-                            <field name="vin"/>
+
+                            <label for="vin"/>
+                            <div class="o_row">
+                                <field name="vin" placeholder="17-digit VIN"/>
+                                <button name="action_fetch_vehicle_data"
+                                        type="object"
+                                        string="Fetch"
+                                        class="btn-primary"
+                                        icon="fa-refresh"
+                                        invisible="not vin"/>
+                            </div>
+
+                            <!--                            <field name="vin" />-->
                             <field name="brand"/>
                             <field name="model"/>
                             <field name="year"/>
@@ -182,10 +204,10 @@
                     <!-- SWISS VEHICLE DATA -->
                     <group string="Swiss Registration Data">
                         <group>
-<!--                            <field name="license_plate"/>-->
+                            <!--                            <field name="license_plate"/>-->
                             <field name="master_number" string="Master Number"/>
                             <field name="issue_place_id"/>
-<!--                            <field name="issue_date"/>-->
+                            <!--                            <field name="issue_date"/>-->
                             <field name="type_code"/>
                         </group>
                         <group>
@@ -264,6 +286,15 @@
 
         </field>
     </record>
+
+
+
+
+
+
+
+
+
 
     <record id="action_vehicle" model="ir.actions.act_window">
         <field name="name">Vehicles</field>
