@@ -33,6 +33,36 @@ class SaleOrder(models.Model):
             self.issue_place_id = self.vehicle_id.issue_place_id
 
 
+    def action_confirm(self):
+        res = super().action_confirm()
+
+        for order in self:
+            for line in order.order_line:
+                vehicle = line.vehicle_id
+
+                if not vehicle:
+                    continue
+
+                # Check availability
+                if vehicle.state != 'available':
+                    raise UserError(
+                        f"Vehicle {vehicle.name or vehicle.vin} is not available!"
+                    )
+
+                # Mark as sold
+                vehicle.write({
+                    'state': 'sold',
+                    'partner_id': order.partner_id.id,
+                    'sale_order_id': order.id
+                })
+
+        return res
+
+
+
+
+
+
     brand_id = fields.Many2one('vehicle.brand', string='Brand')
     model_id = fields.Many2one('vehicle.model', string='Model', domain="[('brand_id','=',brand_id)]")
 
@@ -43,6 +73,7 @@ class SaleOrder(models.Model):
     year_to = fields.Integer(string="Year To")
     variant_id = fields.Many2one('vehicle.variant', string='Variant', domain="[('model_id','=',model_id)]")
     vehicle_id = fields.Many2one('vehicle.master', string='Vehicle', domain="[('partner_id','=',partner_id)]")
+
     license_plate = fields.Char(related='vehicle_id.license_plate', string='License Plate', required=True)
 
     # first_registration = fields.Date(string='First Registration', store=True, readonly=False)
@@ -146,6 +177,27 @@ class SaleOrder(models.Model):
 
 
 
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    vehicle_id = fields.Many2one(
+        'vehicle.master',
+        string="Vehicle",
+        domain="[('state','=','available')]"
+    )
+
+    lot_id = fields.Many2one(
+        'stock.lot',
+        string="VIN",
+    )
+
+    @api.onchange('vehicle_id')
+    def _onchange_vehicle_id(self):
+        if self.vehicle_id:
+            self.product_id = self.vehicle_id.product_id
+            self.lot_id = self.vehicle_id.lot_id
+            self.price_unit = self.vehicle_id.sale_price
+
 
 
 class AccountMove(models.Model):
@@ -173,7 +225,8 @@ class AccountMove(models.Model):
             rec.our_ref = rec.vehicle_id.our_ref or False
 
 
-    vehicle_id = fields.Many2one('vehicle.master', string='Vehicle', domain="[('partner_id','=',partner_id)]")
+    # vehicle_id = fields.Many2one('vehicle.master', string='Vehicle', domain="[('partner_id','=',partner_id)]")
+    vehicle_id = fields.Many2one('vehicle.master', string='Vehicle', domain = "[('state','=','available')]")
 
     # Adding 'related' allows these to fill automatically when vehicle_id is selected
     license_plate = fields.Char(related='vehicle_id.license_plate', string='License Plate', store=True, readonly=False)

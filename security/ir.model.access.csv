@@ -7,3 +7,5 @@ access_vehicle_body,access.vehicle.body,model_vehicle_body,,1,1,1,1
 access_vehicle_variant,access.vehicle.variant,model_vehicle_variant,,1,1,1,1
 access_vehicle_color,access.vehicle.color,model_vehicle_color,,1,1,1,1
 access_vehicle_issue_place,access.vehicle.issue.place,model_vehicle_issue_place,,1,1,1,1
+access_vehicle_service,access.vehicle.service,model_vehicle_service,,1,1,1,1
+access_vehicle_rental,access.vehicle.rental,model_vehicle_rental,,1,1,1,1

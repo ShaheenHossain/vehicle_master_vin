@@ -108,6 +108,26 @@
                 <sheet>
 
 
+                    <div class="oe_button_box" name="button_box">
+
+                        <button name="action_view_services"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-wrench">
+                            <field name="service_ids" widget="statinfo" string="Services"/>
+                        </button>
+
+                        <button name="action_view_rentals"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-car">
+                            <field name="rental_ids" widget="statinfo" string="Rentals"/>
+                        </button>
+
+
+
+                    </div>
+
                     <div class="oe_title">
                         <label for="name" string="Vehicle Display Name"/>
                         <h1>
@@ -117,6 +137,8 @@
                     <!-- BASIC VEHICLE DATA -->
                     <group string="Vehicle Information">
                         <group>
+                            <field name="vehicle_type" widget="radio" options="{'horizontal': true}"/>
+
                             <field name="partner_id" string="Owner"/>
                             <field name="license_plate"/>
                             <field name="brand_id"/>
@@ -129,12 +151,42 @@
                             <field name="brake_system"/>
                             <field name="series"/>
 
+
+                            <field name="owner_last_name"/>
+                            <field name="owner_first_name"/>
+                            <field name="owner_street"/>
+                            <field name="owner_zip"/>
+                            <field name="owner_city"/>
+                            <field name="owner_ref_uid"/>
+                            <field name="owner_dob"/>
+                            <field name="place_of_origin"/>
+                            <field name="insurance_company"/>
+                            <field name="cantonal_notes"/>
+                            <field name="official_instructions"/>
+                            <field name="body_type_code"/>
+                            <field name="seats_total"/>
+                            <field name="weight_empty"/>
+                            <field name="towing_capacity"/>
+                            <field name="payload"/>
+                            <field name="total_weight"/>
+                            <field name="roof_load"/>
+                            <field name="displacement_cc"/>
+                            <field name="emission_code"/>
+                            <field name="power_weight_ratio"/>
+
+
+
+
+
+
+
                         </group>
 
                         <group>
 
                             <field name="year"/>
                             <field name="color_id"/>
+                            <field name="color"/>
                             <field name="fuel_type"/>
                             <field name="transmission"/>
                             <field name="engine"/>
@@ -148,12 +200,22 @@
 
 
                     <header>
-                        <!-- ONLY ONE SCAN BUTTON -->
-                        <button name="action_scan_certificate"
+
+                        <button name="action_scan_certificate_with_gemini"
+                                string="Scan with Gemini AI"
                                 type="object"
-                                string="Scan Certificate"
-                                class="btn-primary"
-                                invisible="not certificate_image"/>
+                                class="oe_highlight"
+                                icon="fa-qrcode"/>
+
+
+                        <!-- ONLY ONE SCAN BUTTON -->
+                        <!--
+                                                <button name="action_scan_certificate"
+                                                        type="object"
+                                                        string="Scan Certificate"
+                                                        class="btn-primary"
+                                                        invisible="not certificate_image"/>
+                        -->
 
                         <button name="action_fetch_vehicle_data"
                                 type="object"
@@ -162,6 +224,14 @@
                                 invisible="not vin"/>
                     </header>
                     <group>
+
+                        <group string="Financial Info">
+                            <field name="purchase_price"/>
+                            <field name="sale_price"/>
+                            <field name="total_service_cost" readonly="1"/>
+                            <field name="profit" readonly="1"/>
+                        </group>
+
                         <group>
 
                             <label for="vin"/>
@@ -184,6 +254,7 @@
                             <field name="power_kw"/>
                             <field name="transmission"/>
                             <field name="vehicle_type"/>
+                            <field name="vehicle_type_code"/>
                         </group>
                         <group>
 
@@ -278,6 +349,30 @@
 
                         </page>
 
+                        <page string="Service History">
+                            <field name="service_ids">
+                                <tree editable="bottom">
+                                    <field name="service_date"/>
+                                    <field name="description"/>
+                                    <field name="cost"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Rental History">
+                            <field name="rental_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="total_amount"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+
                     </notebook>
 
                 </sheet>
@@ -286,11 +381,6 @@
 
         </field>
     </record>
-
-
-
-
-
 
 
 
@@ -420,6 +510,15 @@
         </field>
     </record>
 
+    <record id="seq_vehicle_rental" model="ir.sequence">
+        <field name="name">Vehicle Rental</field>
+        <field name="code">vehicle.rental</field>
+        <field name="prefix">RENT/</field>
+        <field name="padding">5</field>
+    </record>
+
+
+
     <record id="action_vehicle_master" model="ir.actions.act_window">
         <field name="name">Vehicles</field>
         <field name="res_model">vehicle.master</field>
@@ -434,9 +533,100 @@
         <field name="view_mode">kanban,tree,form</field>
     </record>
 
+    <record id="action_vehicle_rental" model="ir.actions.act_window">
+        <field name="name">Vehicle Rentals</field>
+        <field name="res_model">vehicle.rental</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
-    <menuitem id="menu_vehicle_root" name="Vehicle Master" web_icon="vehicle_master_vin,static/description/icon.png"/>
-    <menuitem id="menu_vehicle" name="Vehicles" parent="menu_vehicle_root" action="action_vehicle" sequence="10"/>
-    <menuitem id="menu_vehicle_brand" name="Brands" parent="menu_vehicle_root" action="action_vehicle_brand" sequence="20"/>
+
+
+    <!-- Sell Cars -->
+    <record id="action_vehicle_sell" model="ir.actions.act_window">
+        <field name="name">Sell Cars</field>
+        <field name="res_model">vehicle.master</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('vehicle_type','=','sell')]</field>
+    </record>
+
+    <!-- Client Cars -->
+    <record id="action_vehicle_client" model="ir.actions.act_window">
+        <field name="name">Client Cars</field>
+        <field name="res_model">vehicle.master</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('vehicle_type','=','client')]</field>
+    </record>
+
+    <!-- Rent Cars -->
+    <record id="action_vehicle_rent" model="ir.actions.act_window">
+        <field name="name">Rent Cars</field>
+        <field name="res_model">vehicle.master</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('vehicle_type','=','rent')]</field>
+    </record>
+
+    <!-- Service Cars -->
+    <record id="action_vehicle_service" model="ir.actions.act_window">
+        <field name="name">Service Cars</field>
+        <field name="res_model">vehicle.master</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('vehicle_type','=','service')]</field>
+    </record>
+
+    <record id="action_vehicle_all" model="ir.actions.act_window">
+        <field name="name">All Vehicles</field>
+        <field name="res_model">vehicle.master</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+
+    <menuitem id="menu_vehicle_root"
+              name="Vehicle Management"
+              web_icon="vehicle_master_vin,static/description/icon.png"/>
+
+    <!-- Sell -->
+    <menuitem id="menu_vehicle_sell"
+              name="Sell Cars"
+              parent="menu_vehicle_root"
+              action="action_vehicle_sell"
+              sequence="10"/>
+
+    <!-- Brands (RESTORED) -->
+    <menuitem id="menu_vehicle_brand"
+              name="Vehicle Brands"
+              parent="menu_vehicle_root"
+              action="action_vehicle_brand"
+              sequence="15"/>
+
+    <!-- Client -->
+    <menuitem id="menu_vehicle_client"
+              name="Client Cars"
+              parent="menu_vehicle_root"
+              action="action_vehicle_client"
+              sequence="20"/>
+
+    <!-- Rent -->
+    <menuitem id="menu_vehicle_rent"
+              name="Rent Cars"
+              parent="menu_vehicle_root"
+              action="action_vehicle_rent"
+              sequence="30"/>
+
+    <!-- Service -->
+    <menuitem id="menu_vehicle_service"
+              name="Service Cars"
+              parent="menu_vehicle_root"
+              action="action_vehicle_service"
+              sequence="40"/>
+
+
+    <menuitem id="menu_vehicle_all"
+              name="All Vehicles (Debug)"
+              parent="menu_vehicle_root"
+              action="action_vehicle_all"
+              sequence="5"/>
+
 
 </odoo>

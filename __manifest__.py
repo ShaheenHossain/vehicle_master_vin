@@ -25,6 +25,10 @@
         # 'data/vehicle.brand.csv',
     ],
 
+    'external_dependencies': {
+            'python': ['google-generativeai'],
+        },
+
     "assets": {
         "web.report_assets_common": [
             "vehicle_master_vin/static/src/report_din5008.scss",
