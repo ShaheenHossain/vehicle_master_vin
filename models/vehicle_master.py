@@ -129,7 +129,7 @@ class VehicleMaster(models.Model):
 
     service_ids = fields.One2many('vehicle.service', 'vehicle_id')
 
-    product_id = fields.Many2one('product.product', string="Product", required=True)
+    product_id = fields.Many2one('product.product', string="Product")
     lot_id = fields.Many2one('stock.lot', string="Serial / VIN")
     sale_order_id = fields.Many2one('sale.order')
 
@@ -143,6 +143,16 @@ class VehicleMaster(models.Model):
 
     def action_scan_certificate_with_gemini(self):
         self.ensure_one()
+
+        # --- NEW: Check for Product FIRST to avoid Validation Error ---
+        product = self.env['product.product'].search([('name', '=', 'Vehicle')], limit=1)
+        if not product:
+            # Create it immediately if it doesn't exist
+            product = self.env['product.product'].create({
+                'name': 'Vehicle',
+                'type': 'service',
+            })
+
         if not self.certificate_image:
             raise UserError("Please upload the Swiss certificate first.")
 
@@ -157,70 +167,28 @@ class VehicleMaster(models.Model):
             import re
             from datetime import datetime
 
-            # --- 1. PREPARE FILE ---
             file_content = base64.b64decode(self.certificate_image)
             mime_type = "application/pdf" if file_content.startswith(b'%PDF') else "image/jpeg"
 
-            # --- 2. UPDATED MODEL ID (2.5 is the 2026 stable standard) ---
             model_id = "models/gemini-2.5-flash"
             url = f"https://generativelanguage.googleapis.com/v1beta/{model_id}:generateContent?key={api_key}"
 
-            # --- 3. REFINED PROMPT ---
-            prompt_text = """
-            Extract Swiss Fahrzeugausweis (vehicle certificate) data to JSON format.
-            - last_name: Box 1
-            - first_name: Box 2
-            - street: Box 3/5
-            - zip: Box 4
-            - city: Box 5
-            - dob: Box 07 (DD.MM.YYYY)
-            - vin: Box 23
-            - plate: Box 15
-            - master_number: Box 18
-            - insurance: Box 09
-            - instructions: Box 14
-            - power: Box 76
-            - color: Box 26
-            - brand: Box 21
-            - owner_ref_uid: Box 6
-            - place_of_origin: Box 8
-            - vehicle_type_code: Box 24
-            - vehicle_type: Box 25
-            """
+            prompt_text = "Extract Swiss Fahrzeugausweis data to JSON: last_name, first_name, street, zip, city, dob, vin, plate, master_number, insurance, instructions, power, color, brand, owner_ref_uid, place_of_origin, vehicle_type_code, vehicle_type"
 
-            # --- 4. THE PAYLOAD (REST compliant) ---
             payload = {
-                "contents": [{
-                    "parts": [
-                        {"text": prompt_text},
-                        {"inlineData": {
-                            "mimeType": mime_type,
-                            "data": self.certificate_image.decode('utf-8')
-                        }}
-                    ]
-                }],
-                "generationConfig": {
-                    "temperature": 0.1,
-                }
+                "contents": [{"parts": [
+                    {"text": prompt_text},
+                    {"inlineData": {"mimeType": mime_type, "data": self.certificate_image.decode('utf-8')}}
+                ]}],
+                "generationConfig": {"temperature": 0.1}
             }
 
             response = requests.post(url, json=payload, timeout=30)
-
-            # Catch unauthorized or quota errors early
-            if response.status_code != 200:
-                raise UserError(f"API HTTP {response.status_code}: {response.text}")
-
             result = response.json()
-            if 'candidates' not in result:
-                raise UserError(f"Gemini API Error: {json.dumps(result)}")
-
             ai_text = result['candidates'][0]['content']['parts'][0]['text']
-
-            # Extraction logic to pull JSON from markdown if necessary
             json_match = re.search(r'\{.*\}', ai_text, re.DOTALL)
             data = json.loads(json_match.group() if json_match else ai_text)
 
-            # --- 5. DATE FORMATTER ---
             def format_odoo_date(raw_val):
                 if not raw_val: return False
                 try:
@@ -229,9 +197,8 @@ class VehicleMaster(models.Model):
                 except:
                     return False
 
-
-            # --- 6. WRITE TO ODOO ---
-            self.write({
+            # --- 2. BUILD THE DICTIONARY ---
+            vals = {
                 'vin': data.get('vin', '').replace(' ', '').upper(),
                 'license_plate': data.get('plate'),
                 'owner_last_name': data.get('last_name'),
@@ -250,14 +217,22 @@ class VehicleMaster(models.Model):
                 'brand': data.get('brand'),
                 'owner_ref_uid': data.get('owner_ref_uid'),
                 'place_of_origin': data.get('place_of_origin'),
-            })
+            }
+
+            # --- 3. FORCE PRODUCT ID ---
+            # Even if self.product_id exists, we re-verify it to satisfy the DB
+            if not self.product_id:
+                vals['product_id'] = product.id
+
+            # --- 4. EXECUTE ---
+            self.write(vals)
 
             return {
                 'type': 'ir.actions.client',
                 'tag': 'display_notification',
                 'params': {
                     'title': 'Success',
-                    'message': f'Extracted: {data.get("last_name", "Vehicle Data")}',
+                    'message': f'Extracted: {data.get("last_name")}',
                     'type': 'success',
                     'next': {'type': 'ir.actions.client', 'tag': 'reload'},
                 }
@@ -265,6 +240,8 @@ class VehicleMaster(models.Model):
 
         except Exception as e:
             raise UserError(f"Extraction Error: {str(e)}")
+
+
 
 
     def action_view_services(self):
