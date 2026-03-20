@@ -51,7 +51,9 @@ class VehicleMaster(models.Model):
     official_instructions = fields.Text(string="Official Instructions", help="Box 14")
 
     # --- Technical Specifications (Boxes 25-35) ---
-    body_type_code = fields.Char(string="Body Code", help="Box 25")
+    body_type = fields.Char(string="Body Type", help="Box 25")
+    body_type_code = fields.Char(string="Body type Code", help="Box 25.1")
+    approval_type = fields.Char(string="Approval Type", help="Box 24")
     seats_total = fields.Integer(string="Seats (Total)", help="Box 27")
     weight_empty = fields.Integer(string="Empty Weight (kg)", help="Box 30")
     towing_capacity = fields.Integer(string="Towing Capacity (kg)", help="Box 31")
@@ -61,19 +63,21 @@ class VehicleMaster(models.Model):
 
     # --- Engine & Emissions (Boxes 37-78) ---
     displacement_cc = fields.Integer(string="Displacement (cm³)", help="Box 37")
+    place_date_issue = fields.Char(string="Place date Issue", help="Box 38")
+    power_kw = fields.Integer(string="Power (KW)", help="Box 76")
     emission_code = fields.Char(string="Emission Code", help="Box 72")
     power_weight_ratio = fields.Float(string="Power/Weight Ratio (kW/kg)", help="Box 78")
 
 
     # ==================== FIELD DEFINITIONS ====================
     vin = fields.Char(string="VIN", size=17, tracking=True)
-    brand = fields.Char(string="API Brand")
-    model = fields.Char(string="API Model")
+    brand = fields.Char(string="Brand", help="Box 21")
+    model = fields.Char(string="Model", help="Box 21.1")
     master_number = fields.Char(string="Master Number (Stammnummer)")
     brand_id = fields.Many2one('vehicle.brand', string='Brand')
     model_id = fields.Many2one('vehicle.model', string='Model', domain="[('brand_id', '=', brand_id)]")
     partner_id = fields.Many2one('res.partner', string="Owner")
-    license_plate = fields.Char(string="Plate", tracking=True)
+    license_plate = fields.Char(string="License Plate No.", tracking=True)
     certificate_image = fields.Binary("Vehicle Certificate", attachment=True)
     certificate_filename = fields.Char()
     issue_place_id = fields.Many2one('vehicle.issue.place', string="Issue Place")
@@ -82,13 +86,14 @@ class VehicleMaster(models.Model):
     year = fields.Char(string="Year")
     engine = fields.Char()
     fuel_type = fields.Char(string="Fuel Type")
-    power_kw = fields.Char(string="Power (kW)")
     transmission = fields.Char()
     color_id = fields.Many2one('vehicle.color', string="Color")
+    color = fields.Char(string="Color", help="Box 26")
+
     vehicle_type = fields.Char(string="Vehicle Type", help="Box 25")
     vehicle_type_code = fields.Char(string="Vehicle Type Code", help="Box 24")
     vehicle_category = fields.Char(string="Vehicle Category", help="Box 19")
-    vehicle_category_code = fields.Char(string="Vehicle Category Code", help="Box 20")
+    vehicle_category_code = fields.Char(string="Category Code", help="Box 20")
     body_class = fields.Char()
     doors = fields.Char()
     drive_type = fields.Char()
@@ -133,7 +138,6 @@ class VehicleMaster(models.Model):
     lot_id = fields.Many2one('stock.lot', string="Serial / VIN")
     sale_order_id = fields.Many2one('sale.order')
 
-    color = fields.Char(string="Color")
 
 
     @api.depends('brand', 'model')
@@ -143,16 +147,6 @@ class VehicleMaster(models.Model):
 
     def action_scan_certificate_with_gemini(self):
         self.ensure_one()
-
-        # --- NEW: Check for Product FIRST to avoid Validation Error ---
-        product = self.env['product.product'].search([('name', '=', 'Vehicle')], limit=1)
-        if not product:
-            # Create it immediately if it doesn't exist
-            product = self.env['product.product'].create({
-                'name': 'Vehicle',
-                'type': 'service',
-            })
-
         if not self.certificate_image:
             raise UserError("Please upload the Swiss certificate first.")
 
@@ -167,28 +161,78 @@ class VehicleMaster(models.Model):
             import re
             from datetime import datetime
 
+            # --- 1. PREPARE FILE ---
             file_content = base64.b64decode(self.certificate_image)
             mime_type = "application/pdf" if file_content.startswith(b'%PDF') else "image/jpeg"
 
+            # --- 2. MODEL & URL (March 2026 Stable Standard) ---
             model_id = "models/gemini-2.5-flash"
             url = f"https://generativelanguage.googleapis.com/v1beta/{model_id}:generateContent?key={api_key}"
 
-            prompt_text = "Extract Swiss Fahrzeugausweis data to JSON: last_name, first_name, street, zip, city, dob, vin, plate, master_number, insurance, instructions, power, color, brand, owner_ref_uid, place_of_origin, vehicle_type_code, vehicle_type"
+            # --- 3. REFINED PROMPT ---
+            prompt_text = """
+            Extract Swiss Fahrzeugausweis (vehicle certificate) data to JSON format.
+            - last_name: Box 1
+            - first_name: Box 2
+            - street: Box 3/5
+            - zip: Box 4
+            - city: Box 5
+            - dob: Box 07 (DD.MM.YYYY)
+            - vin: Box 23
+            - license_plate: Box 15
+            - master_number: Box 18
+            - insurance: Box 09
+            - instructions: Box 14
+            - power: Box 76
+            - color: Box 26
+            - seats_total: Box 27
+            - brand: Box 21
+            - model: Box 21.1
+            - owner_ref_uid: Box 6
+            - place_of_origin: Box 8
+            - vehicle_type_code: Box 24
+            - vehicle_type: Box 25
+            - vehicle_category: Box 19
+            - vehicle_category_code: Box 20
+            - body_type: Box 25
+            - body_type_code: Box 25.1
+            - approval_type: Box 24
+            - displacement_cc: Box 37
+            - place_date_issue: Box 38
+            - power_kw: Box 76
+            """
 
+            # --- 4. THE PAYLOAD ---
             payload = {
-                "contents": [{"parts": [
-                    {"text": prompt_text},
-                    {"inlineData": {"mimeType": mime_type, "data": self.certificate_image.decode('utf-8')}}
-                ]}],
-                "generationConfig": {"temperature": 0.1}
+                "contents": [{
+                    "parts": [
+                        {"text": prompt_text},
+                        {"inlineData": {
+                            "mimeType": mime_type,
+                            "data": self.certificate_image.decode('utf-8')
+                        }}
+                    ]
+                }],
+                "generationConfig": {
+                    "temperature": 0.1,
+                }
             }
 
             response = requests.post(url, json=payload, timeout=30)
+            if response.status_code != 200:
+                raise UserError(f"API HTTP {response.status_code}: {response.text}")
+
             result = response.json()
+            if 'candidates' not in result:
+                raise UserError(f"Gemini API Error: {json.dumps(result)}")
+
             ai_text = result['candidates'][0]['content']['parts'][0]['text']
+
+            # Extract JSON from markdown if present
             json_match = re.search(r'\{.*\}', ai_text, re.DOTALL)
             data = json.loads(json_match.group() if json_match else ai_text)
 
+            # --- 5. DATE FORMATTER ---
             def format_odoo_date(raw_val):
                 if not raw_val: return False
                 try:
@@ -197,10 +241,24 @@ class VehicleMaster(models.Model):
                 except:
                     return False
 
-            # --- 2. BUILD THE DICTIONARY ---
+            # --- 6. PREPARE DATA & HANDLE MANDATORY PRODUCT ---
+            # 6a. Search for existing Product
+            product = self.env['product.product'].search([('name', '=', 'Vehicle')], limit=1)
+
+            # 6b. If not found, create it (prevents Validation Error)
+            if not product:
+                product = self.env['product.product'].create({
+                    'name': 'Vehicle',
+                    'type': 'service',
+                    'sale_ok': True,
+                    'purchase_ok': True,
+                })
+
+            # 6c. Map all fields to vals
             vals = {
                 'vin': data.get('vin', '').replace(' ', '').upper(),
-                'license_plate': data.get('plate'),
+                'license_plate': data.get('license_plate', '').replace(' ', '').upper(),
+                # 'license_plate': data.get('license_plate'),
                 'owner_last_name': data.get('last_name'),
                 'owner_first_name': data.get('first_name'),
                 'owner_street': data.get('street'),
@@ -212,19 +270,27 @@ class VehicleMaster(models.Model):
                 'vehicle_type': data.get('vehicle_type'),
                 'insurance_company': data.get('insurance'),
                 'official_instructions': data.get('instructions'),
-                'power_kw': str(data.get('power') or ''),
+                'power_kw': data.get('power_kw'),
                 'color': data.get('color'),
                 'brand': data.get('brand'),
+                'model': data.get('model'),
                 'owner_ref_uid': data.get('owner_ref_uid'),
                 'place_of_origin': data.get('place_of_origin'),
+                'vehicle_category': data.get('vehicle_category'),
+                'vehicle_category_code': data.get('vehicle_category_code'),
+                'body_type': data.get('body_type'),
+                'body_type_code': data.get('body_type_code'),
+                'seats_total': data.get('seats_total'),
+                'approval_type': data.get('approval_type'),
+                'displacement_cc': data.get('displacement_cc'),
+                'place_date_issue': data.get('place_date_issue'),
             }
 
-            # --- 3. FORCE PRODUCT ID ---
-            # Even if self.product_id exists, we re-verify it to satisfy the DB
+            # 6d. Ensure product_id is set if current record doesn't have one
             if not self.product_id:
                 vals['product_id'] = product.id
 
-            # --- 4. EXECUTE ---
+            # --- 7. FINAL WRITE ---
             self.write(vals)
 
             return {
@@ -232,7 +298,7 @@ class VehicleMaster(models.Model):
                 'tag': 'display_notification',
                 'params': {
                     'title': 'Success',
-                    'message': f'Extracted: {data.get("last_name")}',
+                    'message': f'Extracted: {data.get("last_name", "Vehicle Data")}',
                     'type': 'success',
                     'next': {'type': 'ir.actions.client', 'tag': 'reload'},
                 }
