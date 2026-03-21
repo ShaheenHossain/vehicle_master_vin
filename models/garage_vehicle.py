@@ -16,6 +16,7 @@ class GarageVehicle(models.Model):
     variant = fields.Char(string='Variant / Type')
 
     first_registration_date = fields.Date(string='First Registration Date')
+    first_registration_date = fields.Char(string='First Registration Date')
     current_mileage = fields.Integer(string='Current Mileage (KM)', tracking=True)
 
     # Relations

@@ -34,13 +34,21 @@ class VehicleMaster(models.Model):
     _name = 'vehicle.master'
     _description = 'Vehicle'
     _inherit = ['mail.thread', 'mail.activity.mixin']
+    _rec_name = 'name'
 
     # --- Owner / Halter (Boxes 1-8) ---
+    owner_name = fields.Char(string="Owner Name")
+    owner_id = fields.Char(string="Owner ID")
     owner_last_name = fields.Char(string="Last Name", help="Box 1")
     owner_first_name = fields.Char(string="First Name", help="Box 2")
-    owner_street = fields.Char(string="Street Address", help="Box 3/5")
-    owner_zip = fields.Char(string="Postal Code", help="Box 4")
-    owner_city = fields.Char(string="City / Town", help="Box 5")
+    street = fields.Char(string="Street Address", help="Box 3/5")
+    zip = fields.Char(string="Postal Code", help="Box 4")
+    city = fields.Char(string="City / Town", help="Box 5")
+    telephone = fields.Char(string="Telephone")
+    phone = fields.Char(string="Phone")
+    mobile = fields.Char(string="Mobile")
+    fax = fields.Char(string="Fax")
+    email = fields.Char(string="Email")
     owner_ref_uid = fields.Char(string="Reference / UID", help="Box 6")
     owner_dob = fields.Date(string="Date of Birth", help="Box 07")
     place_of_origin = fields.Char(string="Place of Origin", help="Box 08")
@@ -64,20 +72,22 @@ class VehicleMaster(models.Model):
     # --- Engine & Emissions (Boxes 37-78) ---
     displacement_cc = fields.Integer(string="Displacement (cm³)", help="Box 37")
     place_date_issue = fields.Char(string="Place date Issue", help="Box 38")
+    last_inspection = fields.Char(string="Last Inspection", help="Box 39")
     # power_kw = fields.Integer(string="Power (KW)", help="Box 76")
     power_kw = fields.Char(string="Power (KW)", help="Box 76")
     emission_code = fields.Char(string="Emission Code", help="Box 72")
     power_weight_ratio = fields.Float(string="Power/Weight Ratio (kW/kg)", help="Box 78")
 
 
-    # ==================== FIELD DEFINITIONS ====================
-    vin = fields.Char(string="VIN", size=17, tracking=True)
+    # ==================== FIELD DEFINITIONS ==================== size=17,
+    vin = fields.Char(string="VIN", tracking=True)
     brand = fields.Char(string="Brand", help="Box 21")
     model = fields.Char(string="Model", help="Box 21.1")
+    model_code = fields.Char(string="Model Code")
     master_number = fields.Char(string="Master Number (Stammnummer)")
-    brand_id = fields.Many2one('vehicle.brand', string='Brand')
-    model_id = fields.Many2one('vehicle.model', string='Model', domain="[('brand_id', '=', brand_id)]")
-    partner_id = fields.Many2one('res.partner', string="Owner")
+    brand_id = fields.Many2one('vehicle.brand', string='Brand ID', help="Box 21")
+    model_id = fields.Many2one('vehicle.model', string='Model ID', domain="[('brand_id', '=', brand_id)]")
+    partner_id = fields.Many2one('res.partner', string="Owner Partner ID")
     license_plate = fields.Char(string="License Plate No.", tracking=True)
     certificate_image = fields.Binary("Vehicle Certificate", attachment=True)
     certificate_filename = fields.Char()
@@ -88,7 +98,7 @@ class VehicleMaster(models.Model):
     engine = fields.Char()
     fuel_type = fields.Char(string="Fuel Type")
     transmission = fields.Char()
-    color_id = fields.Many2one('vehicle.color', string="Color")
+    color_id = fields.Many2one('vehicle.color', string="Color ID")
     color = fields.Char(string="Color", help="Box 26")
 
     vehicle_type = fields.Char(string="Vehicle Type", help="Box 25")
@@ -107,9 +117,11 @@ class VehicleMaster(models.Model):
     brake_system = fields.Char()
     series = fields.Char()
     trim = fields.Char()
-    name = fields.Char(string='Vehicle Name', compute='_compute_vehicle_name', store=True)
+    name = fields.Char(string='Vehicles Name ', compute='_compute_vehicle_name', store=True)
+
     type_code = fields.Char(string='Type Code', help="Box 24")
-    first_registration = fields.Date(string="1st Registration")
+    # first_registration = fields.Date(string="1st Registration")
+    first_registration = fields.Char(string="1st Registration")
     your_ref = fields.Many2one('res.partner', string='Your Ref')
     our_ref = fields.Many2one('res.partner', string='Our Ref', domain="[('employee_ids', '!=', False)]")
     page_no = fields.Integer(string='Page No.')
@@ -141,10 +153,9 @@ class VehicleMaster(models.Model):
 
 
 
-    @api.depends('brand', 'model')
-    def _compute_vehicle_name(self):
-        for rec in self:
-            rec.name = f"{rec.brand or ''} {rec.model or ''}".strip() or "New Vehicle"
+
+
+
 
     def action_scan_certificate_with_gemini(self):
         self.ensure_one()
@@ -187,8 +198,8 @@ class VehicleMaster(models.Model):
             - power: Box 76
             - color: Box 26
             - seats_total: Box 27
-            - brand: Box 21
-            - model: Box 21.1
+            - brand_id: Box 21
+            - model_id: Box 21.1
             - owner_ref_uid: Box 6
             - place_of_origin: Box 8
             - vehicle_type_code: Box 24
@@ -200,6 +211,7 @@ class VehicleMaster(models.Model):
             - approval_type: Box 24
             - displacement_cc: Box 37
             - place_date_issue: Box 38
+            - last_inspection: Box 39
             - power_kw: Box 76
             """
 
@@ -262,9 +274,9 @@ class VehicleMaster(models.Model):
                 # 'license_plate': data.get('license_plate'),
                 'owner_last_name': data.get('last_name'),
                 'owner_first_name': data.get('first_name'),
-                'owner_street': data.get('street'),
-                'owner_zip': data.get('zip'),
-                'owner_city': data.get('city'),
+                'street': data.get('street'),
+                'zip': data.get('zip'),
+                'city': data.get('city'),
                 'owner_dob': format_odoo_date(data.get('dob')),
                 'master_number': data.get('master_number'),
                 'vehicle_type_code': data.get('vehicle_type_code'),
@@ -285,6 +297,7 @@ class VehicleMaster(models.Model):
                 'approval_type': data.get('approval_type'),
                 'displacement_cc': data.get('displacement_cc'),
                 'place_date_issue': data.get('place_date_issue'),
+                'last_inspection': data.get('last_inspection'),
             }
 
             # 6d. Ensure product_id is set if current record doesn't have one
@@ -383,26 +396,30 @@ class VehicleMaster(models.Model):
 
 
     # ==================== COMPUTE METHODS ====================
-    @api.depends('brand_id', 'model_id', 'license_plate')
+
+    @api.depends('brand_id', 'model_id', 'chassis_id', 'body_style_id', 'variant_id')
     def _compute_vehicle_name(self):
         for vehicle in self:
             parts = []
+
             if vehicle.brand_id:
                 parts.append(vehicle.brand_id.name)
+
             if vehicle.model_id:
                 parts.append(vehicle.model_id.name)
-            vehicle.name = " ".join(parts) if parts else vehicle.license_plate or "New Vehicle"
 
-    @api.depends('brand_id', 'model_id', 'chassis_id', 'body_style_id', 'variant_id')
-    def _compute_vehicle_name_full(self):
-        for vehicle in self:
-            parts = []
-            if vehicle.brand_id: parts.append(vehicle.brand_id.name)
-            if vehicle.model_id: parts.append(vehicle.model_id.name)
-            if vehicle.chassis_id: parts.append(vehicle.chassis_id.name)
-            if vehicle.body_style_id: parts.append(vehicle.body_style_id.name)
-            if vehicle.variant_id: parts.append(vehicle.variant_id.name)
-            vehicle.name = " ".join(parts) if parts else vehicle.license_plate
+            if vehicle.chassis_id:
+                parts.append(vehicle.chassis_id.name)
+
+            if vehicle.body_style_id:
+                parts.append(vehicle.body_style_id.name)
+
+            if vehicle.variant_id:
+                parts.append(vehicle.variant_id.name)
+
+            vehicle.name = " ".join(parts) if parts else "New Vehicle"
+
+
 
     # ==================== CONSTRAINTS ====================
     @api.constrains('master_number')
@@ -413,14 +430,14 @@ class VehicleMaster(models.Model):
                 if len(digits) != 9:
                     raise ValidationError(_("The Stammnummer (Master Number) must contain exactly 9 digits."))
 
-    @api.constrains('vin')
-    def _check_vin(self):
-        for rec in self:
-            if rec.vin:
-                cleaned = re.sub(r'[^A-Z0-9]', '', rec.vin.upper())
-                if len(cleaned) != 17:
-                    raise ValidationError(
-                        _("VIN must be exactly 17 characters. Detected: %s (%s)") % (len(cleaned), cleaned))
+    # @api.constrains('vin')
+    # def _check_vin(self):
+    #     for rec in self:
+    #         if rec.vin:
+    #             cleaned = re.sub(r'[^A-Z0-9]', '', rec.vin.upper())
+    #             if len(cleaned) != 17:
+    #                 raise ValidationError(
+    #                     _("VIN must be exactly 17 characters. Detected: %s (%s)") % (len(cleaned), cleaned))
 
     @api.constrains('image_front', 'image_back', 'image_side')
     def _check_image_type(self):
@@ -454,10 +471,10 @@ class VehicleMaster(models.Model):
         self.body_style_id = False
         self.variant_id = False
 
-    @api.onchange('vin')
-    def _onchange_vin_auto_decode(self):
-        if self.vin and len(self.vin) == 17:
-            self.action_decode_vin_chain()
+    # @api.onchange('vin')
+    # def _onchange_vin_auto_decode(self):
+    #     if self.vin and len(self.vin) == 17:
+    #         self.action_decode_vin_chain()
 
     # ==================== VIN DECODING ====================
     def action_decode_vin_chain(self):
@@ -529,40 +546,40 @@ class VehicleMaster(models.Model):
                         model = self.env['vehicle.model'].create({'name': rec.model.upper(), 'brand_id': brand.id})
                     rec.model_id = model
 
-    def action_fetch_vehicle_data(self):
-        self.ensure_one()
-        config = self._get_api_config()
-        if not config['url']:
-            raise UserError(_("Please configure Vehicle API URL in Settings."))
-        try:
-            response = requests.get(f"{config['url']}/decodevinvalues/{self.vin}?format=json", timeout=10)
-            response.raise_for_status()
-            data = response.json()
-            results = data.get('Results', [{}])[0]
-        except Exception as e:
-            raise UserError(_("Failed to fetch data: %s") % e)
-
-        self.brand = results.get('Make')
-        self.model = results.get('Model')
-        self.year = results.get('ModelYear')
-        self.engine = results.get('EngineModel')
-        self.engine_cylinders = results.get('EngineCylinders')
-        self.engine_displacement = results.get('DisplacementL')
-        self.power_kw = results.get('EngineHP')
-        self.fuel_type = results.get('FuelTypePrimary')
-        self.transmission = results.get('TransmissionStyle')
-        self.body_class = results.get('BodyClass')
-        self.doors = results.get('Doors')
-        self.drive_type = results.get('DriveType')
-        self.vehicle_type = results.get('VehicleType')
-        self.manufacturer = results.get('Manufacturer')
-        self.plant_country = results.get('PlantCountry')
-        self.plant_city = results.get('PlantCity')
-        self.series = results.get('Series')
-        self.trim = results.get('Trim')
-        self.steering_location = results.get('SteeringLocation')
-        self.brake_system = results.get('BrakeSystemType')
-        self._update_brand_model_records()
+    # def action_fetch_vehicle_data(self):
+    #     self.ensure_one()
+    #     config = self._get_api_config()
+    #     if not config['url']:
+    #         raise UserError(_("Please configure Vehicle API URL in Settings."))
+    #     try:
+    #         response = requests.get(f"{config['url']}/decodevinvalues/{self.vin}?format=json", timeout=10)
+    #         response.raise_for_status()
+    #         data = response.json()
+    #         results = data.get('Results', [{}])[0]
+    #     except Exception as e:
+    #         raise UserError(_("Failed to fetch data: %s") % e)
+    #
+    #     self.brand = results.get('Make')
+    #     self.model = results.get('Model')
+    #     self.year = results.get('ModelYear')
+    #     self.engine = results.get('EngineModel')
+    #     self.engine_cylinders = results.get('EngineCylinders')
+    #     self.engine_displacement = results.get('DisplacementL')
+    #     self.power_kw = results.get('EngineHP')
+    #     self.fuel_type = results.get('FuelTypePrimary')
+    #     self.transmission = results.get('TransmissionStyle')
+    #     self.body_class = results.get('BodyClass')
+    #     self.doors = results.get('Doors')
+    #     self.drive_type = results.get('DriveType')
+    #     self.vehicle_type = results.get('VehicleType')
+    #     self.manufacturer = results.get('Manufacturer')
+    #     self.plant_country = results.get('PlantCountry')
+    #     self.plant_city = results.get('PlantCity')
+    #     self.series = results.get('Series')
+    #     self.trim = results.get('Trim')
+    #     self.steering_location = results.get('SteeringLocation')
+    #     self.brake_system = results.get('BrakeSystemType')
+    #     self._update_brand_model_records()
 
     @api.model
     def _get_api_config(self):
@@ -573,16 +590,19 @@ class VehicleMaster(models.Model):
             'key': IrValues.get_param('vehicle_master_vin.vehicle_api_key'),
         }
 
-
-
     def name_get(self):
         result = []
         for vehicle in self:
-            name = f"[{vehicle.license_plate}] {vehicle.brand_id.name or ''} {vehicle.model_id.name or ''}"
+            name = vehicle.name or "New Vehicle"
+
             if vehicle.master_number:
                 name += f" - {vehicle.master_number}"
+
             result.append((vehicle.id, name))
         return result
+
+
+
 
     def _name_search(self, name='', args=None, operator='ilike', limit=100, order=None):
         args = args or []

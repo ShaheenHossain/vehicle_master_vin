@@ -77,7 +77,8 @@ class SaleOrder(models.Model):
     license_plate = fields.Char(related='vehicle_id.license_plate', string='License Plate', required=True)
 
     # first_registration = fields.Date(string='First Registration', store=True, readonly=False)
-    first_registration = fields.Date(related='vehicle_id.first_registration', string='First Registration', store=True, readonly=False)
+    # first_registration = fields.Date(related='vehicle_id.first_registration', string='First Registration', store=True, readonly=False)
+    first_registration = fields.Char(related='vehicle_id.first_registration', string='First Registration', store=True, readonly=False)
 
     mileage = fields.Integer(string='Mileage')
 
@@ -237,7 +238,8 @@ class AccountMove(models.Model):
 
 
     master_number = fields.Char(related='vehicle_id.master_number', string='Master Number', store=True, readonly=False)
-    first_registration = fields.Date(related='vehicle_id.first_registration', string='First Registration', store=True,
+    # first_registration = fields.Date(related='vehicle_id.first_registration', string='First Registration', store=True,
+    first_registration = fields.Char(related='vehicle_id.first_registration', string='First Registration', store=True,
                                      readonly=False)
     last_service_date = fields.Date(related='vehicle_id.last_service_date', string='Last Service Date', store=True,
                                     readonly=False)

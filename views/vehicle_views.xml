@@ -84,14 +84,13 @@
         <field name="model">vehicle.master</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="partner_id"/>
-                <field name="brand_id"/>
-                <field name="model_id"/>
-                <field name="year"/>
-                <field name="license_plate"/>
-                <field name="vin"/>
-                <field name="master_number" string="Master Number"/>
-                <field name="mileage"/>
+                <field name="owner_id" optional="show"/>
+                <field name="owner_name" optional="show"/>
+                <field name="partner_id" optional="show"/>
+                <field name="license_plate" optional="show"/>
+                <field name="vin" optional="show"/>
+                <field name="master_number" string="Master Number" optional="show"/>
+                <field name="mileage" optional="hide"/>
                 <field name="your_ref" optional="hide"/>
                 <field name="our_ref" optional="hide"/>
             </tree>
@@ -147,12 +146,12 @@
                             <label for="vin"/>
                             <div class="o_row">
                                 <field name="vin" placeholder="17-digit VIN"/>
-                                <button name="action_fetch_vehicle_data"
+<!--                                <button name="action_fetch_vehicle_data"
                                         type="object"
                                         string="Fetch"
                                         class="btn-primary"
                                         icon="fa-refresh"
-                                        invisible="not vin"/>
+                                        invisible="not vin"/>-->
                             </div>
 
                             <field name="license_plate"/>
@@ -170,11 +169,11 @@
                             <field name="body_type_code"/>
                             <field name="brand"/>
                             <field name="model"/>
-
+                            <field name="model_code"/>
 
                             <field name="vehicle_type"/>
+                            <field name="last_inspection"/>
 
-                            <field name="partner_id" string="Owner"/>
                             <field name="brand_id"/>
                             <field name="model_id"/>
                             <field name="variant_id"/>
@@ -185,14 +184,21 @@
                             <field name="brake_system"/>
                             <field name="series"/>
 
-
+                            <field name="owner_id"/>
+                            <field name="partner_id" string="Owner Partner ID"/>
+                            <field name="owner_name" string="Owner Name"/>
                             <field name="owner_last_name"/>
                             <field name="owner_first_name"/>
-                            <field name="owner_street"/>
-                            <field name="owner_zip"/>
-                            <field name="owner_city"/>
+                            <field name="street"/>
+                            <field name="zip"/>
+                            <field name="city"/>
                             <field name="owner_ref_uid"/>
                             <field name="owner_dob"/>
+                            <field name="telephone"/>
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="fax"/>
+                            <field name="email"/>
                             <field name="place_of_origin"/>
                             <field name="insurance_company"/>
                             <field name="cantonal_notes"/>
@@ -240,11 +246,11 @@
                                                         invisible="not certificate_image"/>
                         -->
 
-                        <button name="action_fetch_vehicle_data"
+<!--                        <button name="action_fetch_vehicle_data"
                                 type="object"
                                 string="Decode VIN"
                                 class="btn-secondary"
-                                invisible="not vin"/>
+                                invisible="not vin"/>-->
                     </header>
                     <group>
 
