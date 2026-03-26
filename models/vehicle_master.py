@@ -37,7 +37,14 @@ class VehicleMaster(models.Model):
     _rec_name = 'name'
 
     # --- Owner / Halter (Boxes 1-8) ---
-    owner_name = fields.Char(string="Owner Name")
+    owner_name = fields.Char(
+        string="Owner Name",
+        compute='_compute_owner_full_name',
+        store=True,
+        readonly=False,
+        help="Format: [Last Name] [First Name]. Example: Egli Marcel"
+    )
+
     owner_id = fields.Char(string="Owner ID")
     owner_last_name = fields.Char(string="Last Name", help="Box 1")
     owner_first_name = fields.Char(string="First Name", help="Box 2")
@@ -101,7 +108,14 @@ class VehicleMaster(models.Model):
     color_id = fields.Many2one('vehicle.color', string="Color ID")
     color = fields.Char(string="Color", help="Box 26")
 
-    vehicle_type = fields.Char(string="Vehicle Type", help="Box 25")
+    # vehicle_type = fields.Char(string="Vehicle Type", help="Box 25")
+    vehicle_type = fields.Selection([
+        ('sell', 'Sell'),
+        ('client', 'Client'),
+        ('rent', 'Rent'),
+        ('service', 'Service'),
+    ], string="Vehicle Type", default='client', tracking=True)
+
     vehicle_type_code = fields.Char(string="Vehicle Type Code", help="Box 24")
     vehicle_category = fields.Char(string="Vehicle Category", help="Box 19")
     vehicle_category_code = fields.Char(string="Category Code", help="Box 20")
@@ -151,9 +165,41 @@ class VehicleMaster(models.Model):
     lot_id = fields.Many2one('stock.lot', string="Serial / VIN")
     sale_order_id = fields.Many2one('sale.order')
 
+    @api.depends('owner_first_name', 'owner_last_name')
+    def _compute_owner_full_name(self):
+        for record in self:
+            # Join last name and first name with a space
+            # We use .strip() to avoid extra spaces if one field is empty
+            names = [record.owner_last_name or '', record.owner_first_name or '']
+            full_name = " ".join(filter(None, names)).strip()
+            record.owner_name = full_name
 
+    def separate_names(owner_name):
+        # Common Swiss/International company suffixes
+        company_markers = [
+            'AG', 'GMBH', 'SARL', 'SÀRL', 'SA', 'INC', 'CORP',
+            'CORPORATION', 'SERVICES', 'HOLDING', 'BAU', 'GARAGE',
+            'CARROSSERIE', 'GARTENBAU', 'GIPSRE', 'ETN'
+        ]
 
+        # Clean the name and convert to uppercase for checking
+        name_upper = owner_name.upper()
 
+        # Check if any company marker is in the string
+        is_company = any(marker in name_upper for marker in company_markers)
+
+        if is_company:
+            return {
+                'type': 'company',
+                'company_name': owner_name,
+                'individual_name': ''
+            }
+        else:
+            return {
+                'type': 'individual',
+                'company_name': '',
+                'individual_name': owner_name
+            }
 
 
 
@@ -368,17 +414,83 @@ class VehicleMaster(models.Model):
         for rec in self:
             rec.profit = rec.sale_price - rec.purchase_price - rec.total_service_cost
 
-
     @api.model
     def create(self, vals):
-        record = super().create(vals)
+
+        if vals.get('brand') and not vals.get('brand_id'):
+            brand = self.env['vehicle.brand'].search([
+                ('name', '=ilike', vals['brand'])
+            ], limit=1)
+
+            if not brand:
+                brand = self.env['vehicle.brand'].create({
+                    'name': vals['brand'].strip().upper()
+                })
+
+            vals['brand_id'] = brand.id
+
+        # =============================
+        # ✅ MODEL AUTO LINK
+        # =============================
+        if vals.get('model') and vals.get('brand_id') and not vals.get('model_id'):
+            model = self.env['vehicle.model'].search([
+                ('name', '=ilike', vals['model']),
+                ('brand_id', '=', vals['brand_id'])
+            ], limit=1)
+
+            if not model:
+                model = self.env['vehicle.model'].create({
+                    'name': vals['model'].strip().upper(),
+                    'brand_id': vals['brand_id']
+                })
+
+            vals['model_id'] = model.id
+
+        # 1. Safely handle 'owner_name' only if it has a value
+        owner_name = vals.get('owner_name')
+
+        # Check if owner_name is a string and not empty/False
+        if isinstance(owner_name, str) and owner_name.strip():
+            if not vals.get('owner_last_name'):
+                name_parts = owner_name.strip().split(' ', 1)
+                vals['owner_last_name'] = name_parts[0]
+                if len(name_parts) == 2:
+                    vals['owner_first_name'] = name_parts[1]
+
+        # 2. Create the Vehicle Record
+        record = super(VehicleMaster, self).create(vals)
+
+        # 3. Only Create or Link the Contact if a name was provided
+        if record.owner_name:
+            partner = self.env['res.partner'].search([('name', '=', record.owner_name)], limit=1)
+            if not partner:
+                partner = self.env['res.partner'].create({
+                    'name': record.owner_name,
+                    'is_company': False,
+                    'street': record.street,
+                    'city': record.city,
+                    'zip': record.zip,
+                })
+            record.partner_id = partner.id
+
+        # 4. Handle VIN/Lot Creation (Safety check for product_id)
         if record.vin and record.product_id:
-            lot = self.env['stock.lot'].create({
-                'name': record.vin,
-                'product_id': record.product_id.id,
-            })
-            record.lot_id = lot.id
+            existing_lot = self.env['stock.lot'].search([
+                ('name', '=', record.vin),
+                ('product_id', '=', record.product_id.id)
+            ], limit=1)
+
+            if not existing_lot:
+                lot = self.env['stock.lot'].create({
+                    'name': record.vin,
+                    'product_id': record.product_id.id,
+                })
+                record.lot_id = lot.id
+            else:
+                record.lot_id = existing_lot.id
+
         return record
+
 
 
     @api.constrains('state')
@@ -613,16 +725,42 @@ class VehicleMaster(models.Model):
                      ('model_id.name', operator, name),
                      ('master_number', operator, name),
                      ('license_plate', operator, name),
+                     ('owner_id', operator, name),
                      ('vin', operator, name)]
         return self._search(args, limit=limit, order=order)
 
-    _sql_constraints = [
-        ('master_number_unique', 'unique(master_number)', 'This Stammnummer already exists in the system!')
-    ]
+
+    @api.onchange('owner_name')
+    def _onchange_owner_name_split(self):
+        if self.owner_name:
+            # Splits "Egli Marcel" into ['Egli', 'Marcel']
+            # The 1 ensures it only splits at the first space it finds
+            parts = self.owner_name.strip().split(' ', 1)
+
+            if len(parts) == 2:
+                self.owner_last_name = parts[0]  # Egli
+                self.owner_first_name = parts[1]  # Marcel
+            else:
+                self.owner_last_name = parts[0]
+                self.owner_first_name = ""
+
+
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        if self.partner_id:
+            # Splitting name is tricky, but this is a basic approach
+            names = self.partner_id.name.split(' ', 1)
+            self.owner_first_name = names[0]
+            self.owner_last_name = names[1] if len(names) > 1 else ''
+            self.street = self.partner_id.street
+            self.city = self.partner_id.city
+            self.zip = self.partner_id.zip
 
     _sql_constraints = [
-        ('unique_lot', 'unique(lot_id)', 'This VIN already exists!'),
+        ('master_number_unique', 'unique(master_number)', 'This Stammnummer already exists!'),
+        ('unique_lot', 'unique(lot_id)', 'This VIN already exists!')
     ]
+
 
 # ==================== OTHER MODEL CLASSES ====================
 class VehicleSettings(models.TransientModel):
@@ -695,6 +833,8 @@ class ResPartner(models.Model):
 class VehicleBrand(models.Model):
     _name = 'vehicle.brand'
     _description = 'Vehicle Brand'
+    _rec_name = 'name'
+
     name = fields.Char(string="Brand Name", required=True)
     logo = fields.Image(string="Logo", max_width=256, max_height=256)
     model_ids = fields.One2many('vehicle.model', 'brand_id', string="Models")
@@ -706,18 +846,21 @@ class VehicleBrand(models.Model):
         for record in self:
             record.model_count = len(record.model_ids)
 
-    _sql_constraints = [('brand_name_unique', 'unique(name)', 'Brand name must be unique!')]
+     # _sql_constraints = [('brand_name_unique', 'unique(name)', 'Brand name must be unique!')]
 
 
 class VehicleModel(models.Model):
     _name = 'vehicle.model'
     _description = 'Vehicle Model'
+    _rec_name = 'name'
+
     name = fields.Char(string="Model Name", required=True)
     brand_id = fields.Many2one('vehicle.brand', string="Brand", required=True, ondelete='cascade')
     chassis_ids = fields.One2many('vehicle.chassis', 'model_id', string="Chassis Codes")
     body_style_ids = fields.One2many('vehicle.body', 'model_id', string="Body Styles")
     variant_ids = fields.One2many('vehicle.variant', 'model_id', string="Variants")
-    _sql_constraints = [('model_brand_unique', 'unique(name, brand_id)', 'Model already exists for this brand!')]
+
+    # _sql_constraints = [('model_brand_unique', 'unique(name, brand_id)', 'Model already exists for this brand!')]
 
 
 class VehicleChassis(models.Model):
@@ -725,7 +868,8 @@ class VehicleChassis(models.Model):
     _description = 'Chassis Code'
     name = fields.Char(string="Chassis Code", required=True)
     model_id = fields.Many2one('vehicle.model', required=True, ondelete='cascade')
-    _sql_constraints = [('chassis_unique', 'unique(name, model_id)', 'Chassis already exists for this model!')]
+
+    # _sql_constraints = [('chassis_unique', 'unique(name, model_id)', 'Chassis already exists for this model!')]
 
 
 class VehicleBody(models.Model):
@@ -733,7 +877,8 @@ class VehicleBody(models.Model):
     _description = 'Body Style'
     name = fields.Char(string="Body Style", required=True)
     model_id = fields.Many2one('vehicle.model', required=True, ondelete='cascade')
-    _sql_constraints = [('body_unique', 'unique(name, model_id)', 'Body style already exists for this model!')]
+
+    # _sql_constraints = [('body_unique', 'unique(name, model_id)', 'Body style already exists for this model!')]
 
 
 class VehicleVariant(models.Model):
@@ -743,7 +888,8 @@ class VehicleVariant(models.Model):
     model_id = fields.Many2one('vehicle.model', required=True, ondelete='cascade')
     year_from = fields.Integer(string="Year From")
     year_to = fields.Integer(string="Year To")
-    _sql_constraints = [('variant_unique', 'unique(name, model_id)', 'Variant already exists for this model!')]
+
+    # _sql_constraints = [('variant_unique', 'unique(name, model_id)', 'Variant already exists for this model!')]
 
 
 class VehicleIssuePlace(models.Model):

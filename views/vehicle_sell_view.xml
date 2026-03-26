@@ -1,107 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <record id="view_vehicle_master_search" model="ir.ui.view">
-        <field name="name">vehicle.master.search</field>
+    <!-- ==================== SELL VEHICLES ==================== -->
+
+    <!-- Tree View for Sell Vehicles -->
+    <record id="view_vehicle_sell_tree" model="ir.ui.view">
+        <field name="name">vehicle.sell.tree</field>
         <field name="model">vehicle.master</field>
         <field name="arch" type="xml">
-            <search string="Search Vehicles">
-                <field name="name" string="Vehicle, Owner, Plate, VIN or Master Number"
-                       filter_domain="['|', '|', '|', '|',
-                                   ('name', 'ilike', self),
-                                   ('partner_id.name', 'ilike', self),
-                                   ('license_plate', 'ilike', self),
-                                   ('vin', 'ilike', self),
-                                   ('master_number', 'ilike', self)]"/>
-
-                <field name="partner_id" string="Owner"/>
-                <field name="license_plate"/>
-                <field name="vin" string="VIN/Chassis"/>
+            <tree string="Vehicles for Sale" create="1" edit="1" delete="1">
+                <field name="name" string="Vehicle Name"/>
+                <field name="brand_id" string="Brand"/>
+                <field name="model_id" string="Model"/>
+                <field name="year" string="Year"/>
+                <field name="license_plate" string="License Plate"/>
+                <field name="vin" string="VIN"/>
                 <field name="master_number" string="Master Number"/>
-                <field name="brand_id"/>
-                <field name="model_id"/>
-
-                <separator/>
-
-                <group expand="0" string="Group By">
-                    <filter string="Owner" name="group_partner" context="{'group_by':'partner_id'}"/>
-                    <filter string="Brand" name="group_brand" context="{'group_by':'brand_id'}"/>
-                    <filter string="Model" name="group_model" context="{'group_by':'model_id'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
-
-
-    <record id="view_partner_form_inherit_dob" model="ir.ui.view">
-        <field name="name">res.partner.form.dob</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='vat']" position="after">
-                <field name="date_of_birth"/>
-                <field name="insurance_company"/>
-            </xpath>
-            <xpath expr="//field[@name='email']" position="before">
-                <field name="whatsapp_no" widget="phone"/>
-            </xpath>
-            <xpath expr="//field[@name='child_ids']//form//field[@name='email']" position="before">
-                <field name="whatsapp_no" widget="phone"/>
-            </xpath>
-            <xpath expr="//page[@name='internal_notes']" position="after">
-                <page string="Vehicle Info" name="vehicle_info_tab">
-                    <field name="vehicle_ids">
-                        <tree editable="bottom">
-                            <field name="name"/>
-                            <field name="year"/>
-                            <field name="license_plate"/>
-                            <field name="vin"/>
-                            <field name="color_id"/>
-                            <field name="fuel_type"/>
-                        </tree>
-                        <form>
-                            <sheet>
-                                <group>
-                                    <field name="brand_id"/>
-                                    <field name="model_id"/>
-                                    <field name="year"/>
-                                    <field name="license_plate"/>
-                                    <field name="vin"/>
-                                    <field name="color_id"/>
-                                    <field name="fuel_type"/>
-                                </group>
-                            </sheet>
-                        </form>
-                    </field>
-                </page>
-            </xpath>
-        </field>
-    </record>
-
-    <record id="view_vehicle_tree" model="ir.ui.view">
-        <field name="name">vehicle.master.tree</field>
-        <field name="model">vehicle.master</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="owner_id" optional="show"/>
-                <!--                <field name="owner_name" optional="show"/>-->
-                <field name="partner_id" optional="show"/>
-                <field name="license_plate" optional="show"/>
-                <field name="vin" optional="show"/>
-                <field name="master_number" string="Master Number" optional="show"/>
-                <field name="mileage" optional="show"/>
-                <field name="brand_id" optional="show"/>
-                <field name="model_id" optional="show"/>
-                <field name="your_ref" optional="hide"/>
-                <field name="our_ref" optional="hide"/>
+                <field name="color" string="Color"/>
+                <field name="mileage" string="Mileage"/>
+                <field name="fuel_type" string="Fuel"/>
+                <field name="transmission" string="Transmission"/>
+                <field name="purchase_price" string="Purchase Price"/>
+                <field name="sale_price" string="Sale Price"/>
+                <field name="profit" string="Profit"/>
             </tree>
         </field>
     </record>
 
+    <!-- Form View for Sell Vehicles (NO OWNER INFO) -->
 
-
-    <record id="view_vehicle_form" model="ir.ui.view">
+        <record id="view_vehicle_sell_form" model="ir.ui.view">
         <field name="name">vehicle.master.form</field>
         <field name="model">vehicle.master</field>
         <field name="arch" type="xml">
@@ -409,237 +337,34 @@
 
 
 
-    <record id="action_vehicle" model="ir.actions.act_window">
-        <field name="name">Vehicles</field>
+
+    <!-- Action for Sell Vehicles -->
+    <record id="action_vehicle_sell" model="ir.actions.act_window">
+        <field name="name">Vehicles for Sale</field>
         <field name="res_model">vehicle.master</field>
         <field name="view_mode">tree,form</field>
-    </record>
-
-    <record id="view_vehicle_brand_tree" model="ir.ui.view">
-        <field name="name">vehicle.brand.tree</field>
-        <field name="model">vehicle.brand</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="logo" widget="image" options="{'size': [50, 50]}"/>
-                <field name="name"/>
-                <field name="model_count"/>
-            </tree>
+        <field name="domain">[('vehicle_type','=','sell')]</field>
+        <field name="context">{'default_vehicle_type': 'sell'}</field>
+        <field name="views" eval="[
+            (ref('view_vehicle_sell_tree'), 'tree'),
+            (ref('view_vehicle_sell_form'), 'form')
+        ]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add your first vehicle for sale
+            </p>
+            <p>
+                Manage vehicles that are available for sale. Track purchase price,
+                selling price, and profit margins.
+            </p>
         </field>
     </record>
 
-    <!--    <record id="view_vehicle_brand_form" model="ir.ui.view">
-            <field name="name">vehicle.brand.form</field>
-            <field name="model">vehicle.brand</field>
-            <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <field name="logo" widget="image" class="oe_avatar" options="{'preview_image': 'logo'}"/>
-                        <div class="oe_title">
-                            <label for="name"/>
-                            <h1><field name="name"/></h1>
-                        </div>
-                        <notebook>
-                            <page string="Models">
-                                <field name="model_ids">
-                                    <tree editable="bottom">
-                                        <field name="name"/>
-                                    </tree>
-                                </field>
-                            </page>
-                        </notebook>
-                    </sheet>
-                </form>
-            </field>
-        </record>-->
-
-
-    <record id="view_vehicle_brand_form" model="ir.ui.view">
-        <field name="name">vehicle.brand.form</field>
-        <field name="model">vehicle.brand</field>
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <field name="logo" widget="image" class="oe_avatar" options="{'preview_image': 'logo'}"/>
-                    <div class="oe_title">
-                        <label for="name"/>
-                        <h1><field name="name" placeholder="e.g. Toyota"/></h1>
-                    </div>
-                    <notebook>
-                        <page string="Models &amp; Configuration">
-                            <field name="model_ids">
-                                <tree>
-                                    <field name="name"/>
-                                    <field name="variant_ids" widget="many2many_tags" string="Available Variants"/>
-                                </tree>
-                                <form>
-                                    <group>
-                                        <field name="name"/>
-                                    </group>
-                                    <notebook>
-                                        <page string="Chassis Codes">
-                                            <field name="chassis_ids">
-                                                <tree editable="bottom">
-                                                    <field name="name"/>
-                                                </tree>
-                                            </field>
-                                        </page>
-                                        <page string="Body Styles">
-                                            <field name="body_style_ids">
-                                                <tree editable="bottom">
-                                                    <field name="name"/>
-                                                </tree>
-                                            </field>
-                                        </page>
-                                        <page string="Variants">
-                                            <field name="variant_ids">
-                                                <tree editable="bottom">
-                                                    <field name="name"/>
-                                                    <field name="year_from"/>
-                                                    <field name="year_to"/>
-                                                </tree>
-                                            </field>
-                                        </page>
-                                    </notebook>
-                                </form>
-                            </field>
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-
-    <record id="vehicle_brand_view_kanban" model="ir.ui.view">
-        <field name="name">vehicle.brand.kanban</field>
-        <field name="model">vehicle.brand</field>
-        <field name="arch" type="xml">
-            <kanban default_order="name">
-                <field name="name"/><field name="logo"/><field name="model_count"/>
-                <templates>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_vignette oe_semantic_html_override oe_kanban_global_click">
-                            <div class="o_kanban_image">
-                                <field name="logo" widget="image" class="o_image_64_max"/>
-                            </div>
-                            <div class="oe_kanban_details">
-                                <strong><field name="name"/></strong>
-                                <div><t t-esc="record.model_count.value"/> Models</div>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
-    </record>
-
-    <record id="seq_vehicle_rental" model="ir.sequence">
-        <field name="name">Vehicle Rental</field>
-        <field name="code">vehicle.rental</field>
-        <field name="prefix">RENT/</field>
-        <field name="padding">5</field>
-    </record>
-
-
-
-    <record id="action_vehicle_master" model="ir.actions.act_window">
-        <field name="name">Vehicles</field>
-        <field name="res_model">vehicle.master</field>
-        <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="view_vehicle_master_search"/>
-    </record>
-
-
-    <record id="action_vehicle_brand" model="ir.actions.act_window">
-        <field name="name">Vehicle Brands</field>
-        <field name="res_model">vehicle.brand</field>
-        <field name="view_mode">kanban,tree,form</field>
-    </record>
-
-    <record id="action_vehicle_rental" model="ir.actions.act_window">
-        <field name="name">Vehicle Rentals</field>
-        <field name="res_model">vehicle.rental</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-
-
-
-
-
-    <!-- Client Cars -->
-    <record id="action_vehicle_client" model="ir.actions.act_window">
-        <field name="name">Client Cars</field>
-        <field name="res_model">vehicle.master</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('vehicle_type','=','client')]</field>
-    </record>
-
-    <!-- Rent Cars -->
-    <record id="action_vehicle_rent" model="ir.actions.act_window">
-        <field name="name">Rent Cars</field>
-        <field name="res_model">vehicle.master</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('vehicle_type','=','rent')]</field>
-    </record>
-
-    <!-- Service Cars -->
-    <record id="action_vehicle_service" model="ir.actions.act_window">
-        <field name="name">Service Cars</field>
-        <field name="res_model">vehicle.master</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('vehicle_type','=','service')]</field>
-    </record>
-
-    <record id="action_vehicle_all" model="ir.actions.act_window">
-        <field name="name">All Vehicles</field>
-        <field name="res_model">vehicle.master</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-
-
-    <!-- ROOT -->
-    <menuitem id="menu_vehicle_root"
-              name="Vehicle Management"
-              web_icon="vehicle_master_vin,static/description/icon.png"
-              sequence="1"/>
-
-
-    <menuitem id="menu_vehicle_client"
-              name="Client Cars"
+    <!-- Menu for Sell Vehicles -->
+    <menuitem id="menu_vehicle_sell"
+              name="Vehicles for Sale"
               parent="menu_vehicle_root"
-              action="action_vehicle_client"
-              sequence="20"/>
-
-    <menuitem id="menu_vehicle_rent"
-              name="Rent Cars"
-              parent="menu_vehicle_root"
-              action="action_vehicle_rent"
-              sequence="30"/>
-
-    <menuitem id="menu_vehicle_service"
-              name="Service Cars"
-              parent="menu_vehicle_root"
-              action="action_vehicle_service"
-              sequence="40"/>
-
-    <menuitem id="menu_vehicle_all"
-              name="All Vehicles"
-              parent="menu_vehicle_root"
-              action="action_vehicle_all"
-              sequence="50"/>
-
-    <!-- CONFIGURATION -->
-    <menuitem id="menu_vehicle_config"
-              name="Configuration"
-              parent="menu_vehicle_root"
-              sequence="90"/>
-
-    <menuitem id="menu_vehicle_brand"
-              name="Vehicle Brands"
-              parent="menu_vehicle_config"
-              action="action_vehicle_brand"
+              action="action_vehicle_sell"
               sequence="10"/>
 
 </odoo>

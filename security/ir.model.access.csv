@@ -9,3 +9,4 @@ access_vehicle_color,access.vehicle.color,model_vehicle_color,,1,1,1,1
 access_vehicle_issue_place,access.vehicle.issue.place,model_vehicle_issue_place,,1,1,1,1
 access_vehicle_service,access.vehicle.service,model_vehicle_service,,1,1,1,1
 access_vehicle_rental,access.vehicle.rental,model_vehicle_rental,,1,1,1,1
+access_vehicle_import_wizard,vehicle.import.wizard,model_vehicle_import_wizard,base.group_user,1,1,1,1

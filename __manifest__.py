@@ -17,11 +17,13 @@
         # 'views/garage_vehicle_views.xml',
         'views/vehicle_views.xml',
         'views/sale_order_views.xml',
+        'views/vehicle_sell_view.xml',
         'views/vehicle_settings.xml',
         # 'views/vehicle_brand_model_views.xml',
         'data/vehicle_master_sequence.xml',
         'data/vehicle_cars_data.xml',
         'data/vehicle_color_data.xml',
+        'wizard/vehicle_import_wizard.xml',
         # 'data/vehicle.brand.csv',
     ],
 
