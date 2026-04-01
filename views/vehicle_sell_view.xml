@@ -5,24 +5,23 @@
 
     <!-- Tree View for Sell Vehicles -->
     <record id="view_vehicle_sell_tree" model="ir.ui.view">
-        <field name="name">vehicle.sell.tree</field>
+        <field name="name">view_vehicle_sell_tree</field>
         <field name="model">vehicle.master</field>
         <field name="arch" type="xml">
             <tree string="Vehicles for Sale" create="1" edit="1" delete="1">
-                <field name="name" string="Vehicle Name"/>
-                <field name="brand_id" string="Brand"/>
-                <field name="model_id" string="Model"/>
-                <field name="year" string="Year"/>
-                <field name="license_plate" string="License Plate"/>
+                <field name="name" string="Vehicle Name" optional="show"/>
+                <field name="brand_id" string="Brand" optional="show"/>
+                <field name="model_id" string="Model" optional="show"/>
+                <field name="year" string="Year" optional="show"/>
+                <field name="license_plate" string="License Plate" optional="show"/>
                 <field name="vin" string="VIN"/>
-                <field name="master_number" string="Master Number"/>
-                <field name="color" string="Color"/>
-                <field name="mileage" string="Mileage"/>
-                <field name="fuel_type" string="Fuel"/>
-                <field name="transmission" string="Transmission"/>
-                <field name="purchase_price" string="Purchase Price"/>
-                <field name="sale_price" string="Sale Price"/>
-                <field name="profit" string="Profit"/>
+                <field name="master_number" string="Master Number" optional="show"/>
+                <field name="color" string="Color" optional="show"/>
+                <field name="mileage" string="Mileage" optional="show"/>
+                <field name="fuel_type" string="Fuel" optional="show"/>
+                <field name="transmission" string="Transmission" optional="show"/>
+                <field name="purchase_price" string="Purchase Price" optional="show"/>
+                <field name="sale_price" string="Sale Price" optional="show"/>
             </tree>
         </field>
     </record>
@@ -30,7 +29,7 @@
     <!-- Form View for Sell Vehicles (NO OWNER INFO) -->
 
         <record id="view_vehicle_sell_form" model="ir.ui.view">
-        <field name="name">vehicle.master.form</field>
+        <field name="name">view_vehicle_sell_form</field>
         <field name="model">vehicle.master</field>
         <field name="arch" type="xml">
             <form string="Vehicle">
@@ -142,63 +141,51 @@
                         </group>
 
                         <group string="Owner Information">
-                            <field name="owner_id" string="Owner ID No."/>
-                            <field name="owner_first_name"/>
-                            <field name="owner_last_name"/>
-
-                            <field name="partner_id" string="Owner Name"/>
-                            <!--                            <field name="owner_name" placeholder="Last Name then First Name (e.g., Egli Marcel)"/>-->
-
-                            <field name="street"/>
-                            <field name="zip"/>
-                            <field name="city"/>
-                            <field name="owner_ref_uid"/>
-                            <field name="owner_dob"/>
-                            <field name="telephone"/>
-                            <field name="phone"/>
-                            <field name="mobile"/>
-                            <field name="fax"/>
-                            <field name="email"/>
+                            <field name="ownerid" string="Owner ID No."/>
+                            <field name="keeperid" string="Keeper ID No."/>
+                            <field name="exownerid"/>
+                            <field name="in_service"/>
+<!--                            <field name="for_sale"/>-->
                         </group>
                     </group>
 
-                    <header>
 
-
-
-
-                        <!-- ONLY ONE SCAN BUTTON -->
-                        <!--
-                                                <button name="action_scan_certificate"
-                                                        type="object"
-                                                        string="Scan Certificate"
-                                                        class="btn-primary"
-                                                        invisible="not certificate_image"/>
-                        -->
-
-                        <!--                        <button name="action_fetch_vehicle_data"
-                                                        type="object"
-                                                        string="Decode VIN"
-                                                        class="btn-secondary"
-                                                        invisible="not vin"/>-->
-                    </header>
                     <group>
 
                         <group string="Financial Info">
+                         <field name="purchase_date"/>
                             <field name="purchase_price"/>
                             <field name="sale_price"/>
-                            <field name="total_service_cost" readonly="1"/>
-                            <field name="profit" readonly="1"/>
+                            <field name="sale_date"/>
+                            <field name="our_price"/>
+                            <field name="catalog_price"/>
                         </group>
 
                         <group>
 
-
-
-                            <!--                            <field name="vin" />-->
-                            <!--                            <field name="brand"/>-->
-                            <!--                            <field name="model"/>-->
-                            <!--                            <field name="year"/>-->
+                            <field name="warranty_exp_date"/>
+                            <field name="milage"/>
+                            <field name="master_number"/>
+                            <field name="type_approval_cert"/>
+                            <field name="engine_number"/>
+                            <field name="key_number"/>
+                            <field name="model_code"/>
+                            <field name="doors_nos"/>
+                            <field name="cylinder_nos"/>
+                            <field name="engine_capacity_cc"/>
+                            <field name="power"/>
+                            <field name="unit"/>
+                            <field name="color"/>
+                            <field name="interior"/>
+                            <field name="insurance"/>
+                            <field name="last_repair"/>
+                            <field name="last_service"/>
+                            <field name="variant"/>
+                            <field name="empty_weight"/>
+                            <field name="trasnmission_type"/>
+                            <field name="model_year"/>
+                            <field name="description"/>
+                            <field name="extra_details"/>
                             <field name="engine"/>
                             <field name="fuel_type"/>
                             <field name="power_kw"/>
@@ -339,27 +326,35 @@
 
 
     <!-- Action for Sell Vehicles -->
-    <record id="action_vehicle_sell" model="ir.actions.act_window">
-        <field name="name">Vehicles for Sale</field>
-        <field name="res_model">vehicle.master</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('vehicle_type','=','sell')]</field>
-        <field name="context">{'default_vehicle_type': 'sell'}</field>
-        <field name="views" eval="[
-            (ref('view_vehicle_sell_tree'), 'tree'),
-            (ref('view_vehicle_sell_form'), 'form')
-        ]"/>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Add your first vehicle for sale
-            </p>
-            <p>
-                Manage vehicles that are available for sale. Track purchase price,
-                selling price, and profit margins.
-            </p>
-        </field>
-    </record>
+<record id="action_vehicle_sell" model="ir.actions.act_window">
+    <field name="name">Vehicles for Sale</field>
+    <field name="res_model">vehicle.master</field>
+    <field name="view_mode">tree,form</field>
 
+    <!-- 🔥 FORCE YOUR CUSTOM VIEWS -->
+    <field name="view_ids" eval="[
+        (5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_vehicle_sell_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_vehicle_sell_form')})
+    ]"/>
+
+    <!-- FILTER -->
+    <field name="domain">[('vehicle_type','=','sell')]</field>
+
+    <!-- DEFAULT VALUE -->
+    <field name="context">{'default_vehicle_type': 'sell'}</field>
+
+    <!-- HELP -->
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+            Add your first vehicle for sale
+        </p>
+        <p>
+            Manage vehicles that are available for sale. Track purchase price,
+            selling price, and profit margins.
+        </p>
+    </field>
+</record>
     <!-- Menu for Sell Vehicles -->
     <menuitem id="menu_vehicle_sell"
               name="Vehicles for Sale"

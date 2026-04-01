@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ==================== AUCTION TREE ==================== -->
+    <record id="view_vehicle_auction_tree" model="ir.ui.view">
+        <field name="name">vehicle.auction.tree</field>
+        <field name="model">vehicle.master</field>
+        <field name="arch" type="xml">
+            <tree string="Auction Vehicles">
+                <field name="name"/>
+                <field name="brand_id"/>
+<!--                <field name="model_id"/>-->
+<!--                <field name="year"/>-->
+<!--                <field name="license_plate"/>-->
+<!--                <field name="vin"/>-->
+<!--                <field name="mileage"/>-->
+<!--                <field name="sale_price"/>-->
+            </tree>
+        </field>
+    </record>
+
+<record id="view_vehicle_auction_form" model="ir.ui.view">
+    <field name="name">vehicle.auction.form</field>
+    <field name="model">vehicle.master</field>
+    <field name="priority" eval="100"/>   <!-- 🔥 VERY IMPORTANT -->
+    <field name="arch" type="xml">
+        <form string="Vehicle Auction">
+            <sheet>
+                <h1><field name="name"/></h1>
+
+                <group>
+                    <field name="brand_id"/>
+                    <field name="model_id"/>
+                    <field name="sale_price"/>
+                </group>
+
+            </sheet>
+        </form>
+    </field>
+</record>
+
+
+    <!-- ==================== AUCTION FORM ==================== -->
+
+
+    <record id="action_vehicle_auction" model="ir.actions.act_window">
+    <field name="name">Vehicle Auction</field>
+    <field name="res_model">vehicle.master</field>
+    <field name="view_mode">tree,form</field>
+
+    <!-- FORCE VIEWS -->
+    <field name="view_ids" eval="[
+        (5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_vehicle_auction_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_vehicle_auction_form')})
+    ]"/>
+
+    <field name="domain">[('vehicle_type','=','auction')]</field>
+    <field name="context">{'default_vehicle_type': 'auction'}</field>
+</record>
+
+
+
+    <menuitem id="menu_vehicle_auction"
+          name="Vehicle Auction"
+          parent="menu_vehicle_root"
+          action="action_vehicle_auction"
+          sequence="5"/>
+
+
+
+</odoo>

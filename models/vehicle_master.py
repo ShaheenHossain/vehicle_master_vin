@@ -45,7 +45,10 @@ class VehicleMaster(models.Model):
         help="Format: [Last Name] [First Name]. Example: Egli Marcel"
     )
 
-    owner_id = fields.Char(string="Owner ID")
+    ownerid = fields.Char(string="Owner ID")
+    keeperid = fields.Char(string="Keeper ID")
+    exownerid = fields.Char(string="Previous Owner ID")
+
     owner_last_name = fields.Char(string="Last Name", help="Box 1")
     owner_first_name = fields.Char(string="First Name", help="Box 2")
     street = fields.Char(string="Street Address", help="Box 3/5")
@@ -55,10 +58,12 @@ class VehicleMaster(models.Model):
     phone = fields.Char(string="Phone")
     mobile = fields.Char(string="Mobile")
     fax = fields.Char(string="Fax")
-    email = fields.Char(string="Email")
+    # email = fields.Char(string="Email")
     owner_ref_uid = fields.Char(string="Reference / UID", help="Box 6")
     owner_dob = fields.Date(string="Date of Birth", help="Box 07")
     place_of_origin = fields.Char(string="Place of Origin", help="Box 08")
+
+    email = fields.Char(related='partner_id.email', store=True, readonly=False)
 
     # --- Insurance & Admin (Boxes 9-14) ---
     insurance_company = fields.Char(string="Insurance Company", help="Box 09")
@@ -87,7 +92,7 @@ class VehicleMaster(models.Model):
 
 
     # ==================== FIELD DEFINITIONS ==================== size=17,
-    vin = fields.Char(string="VIN", tracking=True)
+    vin = fields.Char(string="VIN/Chassis Number", tracking=True)
     brand = fields.Char(string="Brand", help="Box 21")
     model = fields.Char(string="Model", help="Box 21.1")
     model_code = fields.Char(string="Model Code")
@@ -114,6 +119,7 @@ class VehicleMaster(models.Model):
         ('client', 'Client'),
         ('rent', 'Rent'),
         ('service', 'Service'),
+        ('auction', 'Auction'),
     ], string="Vehicle Type", default='client', tracking=True)
 
     vehicle_type_code = fields.Char(string="Vehicle Type Code", help="Box 24")
@@ -164,6 +170,108 @@ class VehicleMaster(models.Model):
     product_id = fields.Many2one('product.product', string="Product")
     lot_id = fields.Many2one('stock.lot', string="Serial / VIN")
     sale_order_id = fields.Many2one('sale.order')
+
+
+    # Ownership
+    # ownerid = fields.Many2one('res.partner', string="Owner")
+    # keeperid = fields.Many2one('res.partner', string="Keeper ID")
+    # exownerid = fields.Many2one('res.partner', string="Previous Owner")
+
+
+    # Ownership
+    # ownerid = fields.Char(string="Owner")
+    # keeperid = fields.Char(string="Keeper ID")
+    # exownerid = fields.Char(string="Previous Owner")
+
+
+    # Sale Info
+    for_sale = fields.Boolean(string="For Sale")
+    in_service = fields.Date(string="In Service")
+    purchase_date = fields.Date(string="Purchase Date")
+    sale_date = fields.Date(string="Sale Date")
+    our_price = fields.Float(string="Our Price")
+
+
+    # Warranty
+    warranty_exp_date = fields.Date(string="Warranty Expiry Date")
+
+    # Technical
+    milage = fields.Integer(string="Mileage")
+    # master_number = fields.Char(string="Master Number")
+    type_approval_cert = fields.Char(string="Type Approval Certificate")
+    engine_number = fields.Char(string="Engine Number")
+    key_number = fields.Char(string="Key Number")
+    # model_code = fields.Char(string="Model Code")
+
+
+    doors_nos = fields.Integer(string="Number of Doors")
+    cylinder_nos = fields.Integer(string="Number of Cylinders")
+    engine_capacity_cc = fields.Integer(string="Engine Capacity (cc)")
+    power = fields.Float(string="Power")
+    unit = fields.Char(string="Unit (HP/kW)")
+
+    # Appearance
+    # color = fields.Char(string="Color")
+    interior = fields.Char(string="Interior")
+
+    # Service & Insurance
+    insurance = fields.Char(string="Insurance")
+    last_repair = fields.Date(string="Last Repair")
+    last_service = fields.Date(string="Last Service")
+
+    # Pricing
+    catalog_price = fields.Float(string="Catalog Price")
+    variant = fields.Char(string="Variant")
+    empty_weight = fields.Float(string="Empty Weight")
+
+    # Vehicle Type
+    trasnmission_type = fields.Char(string="Transmission Type")
+
+
+    # Year
+    model_year = fields.Integer(string="Model Year")
+
+    # Description
+    description = fields.Text(string="Description")
+    extra_details = fields.Text(string="Extra Details")
+
+
+
+
+
+
+    def _format_license_plate(self, value):
+        if value:
+            return value.replace(' ', '').upper()
+        return value
+
+    @api.model
+    def create(self, vals):
+        if vals.get('license_plate'):
+            vals['license_plate'] = self._format_license_plate(vals['license_plate'])
+        return super().create(vals)
+
+    def write(self, vals):
+        if vals.get('license_plate'):
+            vals['license_plate'] = self._format_license_plate(vals['license_plate'])
+        return super().write(vals)
+
+
+    @api.onchange('license_plate')
+    def _onchange_license_plate(self):
+        if self.license_plate:
+            self.license_plate = self._format_license_plate(self.license_plate)
+
+
+    _sql_constraints = [
+        ('license_plate_unique', 'unique(license_plate)', 'License plate must be unique!')
+    ]
+
+
+
+
+
+
 
     @api.depends('owner_first_name', 'owner_last_name')
     def _compute_owner_full_name(self):
@@ -460,18 +568,45 @@ class VehicleMaster(models.Model):
         # 2. Create the Vehicle Record
         record = super(VehicleMaster, self).create(vals)
 
-        # 3. Only Create or Link the Contact if a name was provided
+        # 3. Create or Update Contact
         if record.owner_name:
-            partner = self.env['res.partner'].search([('name', '=', record.owner_name)], limit=1)
+            partner = self.env['res.partner'].search(
+                [('name', '=', record.owner_name)],
+                limit=1
+            )
+
+            partner_vals = {
+                'name': record.owner_name,
+                'is_company': False,
+                'street': record.street,
+                'city': record.city,
+                'zip': record.zip,
+                'email': record.email,
+                'phone': record.phone,
+                'mobile': record.mobile,
+            }
+
             if not partner:
-                partner = self.env['res.partner'].create({
-                    'name': record.owner_name,
-                    'is_company': False,
-                    'street': record.street,
-                    'city': record.city,
-                    'zip': record.zip,
-                })
+                partner = self.env['res.partner'].create(partner_vals)
+            else:
+                # ✅ Update existing partner also
+                partner.write(partner_vals)
+
             record.partner_id = partner.id
+
+
+        # 3. Only Create or Link the Contact if a name was provided
+        # if record.owner_name:
+        #     partner = self.env['res.partner'].search([('name', '=', record.owner_name)], limit=1)
+        #     if not partner:
+        #         partner = self.env['res.partner'].create({
+        #             'name': record.owner_name,
+        #             'is_company': False,
+        #             'street': record.street,
+        #             'city': record.city,
+        #             'zip': record.zip,
+        #         })
+        #     record.partner_id = partner.id
 
         # 4. Handle VIN/Lot Creation (Safety check for product_id)
         if record.vin and record.product_id:
