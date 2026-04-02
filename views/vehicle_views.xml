@@ -569,11 +569,19 @@
     </record>
 
 
+
     <record id="action_vehicle_all" model="ir.actions.act_window">
         <field name="name">All Vehicles</field>
         <field name="res_model">vehicle.master</field>
         <field name="view_mode">tree,form</field>
+
+        <!-- ✅ ADD THIS -->
+        <field name="domain">[('vehicle_type','=','all')]</field>
+
+        <!-- ✅ DEFAULT -->
+        <field name="context">{'default_vehicle_type': 'all'}</field>
     </record>
+
 
 
 

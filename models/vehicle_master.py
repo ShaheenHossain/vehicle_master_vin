@@ -114,13 +114,25 @@ class VehicleMaster(models.Model):
     color = fields.Char(string="Color", help="Box 26")
 
     # vehicle_type = fields.Char(string="Vehicle Type", help="Box 25")
+    # vehicle_type = fields.Selection([
+    #     ('sell', 'Sell'),
+    #     ('client', 'Client'),
+    #     ('rent', 'Rent'),
+    #     ('service', 'Service'),
+    #     ('auction', 'Auction'),
+    # ], string="Vehicle Type", default='client', tracking=True)
+
     vehicle_type = fields.Selection([
-        ('sell', 'Sell'),
-        ('client', 'Client'),
-        ('rent', 'Rent'),
+        ('client', 'Client Car'),
+        ('sell', 'For Sale'),
         ('service', 'Service'),
-        ('auction', 'Auction'),
-    ], string="Vehicle Type", default='client', tracking=True)
+        ('rent', 'For Rent'),
+        # ('auction', 'Auction'),
+        ('all', 'All Vehicle'),  # ✅ ADD THIS
+    ], default='all')
+
+
+
 
     vehicle_type_code = fields.Char(string="Vehicle Type Code", help="Box 24")
     vehicle_category = fields.Char(string="Vehicle Category", help="Box 19")
@@ -263,9 +275,9 @@ class VehicleMaster(models.Model):
             self.license_plate = self._format_license_plate(self.license_plate)
 
 
-    _sql_constraints = [
-        ('license_plate_unique', 'unique(license_plate)', 'License plate must be unique!')
-    ]
+    # _sql_constraints = [
+    #     ('license_plate_unique', 'unique(license_plate)', 'License plate must be unique!')
+    # ]
 
 
 
@@ -891,10 +903,10 @@ class VehicleMaster(models.Model):
             self.city = self.partner_id.city
             self.zip = self.partner_id.zip
 
-    _sql_constraints = [
-        ('master_number_unique', 'unique(master_number)', 'This Stammnummer already exists!'),
-        ('unique_lot', 'unique(lot_id)', 'This VIN already exists!')
-    ]
+    # _sql_constraints = [
+    #     ('master_number_unique', 'unique(master_number)', 'This Stammnummer already exists!'),
+    #     ('unique_lot', 'unique(lot_id)', 'This VIN already exists!')
+    # ]
 
 
 # ==================== OTHER MODEL CLASSES ====================
