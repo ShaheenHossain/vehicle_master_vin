@@ -152,8 +152,8 @@ class VehicleMaster(models.Model):
     name = fields.Char(string='Vehicles Name ', compute='_compute_vehicle_name', store=True)
 
     type_code = fields.Char(string='Type Code', help="Box 24")
-    first_registration = fields.Date(string="1st Registration")
-    # first_registration = fields.Char(string="1st Registration")
+    # first_registration = fields.Date(string="1st Registration")
+    first_registration = fields.Char(string="1st Registration")
     your_ref = fields.Many2one('res.partner', string='Your Ref')
     our_ref = fields.Many2one('res.partner', string='Our Ref', domain="[('employee_ids', '!=', False)]")
     page_no = fields.Integer(string='Page No.')

@@ -298,7 +298,7 @@
                                 <th>Mileage:</th>
                                 <td><span t-field="o.mileage"></span></td>
                                 <th>First Registration:</th>
-                                <td><span t-field="o.first_registration" t-options='{"widget":"date"}'/></td>
+                                <td><span t-field="o.first_registration"/></td>
                             </tr>
 
 
