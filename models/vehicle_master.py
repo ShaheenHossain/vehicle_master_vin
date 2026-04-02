@@ -185,7 +185,7 @@ class VehicleMaster(models.Model):
 
 
     # Ownership
-    # ownerid = fields.Many2one('res.partner', string="Owner")
+    ownerid = fields.Many2one('res.partner', string="Owner")
     # keeperid = fields.Many2one('res.partner', string="Keeper ID")
     # exownerid = fields.Many2one('res.partner', string="Previous Owner")
 
