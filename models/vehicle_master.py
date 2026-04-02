@@ -872,7 +872,7 @@ class VehicleMaster(models.Model):
                      ('model_id.name', operator, name),
                      ('master_number', operator, name),
                      ('license_plate', operator, name),
-                     ('owner_id', operator, name),
+                     ('ownerid', operator, name),
                      ('vin', operator, name)]
         return self._search(args, limit=limit, order=order)
 
