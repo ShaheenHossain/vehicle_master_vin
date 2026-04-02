@@ -136,11 +136,11 @@ class SaleOrder(models.Model):
         for record in self:
             data = []
 
-            # if record.date_order:
-            #     data.append((_("Quotation Date"), format_date(self.env, record.date_order)))
-            #
-            # if record.validity_date:
-            #     data.append((_("Expiration"), format_date(self.env, record.validity_date)))
+            if record.date_order:
+                data.append((_("Quotation Date"), format_date(self.env, record.date_order)))
+
+            if record.validity_date:
+                data.append((_("Expiration"), format_date(self.env, record.validity_date)))
 
             # Your Reference
             if record.your_ref:
@@ -167,14 +167,28 @@ class SaleOrder(models.Model):
 
 
 
-    def _compute_l10n_din5008_document_title(self):
-        for record in self:
-            if self._context.get('proforma'):
-                record.l10n_din5008_document_title = _('Pro Forma Invoice %s') % (record.name or '')
-            elif record.state in ('draft', 'sent'):
-                record.l10n_din5008_document_title = _('Quotation %s') % (record.name or '')
-            else:
-                record.l10n_din5008_document_title = _('Sales Order %s') % (record.name or '')
+    # def _compute_l10n_din5008_document_title(self):
+    #     for record in self:
+    #         if self._context.get('proforma'):
+    #             record.l10n_din5008_document_title = _('Pro Forma Invoice %s') % (record.name or '')
+    #         elif record.state in ('draft', 'sent'):
+    #             record.l10n_din5008_document_title = _('Quotation %s') % (record.name or '')
+    #         else:
+    #             record.l10n_din5008_document_title = _('Sales Order %s') % (record.name or '')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
