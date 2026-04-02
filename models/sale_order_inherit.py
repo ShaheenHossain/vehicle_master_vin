@@ -74,7 +74,7 @@ class SaleOrder(models.Model):
     variant_id = fields.Many2one('vehicle.variant', string='Variant', domain="[('model_id','=',model_id)]")
     vehicle_id = fields.Many2one('vehicle.master', string='Vehicle', domain="[('partner_id','=',partner_id)]")
 
-    license_plate = fields.Char(related='vehicle_id.license_plate', string='License Plate', required=True)
+    license_plate = fields.Char(related='vehicle_id.license_plate', string='License Plate')
 
     # first_registration = fields.Date(string='First Registration', store=True, readonly=False)
     # first_registration = fields.Date(related='vehicle_id.first_registration', string='First Registration', store=True, readonly=False)
